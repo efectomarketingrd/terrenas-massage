@@ -996,9 +996,6 @@ a {
 }
 
 /* ───────── Varios ───────── */
-.next-placeholder {
-  height: 40vh;
-}
 
 .wa-float {
   position: fixed;
@@ -1073,7 +1070,6 @@ a {
 /* ───────── Reservas ───────── */
 .bkp {
   min-height: 100svh;
-  padding-bottom: 60px;
   background: linear-gradient(180deg, var(--ice), #e9eef9);
 }
 
@@ -1562,4 +1558,189 @@ textarea.bk-input {
 
 .bk-send .btn--line .ic-fill {
   color: inherit;
+}
+
+.bkp__pol {
+  display: grid;
+  gap: 8px;
+  padding: 44px 0 56px;
+  scroll-margin-top: 16px;
+}
+
+.bkp__pol ul {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bkp__pol li {
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.bkp__pol b {
+  font-size: 0.92rem;
+}
+
+.bkp__pol span {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Portada: para quién */
+.hA__for {
+  max-width: 36ch;
+  margin: 4px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(244, 246, 252, 0.14);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: rgba(244, 246, 252, 0.7);
+}
+
+/* ───────── Pie de página ───────── */
+.ft {
+  position: relative;
+  padding: 90px 0 96px;
+  overflow: hidden;
+  background: radial-gradient(80% 50% at 100% 100%, rgba(33, 158, 188, 0.22), transparent 70%), var(--night);
+  color: rgba(244, 246, 252, 0.78);
+  font-size: 0.86rem;
+}
+
+.waves--top {
+  top: -1px;
+  bottom: auto;
+  height: 70px;
+  transform: scaleY(-1);
+}
+
+.waves--top .wave--1 {
+  fill: #e9eef9;
+}
+
+.ft__grid {
+  display: grid;
+  gap: 30px;
+}
+
+.ft__brand img {
+  width: 190px;
+}
+
+.ft__brand p {
+  max-width: 32ch;
+  margin: 14px 0 16px;
+}
+
+.ft__social {
+  display: flex;
+  gap: 8px;
+}
+
+.ft__social a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 246, 252, 0.2);
+  color: var(--ice);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.ft__social a:hover {
+  background: rgba(33, 158, 188, 0.2);
+  border-color: var(--teal);
+}
+
+.ft__h {
+  margin: 0 0 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.ft__links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ft a {
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.ft a:hover {
+  color: var(--ice);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ft__line {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: start;
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+
+.ft__line svg {
+  margin-top: 3px;
+  color: var(--teal);
+}
+
+.ft__line b {
+  color: var(--ice);
+  font-weight: 600;
+}
+
+.ft__line small {
+  font-size: 0.74rem;
+  color: rgba(244, 246, 252, 0.55);
+}
+
+.ft__btn {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.ft__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(244, 246, 252, 0.12);
+  font-size: 0.74rem;
+  color: rgba(244, 246, 252, 0.5);
+}
+
+.ft__bottom a {
+  color: var(--teal-l);
+}
+
+@media (min-width: 760px) {
+  .ft__grid {
+    grid-template-columns: 1.3fr 1fr 1.3fr 1fr;
+  }
+
+  .ft .wrap {
+    max-width: 1080px;
+  }
 }

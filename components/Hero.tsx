@@ -35,6 +35,7 @@ export default function Hero({ t, lang }: { t: Dict; lang: Locale }) {
             </p>
           </li>
         </ul>
+        <p className="hA__for">{t.hero.forWho}</p>
       </div>
       <a className="hA__scroll" href="#experiencias" aria-label={t.hero.scroll}>
         <span />

@@ -61,7 +61,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   const [time, setTime] = useState("");
   const [daysShown, setDaysShown] = useState(12);
   const [days, setDays] = useState<string[]>([]);
-  const [form, setForm] = useState({ name: "", phone: "", email: "", address: "", notes: "" });
+  const [form, setForm] = useState({ name: "", phone: "", email: "", country: "", address: "", notes: "" });
   const [accept, setAccept] = useState(false);
   const [tried, setTried] = useState(false);
 
@@ -139,6 +139,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
       `${b.name}: ${form.name}`,
       `${b.phone}: ${form.phone}`,
       form.email ? `${b.email.replace(/ \(.*\)/, "")}: ${form.email}` : "",
+      form.country ? `${b.country}: ${form.country}` : "",
       atHome ? `${b.address}: ${form.address}` : "",
       form.notes ? `${b.notes.replace(/ \(.*\)/, "")}: ${form.notes}` : "",
     ];
@@ -334,6 +335,18 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               <input className="bk-input" type={type_} autoComplete={ac} value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} />
             </label>
           ))}
+          <label className="bk-field">
+            <span className="ms__label">{b.country}</span>
+            <input className="bk-input" type="text" autoComplete="country-name" list="bk-countries" placeholder={b.countryPh} value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
+            <datalist id="bk-countries">
+              {(lang === "es"
+                ? ["República Dominicana", "Francia", "Italia", "España", "Estados Unidos", "Canadá", "Alemania", "Suiza", "Bélgica", "Reino Unido", "Países Bajos", "Argentina", "Colombia", "Venezuela", "Puerto Rico"]
+                : ["Dominican Republic", "France", "Italy", "Spain", "United States", "Canada", "Germany", "Switzerland", "Belgium", "United Kingdom", "Netherlands", "Argentina", "Colombia", "Venezuela", "Puerto Rico"]
+              ).map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
+          </label>
           {atHome && (
             <label className={`bk-field ${tried && form.address.trim().length < 4 ? "is-err" : ""}`}>
               <span className="ms__label">{b.address} *</span>
@@ -406,6 +419,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               <dd>
                 {form.name} · {form.phone}
                 {form.email && ` · ${form.email}`}
+                {form.country && ` · ${form.country}`}
                 {atHome && <><br />{form.address}</>}
               </dd>
             </div>

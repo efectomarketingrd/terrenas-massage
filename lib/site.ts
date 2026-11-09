@@ -26,3 +26,5 @@ export const waLink = (text: string) => `https://wa.me/${site.whatsapp}?text=${e
 
 /** Página de reservas en cada idioma (/es/reservar · /en/book). */
 export const bookPath = (lang: Locale, q = "") => `/${lang}/${lang === "es" ? "reservar" : "book"}${q ? `?${q}` : ""}`;
+
+export const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Blvd. Turístico del Atlántico, La Ceiba, Las Terrenas, Samaná, República Dominicana");

@@ -1,9 +1,9 @@
 import { dictionaries } from "@/lib/content";
-import { waLink, type Locale } from "@/lib/site";
+import type { Locale } from "@/lib/site";
 import Hero from "@/components/Hero";
 import Experiences from "@/components/Experiences";
 import Massages from "@/components/Massages";
-import { WaIcon } from "@/components/Icons";
+import Footer from "@/components/Footer";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -13,10 +13,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <Hero t={t} lang={lang as Locale} />
       <Experiences t={t} />
       <Massages t={t} lang={lang as Locale} />
-      <div id="pareja" className="next-placeholder" />
-      <a className="wa-float" href={waLink(t.waMsg)} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-        <WaIcon size={26} />
-      </a>
+      <Footer t={t} lang={lang as Locale} />
     </main>
   );
 }

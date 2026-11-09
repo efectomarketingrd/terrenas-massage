@@ -7,7 +7,7 @@ export const agenda = {
   // Abierto todos los días, feriados incluidos.
   open: "09:00",
   lastStart: "19:00", // última hora en que puede INICIAR un masaje
-  step: 30, // minutos entre una hora y la siguiente
+  step: 60, // minutos entre una hora y la siguiente (9:00, 10:00 … 19:00)
 
   // Anticipación mínima para reservar (minutos)
   minNotice: 60,
