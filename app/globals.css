@@ -567,19 +567,13 @@ a {
 
 /* Entradas al aparecer en pantalla (InView) */
 .sec__head.js-anim > *,
-.exp__grid.js-anim > *,
-.ms-a.js-anim,
-.ms-c.js-anim,
-.ms-b__list.js-anim > * {
+.sv__list.js-anim > * {
   opacity: 0;
   transform: translateY(14px);
 }
 
 .sec__head.is-in > *,
-.exp__grid.is-in > *,
-.ms-a.is-in,
-.ms-c.is-in,
-.ms-b__list.is-in > * {
+.sv__list.is-in > * {
   animation: rise 0.8s var(--ease) both;
   animation-delay: calc(var(--i, 0) * 0.08s);
 }
@@ -592,94 +586,213 @@ a {
   animation-delay: 0.16s;
 }
 
-/* Sección 2 · Experiencias */
-.exp {
+/* Sección 2 · Servicios */
+.sv {
   padding-top: 18px;
+  padding-bottom: 56px;
+  background: linear-gradient(180deg, var(--ice), #e9eef9);
 }
 
-.exp__grid {
+.sv__list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sv__card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 18px;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 26px rgba(5, 10, 48, 0.05);
+}
+
+.sv__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 10px;
 }
 
-.exp__card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  padding: 16px 14px 14px;
-  border-radius: 20px;
-  background: #fff;
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 22px rgba(5, 10, 48, 0.05);
-  text-decoration: none;
-  transition: transform 0.35s var(--ease), border-color 0.3s ease, box-shadow 0.35s ease;
-}
-
-.exp__card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(33, 158, 188, 0.45);
-  box-shadow: 0 14px 30px rgba(5, 10, 48, 0.09);
-}
-
-.exp__icon {
+.sv__icon {
   display: grid;
   place-items: center;
   width: 46px;
   height: 46px;
-  margin-bottom: 8px;
   border-radius: 50%;
   background: rgba(33, 158, 188, 0.1);
   color: var(--teal-d);
 }
 
-.exp__name {
-  font-size: 0.98rem;
+.sv__badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(33, 158, 188, 0.2);
+  color: var(--teal-l);
+  font-size: 0.66rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.exp__desc {
-  font-size: 0.76rem;
-  line-height: 1.4;
+.sv__name {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.sv__desc {
+  margin: 4px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
   color: var(--muted);
 }
 
-.exp__price {
-  display: grid;
+.sv__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 10px;
-  font-size: 0.72rem;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.sv__price {
+  display: grid;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.sv__price small {
+  font-size: 0.68rem;
   color: var(--muted);
 }
 
-.exp__price b {
-  font-size: 0.92rem;
-  color: var(--night);
+.sv__price b {
+  font-size: 1.05rem;
 }
 
-.exp__price small {
-  font-size: 0.7rem;
+.sv__price span {
+  font-size: 0.72rem;
   color: var(--teal-d);
 }
 
-.exp__go {
+.sv__card--star {
+  background: radial-gradient(120% 90% at 100% 0%, rgba(33, 158, 188, 0.42), transparent 60%), var(--night);
+  border-color: transparent;
+  color: var(--ice);
+  box-shadow: 0 18px 36px rgba(5, 10, 48, 0.22);
+}
+
+.sv__card--star .sv__icon {
+  background: rgba(33, 158, 188, 0.2);
+  color: var(--teal-l);
+}
+
+.sv__card--star .sv__desc,
+.sv__card--star .sv__price small {
+  color: rgba(244, 246, 252, 0.72);
+}
+
+.sv__card--star .sv__price span {
+  color: var(--teal-l);
+}
+
+.sv__card--star .sv__foot {
+  border-top-color: rgba(244, 246, 252, 0.14);
+}
+
+.sv__card--star .ripples {
+  bottom: 70px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+}
+
+.sv__card > *:not(.ripples) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Opción A · cuadrícula 2×2 con el ritual a lo ancho */
+.sv--a .sv__list {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sv--a .sv__card {
+  padding: 16px 14px;
+}
+
+.sv--a .sv__card--star,
+.sv--a #grupo {
+  grid-column: 1 / -1;
+}
+
+.sv--a .sv__card--star {
+  order: -1;
+}
+
+.sv--a .sv__card:not(.sv__card--star):not(#grupo) .sv__name {
+  font-size: 0.98rem;
+}
+
+.sv--a .sv__card:not(.sv__card--star):not(#grupo) .sv__desc {
+  font-size: 0.76rem;
+}
+
+.sv--a .sv__card:not(.sv__card--star):not(#grupo) .sv__foot {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.sv--a .sv__card:not(.sv__card--star):not(#grupo) .btn {
+  width: 100%;
+}
+
+/* Opción B · lista vertical */
+.sv--b .sv__card {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 4px 14px;
+}
+
+.sv--b .sv__top {
+  grid-row: 1 / 3;
+  align-self: start;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sv--b .sv__badge {
   position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.sv--b .sv__card--star .sv__top {
+  position: static;
+}
+
+.sv--b .sv__card--star .sv__badge {
   top: 16px;
-  right: 14px;
-  color: rgba(5, 10, 48, 0.35);
-  transition: transform 0.3s var(--ease), color 0.3s ease;
+  right: 16px;
 }
 
-.exp__card:hover .exp__go {
-  transform: translateX(3px);
-  color: var(--teal);
+.sv--b .sv__card--star .sv__body {
+  padding-top: 26px;
 }
 
-/* Sección 3 · Masajes (controles comunes) */
-.ms {
-  background: linear-gradient(180deg, var(--ice), #e9eef9);
+.sv--b .sv__foot {
+  grid-column: 2;
 }
 
 .ms__label {
@@ -768,231 +881,10 @@ a {
   background: var(--teal);
 }
 
-/* A · Calculadora */
-.ms-a__press {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.ms-a__press button {
-  display: grid;
-  justify-items: start;
-  gap: 2px;
-  min-width: 0;
-  padding: 12px 10px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #fff;
-  color: var(--night);
-  font-family: var(--f);
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease);
-}
-
-.ms-a__press button .dots {
-  margin-bottom: 6px;
-}
-
-.ms-a__press button b {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  font-size: 0.8rem;
-  hyphens: auto;
-}
-
-.ms-a__press button span {
-  font-size: 0.68rem;
-  color: var(--muted);
-}
-
-.ms-a__press button.is-on {
-  border-color: var(--teal);
-  box-shadow: 0 0 0 1px var(--teal), 0 10px 22px rgba(33, 158, 188, 0.15);
-}
-
-.ms-a__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.ms-a__row .seg button {
-  padding: 0 6px;
-}
-
-.ms-a__total {
-  display: grid;
-  gap: 14px;
-  margin-top: 18px;
-  padding: 20px;
-  border-radius: var(--r);
-  background: radial-gradient(120% 90% at 90% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
-  color: var(--ice);
-}
-
-.ms-a__sum {
-  margin: 0;
-  font-size: 0.8rem;
-  color: rgba(244, 246, 252, 0.7);
-}
-
-.ms-a__price {
-  margin: 2px 0 0;
-}
-
-.ms-a__price b {
-  font-size: 2rem;
-  font-weight: 300;
-}
-
-.ms-a__price span {
-  margin-left: 6px;
-  font-size: 0.95rem;
-  color: var(--teal-l);
-}
-
-.ms-a__pp {
-  margin: 0;
-  font-size: 0.74rem;
-  color: rgba(244, 246, 252, 0.6);
-}
-
-/* B · Tarjetas */
-.ms-b__ctrl {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.ms-b__ctrl .seg button {
-  padding: 0 6px;
-}
-
-.ms-b__list {
-  display: grid;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.ms-b__card {
-  padding: 18px;
-  border-radius: 20px;
-  background: #fff;
-  border: 1px solid var(--line);
-}
-
-.ms-b__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.ms-b__top h3 {
-  margin: 0;
-  font-size: 1.08rem;
-  font-weight: 600;
-}
-
-.ms-b__desc {
-  margin: 6px 0 14px;
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
-.ms-b__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
-
-.ms-b__price {
-  margin: 0;
-}
-
-.ms-b__price b {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.ms-b__price span {
-  margin-left: 4px;
-  font-size: 0.8rem;
-  color: var(--teal-d);
-}
-
 .btn--sm {
   min-height: 40px;
   padding: 8px 18px;
   font-size: 0.84rem;
-}
-
-/* C · Tabla */
-.ms-c__table {
-  width: 100%;
-  margin-top: 14px;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid var(--line);
-  font-size: 0.82rem;
-}
-
-.ms-c__table th,
-.ms-c__table td {
-  padding: 12px 10px;
-  border-bottom: 1px solid var(--line);
-  text-align: left;
-  vertical-align: top;
-}
-
-.ms-c__table tr:last-child th,
-.ms-c__table tr:last-child td {
-  border-bottom: 0;
-}
-
-.ms-c__table thead th {
-  background: var(--night);
-  color: var(--ice);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.ms-c__table tbody th,
-.ms-c__table td {
-  display: table-cell;
-}
-
-.ms-c__table tbody th b,
-.ms-c__table td b {
-  display: block;
-}
-
-.ms-c__table tbody th span,
-.ms-c__table td span {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: var(--muted);
-}
-
-.ms-c__table td span {
-  color: var(--teal-d);
-}
-
-.ms-c__btn {
-  width: 100%;
-  margin-top: 16px;
 }
 
 /* ───────── Varios ───────── */
@@ -1314,6 +1206,10 @@ textarea.bk-input {
   font-size: 0.78rem;
   line-height: 1.5;
   color: var(--muted);
+}
+
+.bk-note--mt {
+  margin-top: 8px;
 }
 
 .bk-note--c {

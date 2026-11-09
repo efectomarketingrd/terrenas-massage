@@ -35,11 +35,12 @@ npm run build && npx next start -p 3200
 
 ## Estado
 
-- Inicio aprobado: 1) Portada A (noche completa, logo grande, ondas) · 2) Experiencias (4 tarjetas con precio desde).
-- Sección 3 Masajes: opción B (3 tarjetas + Básico/Premium y 60/90). Botones llevan a la agenda con el masaje preseleccionado.
+- Inicio, orden aprobado: 1) Portada · 2) Servicios (4 tarjetas, enlace a la agenda; diseño A/B en `?servicios=`) · 3) En el spa o en tu villa · 4) Grupos y eventos · 5) Opiniones de Google · 6) Preguntas frecuentes + cierre · Pie.
+- Se quitaron "Elige tu experiencia" y "Elige tu masaje" (repetían la agenda).
+- Opiniones reales en `lib/reviews.ts` (4,9 ★, 20 opiniones; perfil https://share.google/vdUnDXdpuNsyRW4Yq). Nunca inventar opiniones.
+- Grupos: hasta 8 masajistas a la vez (el cliente elige; sujeto a disponibilidad) y tipo de evento en la agenda.
 - Agenda: `/es/reservar` · `/en/book` (`components/BookingWizard.tsx`, días/horas en `lib/agenda.ts`). Envío por WhatsApp y correo (mailto).
 - Políticas aprobadas (`lib/content.ts` → `policies`), visibles en la agenda y en `/es/reservar#politicas`.
 - Agenda: horas cada 60 min (9:00–19:00); el cliente indica su país (opcional).
 - Pie de página (`components/Footer.tsx`) en inicio y reservas.
-- Pendiente: reestructurar el centro del inicio para no repetir lo que ya hace la agenda.
 - Pendiente: duración de los complementos Premium, fotos (se generarán).

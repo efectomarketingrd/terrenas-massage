@@ -12,6 +12,7 @@ const TYPES: BookType[] = ["individual", "pareja", "domicilio", "grupo"];
 const PRESS: Pressure[] = ["relajante", "profundo", "descontracturante"];
 type Occasion = "none" | "valentin" | "cumple" | "aniversario" | "otra";
 type Zone = "terrenas" | "limon" | "samana";
+type EventT = "none" | "boda" | "cumple" | "empresa" | "produccion" | "otro";
 
 function Chips<T extends string | number>({ value, opts, onChange, label }: { value: T; opts: { v: T; l: string; d?: string }[]; onChange: (v: T) => void; label: string }) {
   return (
@@ -57,6 +58,8 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   const [people, setPeople] = useState(1);
   const [place, setPlace] = useState<"spa" | "domicilio">("spa");
   const [zone, setZone] = useState<Zone>("terrenas");
+  const [therapists, setTherapists] = useState(2);
+  const [event, setEvent] = useState<EventT>("none");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [daysShown, setDaysShown] = useState(12);
@@ -75,7 +78,8 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
     if (type === "domicilio") setPeople((p) => Math.min(Math.max(p, 1), 6));
     if (type === "grupo") setPeople((p) => Math.max(p, 3));
     if (type !== "grupo" && zone === "samana") setZone("terrenas");
-  }, [type, ritual, massage, zone]);
+    setTherapists((n) => Math.min(Math.max(n, 1), Math.min(8, people)));
+  }, [type, ritual, massage, zone, people]);
 
   const atHome = type === "domicilio" || (type === "grupo" && place === "domicilio");
   const sel: Sel = { type, massage, level, min, ritual, people, place };
@@ -131,6 +135,8 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
       `${b.service}: ${serviceText}`,
       type === "grupo" || type === "domicilio" ? `${b.people}: ${people}` : "",
       type === "grupo" ? `${b.place} ${b.places[place]}` : "",
+      type === "grupo" ? `${b.therapists}: ${therapists}` : "",
+      type === "grupo" ? `${b.event}: ${b.events[event]}` : "",
       atHome ? `${b.zone}: ${b.zones[zone]}` : "",
       type === "pareja" && occasion !== "none" ? `${b.occasion.split("(")[0].trim()} ${b.occasions[occasion]}` : "",
       `${b.total}: ${priceText()}`,
@@ -225,6 +231,32 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
                 </button>
               </div>
             </Field>
+          )}
+
+          {type === "grupo" && (
+            <>
+              <Field label={b.therapists}>
+                <div className="bk-count">
+                  <button type="button" aria-label="−" onClick={() => setTherapists((n) => Math.max(1, n - 1))}>
+                    −
+                  </button>
+                  <output aria-live="polite">{therapists}</output>
+                  <button type="button" aria-label="+" onClick={() => setTherapists((n) => Math.min(8, people, n + 1))}>
+                    +
+                  </button>
+                </div>
+                <p className="bk-note bk-note--mt">{b.therapistsNote}</p>
+              </Field>
+              <Field label={b.event}>
+                <select className="bk-input" value={event} onChange={(e) => setEvent(e.target.value as EventT)}>
+                  {(Object.keys(b.events) as EventT[]).map((k) => (
+                    <option key={k} value={k}>
+                      {b.events[k]}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+            </>
           )}
 
           {atHome && (
@@ -398,6 +430,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               <dd>
                 {serviceText}
                 {(type === "grupo" || type === "domicilio") && ` · ${people} ${b.people.toLowerCase()}`}
+                {type === "grupo" && ` · ${therapists} ${b.therapists.toLowerCase()} · ${b.events[event]}`}
                 {atHome && ` · ${b.zones[zone]}`}
                 {type === "pareja" && occasion !== "none" && ` · ${b.occasions[occasion]}`}
               </dd>
