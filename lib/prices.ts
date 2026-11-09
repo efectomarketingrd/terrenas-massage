@@ -29,3 +29,39 @@ export const home: Record<"relajante" | "profundo", Record<Minutes, number>> = {
 };
 
 export const fromPrice = individual.relajante.basico[60];
+
+// ── Cálculo del precio de una reserva ─────────────────────
+export type BookType = "individual" | "pareja" | "domicilio" | "grupo";
+export type Sel = {
+  type: BookType;
+  massage: Pressure;
+  level: Level;
+  min: Minutes;
+  ritual: "basic" | "premium";
+  people: number;
+  place: "spa" | "domicilio";
+};
+
+const homeKey = (m: Pressure) => (m === "relajante" ? "relajante" : "profundo");
+
+/** Devuelve el total en RD$, el precio unitario y si es un estimado (grupos). */
+export function quote(s: Sel): { total: number; unit: number; estimate: boolean } {
+  switch (s.type) {
+    case "individual": {
+      const u = individual[s.massage][s.level][s.min];
+      return { total: u, unit: u, estimate: false };
+    }
+    case "pareja": {
+      const u = s.ritual === "premium" ? couple.premium[60] : couple.basic[s.min];
+      return { total: u, unit: u, estimate: false };
+    }
+    case "domicilio": {
+      const u = home[homeKey(s.massage)][s.min];
+      return { total: u * s.people, unit: u, estimate: false };
+    }
+    case "grupo": {
+      const u = s.place === "spa" ? individual[s.massage][s.level][s.min] : home[homeKey(s.massage)][s.min];
+      return { total: u * s.people, unit: u, estimate: true };
+    }
+  }
+}

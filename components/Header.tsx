@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Dict } from "@/lib/content";
-import type { Locale } from "@/lib/site";
+import { bookPath, type Locale } from "@/lib/site";
 
-export default function Header({ t, lang, tone = "dark", logo = true }: { t: Dict; lang: Locale; tone?: "dark" | "light"; logo?: boolean }) {
+export default function Header({ t, lang, tone = "dark", logo = true, altHref }: { t: Dict; lang: Locale; tone?: "dark" | "light"; logo?: boolean; altHref?: string }) {
   const [open, setOpen] = useState(false);
   const other = lang === "es" ? "en" : "es";
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Header({ t, lang, tone = "dark", logo = true }: { t: Dic
       </Link>
       <div className="hd__right">
         {/* Enlace normal (recarga completa) para que el otro idioma abra arriba */}
-        <a className="hd__lang" href={`/${other}`} hrefLang={other} aria-label={t.nav.lang}>
+        <a className="hd__lang" href={altHref ?? `/${other}`} hrefLang={other} aria-label={t.nav.lang}>
           {t.nav.langShort}
         </a>
         <button type="button" className="hd__burger" aria-expanded={open} aria-controls="menu" onClick={() => setOpen(true)}>
@@ -56,7 +56,7 @@ export default function Header({ t, lang, tone = "dark", logo = true }: { t: Dic
             </a>
           ))}
         </nav>
-        <a className="btn btn--teal menu__book" href={`/${lang}#reservar`} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
+        <a className="btn btn--teal menu__book" href={bookPath(lang)} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
           {t.nav.book}
         </a>
       </div>

@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import type { Dict } from "@/lib/content";
-import { waLink } from "@/lib/site";
+import { bookPath, type Locale } from "@/lib/site";
 import { fmtRd, fmtUsd, individual, type Level, type Minutes, type Pressure } from "@/lib/prices";
 import InView from "./InView";
-import { WaIcon } from "./Icons";
 
 const pressures: Pressure[] = ["relajante", "profundo", "descontracturante"];
 const levels: Level[] = ["basico", "premium"];
@@ -36,14 +35,13 @@ function Dots({ n, label }: { n: number; label: string }) {
 
 const pressureLevel: Record<Pressure, number> = { relajante: 1, profundo: 3, descontracturante: 2 };
 
-export default function Massages({ t, variant }: { t: Dict; variant: "a" | "b" | "c" }) {
+export default function Massages({ t, lang }: { t: Dict; lang: Locale }) {
   const c = t.massages;
-  const [p, setP] = useState<Pressure>("relajante");
   const [lv, setLv] = useState<Level>("basico");
   const [m, setM] = useState<Minutes>(60);
 
   const book = (pp: Pressure, l: Level, mm: Minutes) =>
-    waLink(c.waMsg.replace("{m}", c.names[pp]).replace("{l}", c.levels[l]).replace("{min}", String(mm)).replace("{p}", fmtRd(individual[pp][l][mm])));
+    bookPath(lang, `tipo=individual&masaje=${pp}&nivel=${l}&min=${mm}`);
 
   const lvSeg = <Seg name="lv" label={c.levelLabel} value={lv} onChange={setLv} opts={levels.map((v) => ({ v, l: c.levels[v] }))} />;
   const mSeg = <Seg name="min" label={c.minLabel} value={m} onChange={setM} opts={mins.map((v) => ({ v, l: `${v} min` }))} />;
@@ -62,50 +60,8 @@ export default function Massages({ t, variant }: { t: Dict; variant: "a" | "b" |
           <p className="sec__lead">{c.lead}</p>
         </InView>
 
-        {/* A · Calculadora: eliges y ves un solo precio */}
-        {variant === "a" && (
-          <InView className="ms-a">
-            <p className="ms__label">{c.pressureLabel}</p>
-            <div className="ms-a__press">
-              {pressures.map((v) => (
-                <button key={v} type="button" aria-pressed={p === v} className={p === v ? "is-on" : ""} onClick={() => setP(v)}>
-                  <Dots n={pressureLevel[v]} label={c.press[v]} />
-                  <b>{c.names[v]}</b>
-                  <span>{c.press[v]}</span>
-                </button>
-              ))}
-            </div>
-            <div className="ms-a__row">
-              <div>
-                <p className="ms__label">{c.levelLabel}</p>
-                {lvSeg}
-              </div>
-              <div>
-                <p className="ms__label">{c.minLabel}</p>
-                {mSeg}
-              </div>
-            </div>
-            {premiumNote}
-            <div className="ms-a__total">
-              <div>
-                <p className="ms-a__sum">
-                  {c.names[p]} · {c.levels[lv]} · {m} min
-                </p>
-                <p className="ms-a__price" aria-live="polite">
-                  <b>{fmtRd(individual[p][lv][m])}</b> <span>{fmtUsd(individual[p][lv][m])}</span>
-                </p>
-                <p className="ms-a__pp">{c.perPerson}</p>
-              </div>
-              <a className="btn btn--teal" href={book(p, lv, m)} target="_blank" rel="noopener noreferrer">
-                <WaIcon /> {c.book}
-              </a>
-            </div>
-          </InView>
-        )}
-
         {/* B · Tres tarjetas con interruptores comunes */}
-        {variant === "b" && (
-          <>
+        <>
             <div className="ms-b__ctrl">
               {lvSeg}
               {mSeg}
@@ -123,7 +79,7 @@ export default function Massages({ t, variant }: { t: Dict; variant: "a" | "b" |
                     <p className="ms-b__price" aria-live="polite">
                       <b>{fmtRd(individual[v][lv][m])}</b> <span>{fmtUsd(individual[v][lv][m])}</span>
                     </p>
-                    <a className="btn btn--teal btn--sm" href={book(v, lv, m)} target="_blank" rel="noopener noreferrer">
+                    <a className="btn btn--teal btn--sm" href={book(v, lv, m)}>
                       {c.bookShort}
                     </a>
                   </div>
@@ -131,45 +87,8 @@ export default function Massages({ t, variant }: { t: Dict; variant: "a" | "b" |
               ))}
             </InView>
             <p className="ms__foot">{c.perPersonNote}</p>
-          </>
-        )}
+        </>
 
-        {/* C · Tabla de precios con pestañas Básico / Premium */}
-        {variant === "c" && (
-          <InView className="ms-c">
-            {lvSeg}
-            {premiumNote}
-            <table className="ms-c__table">
-              <thead>
-                <tr>
-                  <th scope="col">{c.massage}</th>
-                  <th scope="col">60 min</th>
-                  <th scope="col">90 min</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pressures.map((v) => (
-                  <tr key={v}>
-                    <th scope="row">
-                      <b>{c.names[v]}</b>
-                      <span>{c.press[v]}</span>
-                    </th>
-                    {mins.map((mm) => (
-                      <td key={mm}>
-                        <b>{fmtRd(individual[v][lv][mm])}</b>
-                        <span>{fmtUsd(individual[v][lv][mm])}</span>
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p className="ms__foot">{c.perPersonNote}</p>
-            <a className="btn btn--teal ms-c__btn" href={waLink(t.waMsg)} target="_blank" rel="noopener noreferrer">
-              <WaIcon /> {c.book}
-            </a>
-          </InView>
-        )}
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Dict } from "@/lib/content";
-import { waLink, type Locale } from "@/lib/site";
+import { bookPath, waLink, type Locale } from "@/lib/site";
 import { fmtRd, fmtUsd, fromPrice } from "@/lib/prices";
 import Header from "./Header";
 import { Arrow, Clock, WaIcon } from "./Icons";
@@ -18,7 +18,7 @@ export default function Hero({ t, lang }: { t: Dict; lang: Locale }) {
         <h1 className="hA__title">{t.hero.title}</h1>
         <p className="hA__text">{t.hero.text}</p>
         <div className="btns">
-          <a className="btn btn--teal" href="#masajes">
+          <a className="btn btn--teal" href={bookPath(lang)}>
             {t.hero.book} <Arrow />
           </a>
           <a className="btn btn--ghost" href={waLink(t.waMsg)} target="_blank" rel="noopener noreferrer">

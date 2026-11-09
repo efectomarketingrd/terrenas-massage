@@ -36,5 +36,7 @@ npm run build && npx next start -p 3200
 ## Estado
 
 - Inicio aprobado: 1) Portada A (noche completa, logo grande, ondas) · 2) Experiencias (4 tarjetas con precio desde).
-- Sección 3 Masajes: 3 opciones en vista previa (`/es?masajes=a|b|c`), pendiente elegir. Botones de reservar van a WhatsApp hasta que exista la agenda.
+- Sección 3 Masajes: opción B (3 tarjetas + Básico/Premium y 60/90). Botones llevan a la agenda con el masaje preseleccionado.
+- Agenda: `/es/reservar` · `/en/book` (`components/BookingWizard.tsx`, días/horas en `lib/agenda.ts`). Envío por WhatsApp y correo (mailto).
+- Políticas (borrador en `lib/content.ts` → `policies`): pendiente aprobación del cliente.
 - Pendiente: duración de los complementos Premium, aprobar política de cancelación, fotos (se generarán).

@@ -1069,3 +1069,497 @@ a {
     display: none;
   }
 }
+
+/* ───────── Reservas ───────── */
+.bkp {
+  min-height: 100svh;
+  padding-bottom: 60px;
+  background: linear-gradient(180deg, var(--ice), #e9eef9);
+}
+
+.bkp__top {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 54px;
+  background: radial-gradient(90% 70% at 85% 0%, rgba(33, 158, 188, 0.38), transparent 62%), var(--night);
+  color: var(--ice);
+}
+
+.bkp__top .ripples {
+  top: 40px;
+  right: 30px;
+  width: 70px;
+  height: 70px;
+}
+
+.bkp__head {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.bkp__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 7vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.bkp__lead {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(244, 246, 252, 0.75);
+}
+
+.bk {
+  position: relative;
+  margin-top: -32px;
+  scroll-margin-top: 12px;
+  padding: 18px 16px 22px;
+  border-radius: var(--r);
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 44px rgba(5, 10, 48, 0.1);
+}
+
+.bk-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.bk-steps li {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+.bk-steps li span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.bk-steps li b {
+  max-width: 100%;
+  font-size: 0.64rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.bk-steps li.is-on span {
+  background: var(--night);
+  border-color: var(--night);
+  color: var(--ice);
+}
+
+.bk-steps li.is-on b {
+  color: var(--night);
+}
+
+.bk-steps li.is-done span {
+  background: rgba(33, 158, 188, 0.12);
+  border-color: transparent;
+  color: var(--teal-d);
+}
+
+.bk-panel {
+  display: grid;
+  gap: 18px;
+  animation: rise 0.5s var(--ease) both;
+}
+
+.bk-field {
+  display: grid;
+  min-width: 0;
+}
+
+.bk-field.is-err .bk-input {
+  border-color: #d64545;
+}
+
+.bk-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.bk-types button,
+.bk-chips button {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--night);
+  font-family: var(--f);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.bk-types button .ic-line {
+  margin-bottom: 4px;
+  color: var(--teal);
+}
+
+.bk-types b,
+.bk-chips b {
+  max-width: 100%;
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.bk-types span,
+.bk-chips span {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.bk-types button.is-on,
+.bk-chips button.is-on {
+  border-color: var(--teal);
+  background: rgba(33, 158, 188, 0.06);
+  box-shadow: 0 0 0 1px var(--teal);
+}
+
+.bk-types button:focus-visible,
+.bk-chips button:focus-visible,
+.bk-days button:focus-visible,
+.bk-times button:focus-visible,
+.bk-count button:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.bk-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+}
+
+.bk-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 18px 10px;
+}
+
+.bk-row:empty {
+  display: none;
+}
+
+.bk-count {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.bk-count button {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ice);
+  color: var(--night);
+  font: 600 1.2rem/1 var(--f);
+  cursor: pointer;
+}
+
+.bk-count output {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.bk-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid rgba(5, 10, 48, 0.16);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--night);
+  font: 400 16px/1.4 var(--f); /* 16px evita el zoom en iPhone */
+}
+
+.bk-input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(33, 158, 188, 0.18);
+}
+
+textarea.bk-input {
+  resize: vertical;
+}
+
+.bk-note {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.bk-note--c {
+  text-align: center;
+}
+
+.bk-err {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #c03838;
+}
+
+.bk-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 -16px -22px;
+  padding: 16px;
+  border-radius: 0 0 var(--r) var(--r);
+  background: var(--night);
+  color: var(--ice);
+}
+
+.bk-price {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.bk-price small {
+  font-size: 0.68rem;
+  color: rgba(244, 246, 252, 0.6);
+}
+
+.bk-price b {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.bk-price span {
+  font-size: 0.74rem;
+  color: var(--teal-l);
+}
+
+.bk-days {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.bk-days button {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  padding: 9px 4px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--night);
+  font-family: var(--f);
+  text-align: center;
+  cursor: pointer;
+}
+
+.bk-days span {
+  font-size: 0.66rem;
+  text-transform: capitalize;
+  color: var(--muted);
+}
+
+.bk-days b {
+  font-size: 0.82rem;
+}
+
+.bk-days button.is-on,
+.bk-times button.is-on {
+  border-color: var(--night);
+  background: var(--night);
+  color: var(--ice);
+}
+
+.bk-days button.is-on span {
+  color: var(--teal-l);
+}
+
+.bk-times {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.bk-times button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--night);
+  font: 600 0.8rem var(--f);
+  cursor: pointer;
+}
+
+.bk-more {
+  justify-self: start;
+  margin-top: 10px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--teal-d);
+  font: 700 0.82rem var(--f);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.bk-nav {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+}
+
+.bk-policies {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--ice);
+}
+
+.bk-policies summary {
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--teal-d);
+  cursor: pointer;
+}
+
+.bk-policies ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0 14px 14px 30px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.bk-policies b {
+  color: var(--night);
+}
+
+.bk-check {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.bk-check input {
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--teal);
+}
+
+.bk-check.is-err span {
+  color: #c03838;
+}
+
+.bk-h {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
+.bk-sum {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.bk-sum > div {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.bk-sum dt {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.bk-sum dt button {
+  border: 0;
+  background: none;
+  color: var(--teal-d);
+  font: 700 0.74rem var(--f);
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.bk-sum dd {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.bk-total {
+  display: grid;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--night);
+  color: var(--ice);
+}
+
+.bk-total small {
+  font-size: 0.7rem;
+  color: rgba(244, 246, 252, 0.6);
+}
+
+.bk-total b {
+  font-size: 1.7rem;
+  font-weight: 300;
+}
+
+.bk-total span {
+  font-size: 0.8rem;
+  color: var(--teal-l);
+}
+
+.bk-send {
+  display: grid;
+  gap: 10px;
+}
+
+.bk-send .btn--line .ic-fill {
+  color: inherit;
+}

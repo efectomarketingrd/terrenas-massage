@@ -23,3 +23,6 @@ export const locales = ["es", "en"] as const;
 export type Locale = (typeof locales)[number];
 
 export const waLink = (text: string) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
+
+/** Página de reservas en cada idioma (/es/reservar · /en/book). */
+export const bookPath = (lang: Locale, q = "") => `/${lang}/${lang === "es" ? "reservar" : "book"}${q ? `?${q}` : ""}`;
