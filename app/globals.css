@@ -589,7 +589,7 @@ a {
 /* Sección 2 · Servicios */
 .sv {
   padding-top: 18px;
-  padding-bottom: 56px;
+  padding-bottom: 36px;
   background: linear-gradient(180deg, var(--ice), #e9eef9);
 }
 
@@ -722,77 +722,40 @@ a {
   z-index: 1;
 }
 
-/* Opción A · cuadrícula 2×2 con el ritual a lo ancho */
-.sv--a .sv__list {
+/* Cuadrícula: ritual y grupos a lo ancho; individual y villa lado a lado */
+.sv .sv__list {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.sv--a .sv__card {
+.sv .sv__card {
   padding: 16px 14px;
 }
 
-.sv--a .sv__card--star,
-.sv--a #grupo {
+.sv .sv__card--star,
+.sv #grupo {
   grid-column: 1 / -1;
 }
 
-.sv--a .sv__card--star {
+.sv .sv__card--star {
   order: -1;
 }
 
-.sv--a .sv__card:not(.sv__card--star):not(#grupo) .sv__name {
+.sv .sv__card:not(.sv__card--star):not(#grupo) .sv__name {
   font-size: 0.98rem;
 }
 
-.sv--a .sv__card:not(.sv__card--star):not(#grupo) .sv__desc {
+.sv .sv__card:not(.sv__card--star):not(#grupo) .sv__desc {
   font-size: 0.76rem;
 }
 
-.sv--a .sv__card:not(.sv__card--star):not(#grupo) .sv__foot {
+.sv .sv__card:not(.sv__card--star):not(#grupo) .sv__foot {
   flex-direction: column;
   align-items: stretch;
 }
 
-.sv--a .sv__card:not(.sv__card--star):not(#grupo) .btn {
+.sv .sv__card:not(.sv__card--star):not(#grupo) .btn {
   width: 100%;
-}
-
-/* Opción B · lista vertical */
-.sv--b .sv__card {
-  display: grid;
-  grid-template-columns: 46px 1fr;
-  gap: 4px 14px;
-}
-
-.sv--b .sv__top {
-  grid-row: 1 / 3;
-  align-self: start;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.sv--b .sv__badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.sv--b .sv__card--star .sv__top {
-  position: static;
-}
-
-.sv--b .sv__card--star .sv__badge {
-  top: 16px;
-  right: 16px;
-}
-
-.sv--b .sv__card--star .sv__body {
-  padding-top: 26px;
-}
-
-.sv--b .sv__foot {
-  grid-column: 2;
 }
 
 .ms__label {
@@ -885,6 +848,175 @@ a {
   min-height: 40px;
   padding: 8px 18px;
   font-size: 0.84rem;
+}
+
+/* Sección 3 · En el spa o en tu villa */
+.pl {
+  padding-bottom: 56px;
+  background: #e9eef9;
+}
+
+.pl__tabs,
+.pl__stack {
+  display: grid;
+  gap: 12px;
+}
+
+.pl__card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 16px;
+  padding: 20px 18px 22px;
+  border-radius: var(--r);
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 26px rgba(5, 10, 48, 0.05);
+  animation: rise 0.5s var(--ease) both;
+}
+
+.pl__card > *:not(.waves) {
+  position: relative;
+  z-index: 1;
+}
+
+.pl__card--dark {
+  background: radial-gradient(120% 80% at 100% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
+  border-color: transparent;
+  color: var(--ice);
+}
+
+.pl__head {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.pl__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(33, 158, 188, 0.1);
+  color: var(--teal-d);
+}
+
+.pl__card--dark .pl__icon,
+.pl__col--dark .pl__icon {
+  background: rgba(33, 158, 188, 0.2);
+  color: var(--teal-l);
+}
+
+.pl__t {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.pl__d {
+  margin: 4px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.pl__card--dark .pl__d,
+.pl__card--dark .pl__list {
+  color: rgba(244, 246, 252, 0.78);
+}
+
+.pl__list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--night);
+}
+
+.pl__list li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.pl__list .ic-line {
+  margin-top: 2px;
+  color: var(--teal);
+}
+
+.pl__list--sm {
+  gap: 8px;
+  font-size: 0.76rem;
+}
+
+.pl__map {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 4px 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--ice);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.pl__map .ic-line {
+  margin-top: 2px;
+  color: var(--teal);
+}
+
+.pl__map b {
+  grid-column: 2;
+  color: var(--teal-d);
+}
+
+.pl__cta {
+  width: 100%;
+}
+
+.pl__tabs .seg button {
+  min-height: 44px;
+}
+
+.pl__cmp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pl__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px 14px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.pl__col .btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.pl__col--dark {
+  background: radial-gradient(120% 80% at 100% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
+  border-color: transparent;
+  color: var(--ice);
+}
+
+.pl__col--dark .pl__list {
+  color: rgba(244, 246, 252, 0.8);
 }
 
 /* ───────── Varios ───────── */

@@ -88,3 +88,11 @@ export function Mail({ size = 15 }: P) {
     </svg>
   );
 }
+
+export function Check({ size = 16 }: P) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" className="ic-line">
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </svg>
+  );
+}

@@ -35,7 +35,7 @@ npm run build && npx next start -p 3200
 
 ## Estado
 
-- Inicio, orden aprobado: 1) Portada · 2) Servicios (4 tarjetas, enlace a la agenda; diseño A/B en `?servicios=`) · 3) En el spa o en tu villa · 4) Grupos y eventos · 5) Opiniones de Google · 6) Preguntas frecuentes + cierre · Pie.
+- Inicio, orden aprobado: 1) Portada · 2) Servicios (diseño A: ritual y grupos a lo ancho) · 3) En el spa o en tu villa (opciones A/B/C en `?lugar=`) · 4) Grupos y eventos · 5) Opiniones de Google · 6) Preguntas frecuentes + cierre · Pie.
 - Se quitaron "Elige tu experiencia" y "Elige tu masaje" (repetían la agenda).
 - Opiniones reales en `lib/reviews.ts` (4,9 ★, 20 opiniones; perfil https://share.google/vdUnDXdpuNsyRW4Yq). Nunca inventar opiniones.
 - Grupos: hasta 8 masajistas a la vez (el cliente elige; sujeto a disponibilidad) y tipo de evento en la agenda.

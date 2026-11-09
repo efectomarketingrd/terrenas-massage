@@ -6,7 +6,7 @@ import { Arrow, ExpIcon } from "./Icons";
 import { Ripples } from "./Water";
 
 // Sección 2 · Servicios: qué ofrecemos y un enlace directo a la agenda con el servicio ya elegido.
-export default function Services({ t, lang, variant = "a" }: { t: Dict; lang: Locale; variant?: "a" | "b" }) {
+export default function Services({ t, lang }: { t: Dict; lang: Locale }) {
   const c = t.services;
   const price: Record<string, { rd: number | null; note: string }> = {
     individual: { rd: fromPrice, note: c.perPerson },
@@ -31,7 +31,7 @@ export default function Services({ t, lang, variant = "a" }: { t: Dict; lang: Lo
   };
 
   return (
-    <section id="servicios" className={`sec sv sv--${variant}`}>
+    <section id="servicios" className="sec sv">
       <div className="wrap">
         <InView className="sec__head">
           <p className="eyebrow">{c.eyebrow}</p>
