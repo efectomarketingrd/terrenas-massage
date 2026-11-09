@@ -1,0 +1,879 @@
+/* Terrenas Massage — sistema visual
+   Colores: turquesa #219ebc · blanco frío #f4f6fc · azul noche #050a30
+   Tipografía: Open Sans (la principal de la marca es de uso personal: solo el logo en imagen) */
+
+:root {
+  --teal: #219ebc;
+  --teal-d: #1b8aa5;
+  --teal-l: #8fd3e4;
+  --ice: #f4f6fc;
+  --night: #050a30;
+  --night-2: #0b1442;
+  --ink: #050a30;
+  --muted: #4d5577;
+  --line: rgba(5, 10, 48, 0.1);
+  --f: "Open Sans", system-ui, -apple-system, sans-serif;
+  --r: 22px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--ice);
+  color: var(--ink);
+  font-family: var(--f);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.ic-fill {
+  fill: currentColor;
+  flex: none;
+}
+
+.ic-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+
+/* ───────── Botones ───────── */
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btns--stack {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font: 700 0.92rem/1 var(--f);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease), background 0.3s ease, border-color 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:focus-visible,
+.hd a:focus-visible,
+.hd button:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.btn--teal {
+  background: var(--teal);
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(33, 158, 188, 0.35);
+}
+
+.btn--teal:hover {
+  background: var(--teal-d);
+}
+
+.btn--ghost {
+  border-color: rgba(244, 246, 252, 0.4);
+  color: var(--ice);
+}
+
+.btn--ghost:hover {
+  background: rgba(244, 246, 252, 0.08);
+}
+
+.btn--icon {
+  width: 48px;
+  padding: 0;
+}
+
+.btn--night {
+  background: var(--night);
+  color: var(--ice);
+}
+
+.btn--night:hover {
+  background: var(--night-2);
+}
+
+.btn--line {
+  border-color: rgba(5, 10, 48, 0.18);
+  color: var(--night);
+}
+
+.btn--line .ic-fill {
+  color: #1faa53;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.price-line {
+  margin: 0;
+  font-size: 0.84rem;
+  color: rgba(244, 246, 252, 0.75);
+}
+
+.price-line b {
+  color: #fff;
+  font-weight: 700;
+}
+
+.price-line span {
+  color: var(--teal-l);
+}
+
+/* ───────── Cabecera ───────── */
+.hd {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+}
+
+.hd__logo img {
+  width: 132px;
+}
+
+/* En portadas con el logo grande, la cabecera no lo repite */
+.hd--nologo .hd__logo {
+  visibility: hidden;
+}
+
+.hd__right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hd__lang,
+.hd__burger {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font: 700 0.72rem/1 var(--f);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hd--dark {
+  color: var(--ice);
+}
+
+.hd--dark .hd__lang,
+.hd--dark .hd__burger {
+  border-color: rgba(244, 246, 252, 0.3);
+}
+
+.hd--light {
+  color: var(--night);
+}
+
+.hd--light .hd__lang,
+.hd--light .hd__burger {
+  border-color: var(--line);
+  background: #fff;
+}
+
+.hd__burger {
+  align-content: center;
+  gap: 5px;
+}
+
+.hd__burger i {
+  display: block;
+  width: 16px;
+  height: 1.6px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.hd__burger i:last-child {
+  width: 10px;
+  justify-self: end;
+  margin-right: 13px;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 22px 30px;
+  background: radial-gradient(120% 70% at 90% 0%, rgba(33, 158, 188, 0.35), transparent 60%), var(--night);
+  color: var(--ice);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s;
+}
+
+.menu.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu__close {
+  align-self: flex-end;
+  padding: 10px 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: 600 0.85rem var(--f);
+  cursor: pointer;
+}
+
+.menu nav {
+  display: grid;
+  gap: 4px;
+  margin: 30px 0 auto;
+}
+
+.menu nav a {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(244, 246, 252, 0.1);
+  font-size: 1.45rem;
+  font-weight: 300;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  transition-delay: calc(var(--i) * 0.05s + 0.1s);
+}
+
+.menu.is-open nav a {
+  opacity: 1;
+  transform: none;
+}
+
+.menu__book {
+  width: 100%;
+  margin-top: 24px;
+}
+
+/* ───────── Elementos de agua ───────── */
+.waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 120px;
+  pointer-events: none;
+}
+
+.wave {
+  transform-box: fill-box;
+}
+
+.wave--1 {
+  fill: rgba(33, 158, 188, 0.16);
+  animation: wave 10s ease-in-out infinite;
+}
+
+.wave--2 {
+  fill: rgba(33, 158, 188, 0.11);
+  animation: wave 13s ease-in-out infinite reverse;
+}
+
+.wave--3 {
+  fill: rgba(33, 158, 188, 0.08);
+  animation: wave 16s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-28px);
+  }
+}
+
+.ripples {
+  position: absolute;
+  pointer-events: none;
+}
+
+.ripples i {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(33, 158, 188, 0.55);
+  border-radius: 50%;
+  animation: ripple 6s ease-out infinite;
+}
+
+.ripples i:nth-child(2) {
+  animation-delay: 2s;
+}
+
+.ripples i:nth-child(3) {
+  animation-delay: 4s;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+/* Entrada suave */
+.rise {
+  animation: rise 0.9s var(--ease) both;
+}
+
+.rise--2 {
+  animation-delay: 0.15s;
+}
+
+.rise--3 {
+  animation-delay: 0.3s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.meta {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: rgba(244, 246, 252, 0.72);
+}
+
+.meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.meta .ic-line {
+  color: var(--teal);
+}
+
+.meta--dark {
+  color: var(--muted);
+}
+
+/* ───────── Portada A · Noche completa ───────── */
+.hA {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 55% at 80% 8%, rgba(33, 158, 188, 0.38), transparent 62%),
+    radial-gradient(70% 45% at 0% 100%, rgba(33, 158, 188, 0.2), transparent 70%),
+    var(--night);
+  color: var(--ice);
+}
+
+.hA .ripples i {
+  border-color: rgba(33, 158, 188, 0.3);
+}
+
+.hA .ripples {
+  top: 34%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  margin: -60px 0 0 -60px;
+}
+
+.hA__body {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin: auto 0;
+  padding: 8px 22px 110px;
+  text-align: center;
+}
+
+.hA__logo {
+  width: min(82vw, 380px);
+  margin-top: 4px;
+}
+
+.hA__title {
+  margin: 6px 0 0;
+  font-size: clamp(1.45rem, 6.4vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.hA__text {
+  max-width: 34ch;
+  margin: 0;
+  font-size: 0.93rem;
+  color: rgba(244, 246, 252, 0.78);
+}
+
+.hA .btns {
+  margin-top: 4px;
+}
+
+.hA__scroll {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 22px;
+  width: 24px;
+  height: 38px;
+  margin-left: -12px;
+  border: 1.5px solid rgba(244, 246, 252, 0.4);
+  border-radius: 14px;
+}
+
+.hA__scroll span {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--teal);
+  animation: scrolldot 2.2s ease-in-out infinite;
+}
+
+@keyframes scrolldot {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* ───────── Portada B · App clara + tarjeta noche ───────── */
+.hB {
+  position: relative;
+  background: radial-gradient(90% 40% at 100% 0%, rgba(33, 158, 188, 0.14), transparent 70%), var(--ice);
+}
+
+.hB__body {
+  display: grid;
+  gap: 16px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 4px 18px 28px;
+}
+
+.greet {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--teal-d);
+}
+
+.hB__title {
+  margin: 2px 0 0;
+  font-size: clamp(1.6rem, 7.4vw, 2.3rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.hB__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 10px 0 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.hB__open .ic-line {
+  color: var(--teal);
+}
+
+.hB__card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 10px;
+  padding: 24px 20px 30px;
+  border-radius: var(--r);
+  background: radial-gradient(120% 90% at 90% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
+  color: var(--ice);
+  box-shadow: 0 20px 40px rgba(5, 10, 48, 0.25);
+}
+
+.hB__card > *:not(.waves):not(.ripples) {
+  position: relative;
+  z-index: 1;
+}
+
+.hB__card .ripples {
+  top: 24px;
+  right: 26px;
+  width: 44px;
+  height: 44px;
+}
+
+.hB__cardTitle {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 300;
+  line-height: 1.25;
+}
+
+.hB__card .btns {
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  margin-top: 6px;
+}
+
+.hB__card .btn--teal {
+  flex: 1;
+}
+
+.waves--card {
+  height: 70px;
+}
+
+.hB__exp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hB__exp a {
+  display: grid;
+  gap: 2px;
+  height: 100%;
+  padding: 14px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: transform 0.3s var(--ease), border-color 0.3s ease;
+}
+
+.hB__exp a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(33, 158, 188, 0.45);
+}
+
+.hB__exp .ic-line {
+  margin-bottom: 6px;
+  color: var(--teal);
+}
+
+.hB__exp b {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.hB__exp span {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+/* ───────── Portada C · Piedras y agua + hoja ───────── */
+.hC {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background: radial-gradient(90% 50% at 50% 30%, rgba(33, 158, 188, 0.32), transparent 65%), var(--night);
+}
+
+.hC__art {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  min-height: 250px;
+  padding: 0 20px 34px;
+}
+
+.stones {
+  width: min(70vw, 300px);
+  height: auto;
+  overflow: visible;
+}
+
+.stones .rings ellipse {
+  fill: none;
+  stroke: rgba(33, 158, 188, 0.6);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring 6s ease-out infinite;
+}
+
+.stones .rings ellipse:nth-child(2) {
+  animation-delay: 2s;
+}
+
+.stones .rings ellipse:nth-child(3) {
+  animation-delay: 4s;
+}
+
+@keyframes ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+.stones .stack {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.stones .steam path {
+  fill: none;
+  stroke: rgba(244, 246, 252, 0.35);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 50;
+  animation: steam 4.5s ease-in-out infinite;
+}
+
+.stones .steam path:nth-child(2) {
+  animation-delay: 1.6s;
+}
+
+@keyframes steam {
+  0% {
+    stroke-dashoffset: 50;
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -50;
+    opacity: 0;
+  }
+}
+
+.hC__logo {
+  width: min(64vw, 260px);
+}
+
+.hC__sheet {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 12px;
+  margin-top: -22px;
+  padding: 26px 22px 26px;
+  border-radius: 28px 28px 0 0;
+  background: var(--ice);
+  text-align: center;
+}
+
+.hC__sheet::before {
+  content: "";
+  justify-self: center;
+  width: 40px;
+  height: 4px;
+  margin: -12px 0 4px;
+  border-radius: 4px;
+  background: rgba(5, 10, 48, 0.12);
+}
+
+.hC__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 6.8vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.hC__text {
+  max-width: 36ch;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ───────── Varios ───────── */
+.next-placeholder {
+  height: 40vh;
+}
+
+.wa-float {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #1faa53;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(5, 10, 48, 0.3);
+}
+
+.wa-float::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #1faa53;
+  animation: pulse 2.8s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* Pantallas más grandes */
+@media (min-width: 760px) {
+  .hd {
+    padding: 20px 32px;
+  }
+
+  .hd__logo img {
+    width: 160px;
+  }
+
+  .hB__body {
+    padding-top: 24px;
+  }
+}
+
+/* Reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .ripples,
+  .stones .rings,
+  .stones .steam {
+    display: none;
+  }
+}

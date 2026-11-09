@@ -1,0 +1,31 @@
+// Precios en RD$. El equivalente en US$ se calcula con la tasa de abajo (redondeado a múltiplos de 5).
+export const usdRate = 61.5;
+
+export const usd = (rd: number) => Math.max(5, Math.round(rd / usdRate / 5) * 5);
+export const fmtRd = (n: number) => `RD$${n.toLocaleString("en-US")}`;
+export const fmtUsd = (rd: number) => `US$${usd(rd)}`;
+
+export type Pressure = "relajante" | "profundo" | "descontracturante";
+export type Level = "basico" | "premium";
+export type Minutes = 60 | 90;
+
+// Masajes individuales en cabina, precio por persona
+export const individual: Record<Pressure, Record<Level, Record<Minutes, number>>> = {
+  relajante: { basico: { 60: 3500, 90: 4500 }, premium: { 60: 4500, 90: 6000 } },
+  profundo: { basico: { 60: 4500, 90: 5500 }, premium: { 60: 6000, 90: 7000 } },
+  descontracturante: { basico: { 60: 4500, 90: 5500 }, premium: { 60: 6000, 90: 7000 } },
+};
+
+// Ritual Connection · pareja (precio total para dos)
+export const couple = {
+  basic: { 60: 7000, 90: 9000 },
+  premium: { 60: 15000 },
+};
+
+// A domicilio (Las Terrenas y El Limón)
+export const home: Record<"relajante" | "profundo", Record<Minutes, number>> = {
+  relajante: { 60: 5000, 90: 7500 },
+  profundo: { 60: 6000, 90: 8000 }, // también descontracturante
+};
+
+export const fromPrice = individual.relajante.basico[60];
