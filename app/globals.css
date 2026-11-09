@@ -131,11 +131,6 @@ a {
   background: rgba(244, 246, 252, 0.08);
 }
 
-.btn--icon {
-  width: 48px;
-  padding: 0;
-}
-
 .btn--night {
   background: var(--night);
   color: var(--ice);
@@ -387,6 +382,10 @@ a {
   }
 }
 
+.wave--edge {
+  fill: var(--ice);
+}
+
 /* Entrada suave */
 .rise {
   animation: rise 0.9s var(--ease) both;
@@ -535,272 +534,465 @@ a {
   }
 }
 
-/* ───────── Portada B · App clara + tarjeta noche ───────── */
-.hB {
-  position: relative;
-  background: radial-gradient(90% 40% at 100% 0%, rgba(33, 158, 188, 0.14), transparent 70%), var(--ice);
+/* ───────── Secciones ───────── */
+.sec {
+  padding: 44px 0;
 }
 
-.hB__body {
-  display: grid;
-  gap: 16px;
-  max-width: 560px;
+.wrap {
+  max-width: 640px;
   margin: 0 auto;
-  padding: 4px 18px 28px;
+  padding: 0 18px;
 }
 
-.greet {
+.sec__head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.sec__title {
   margin: 0;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--teal-d);
-}
-
-.hB__title {
-  margin: 2px 0 0;
-  font-size: clamp(1.6rem, 7.4vw, 2.3rem);
+  font-size: clamp(1.55rem, 6.6vw, 2.1rem);
   font-weight: 300;
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.015em;
 }
 
-.hB__open {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin: 10px 0 0;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid var(--line);
-  font-size: 0.76rem;
-  font-weight: 600;
+.sec__lead {
+  margin: 0;
+  font-size: 0.92rem;
   color: var(--muted);
 }
 
-.hB__open .ic-line {
-  color: var(--teal);
+/* Entradas al aparecer en pantalla (InView) */
+.sec__head.js-anim > *,
+.exp__grid.js-anim > *,
+.ms-a.js-anim,
+.ms-c.js-anim,
+.ms-b__list.js-anim > * {
+  opacity: 0;
+  transform: translateY(14px);
 }
 
-.hB__card {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  gap: 10px;
-  padding: 24px 20px 30px;
-  border-radius: var(--r);
-  background: radial-gradient(120% 90% at 90% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
-  color: var(--ice);
-  box-shadow: 0 20px 40px rgba(5, 10, 48, 0.25);
+.sec__head.is-in > *,
+.exp__grid.is-in > *,
+.ms-a.is-in,
+.ms-c.is-in,
+.ms-b__list.is-in > * {
+  animation: rise 0.8s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 0.08s);
 }
 
-.hB__card > *:not(.waves):not(.ripples) {
-  position: relative;
-  z-index: 1;
+.sec__head.is-in > :nth-child(2) {
+  animation-delay: 0.08s;
 }
 
-.hB__card .ripples {
-  top: 24px;
-  right: 26px;
-  width: 44px;
-  height: 44px;
+.sec__head.is-in > :nth-child(3) {
+  animation-delay: 0.16s;
 }
 
-.hB__cardTitle {
-  margin: 0;
-  font-size: 1.35rem;
-  font-weight: 300;
-  line-height: 1.25;
+/* Sección 2 · Experiencias */
+.exp {
+  padding-top: 18px;
 }
 
-.hB__card .btns {
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  margin-top: 6px;
-}
-
-.hB__card .btn--teal {
-  flex: 1;
-}
-
-.waves--card {
-  height: 70px;
-}
-
-.hB__exp {
+.exp__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.hB__exp a {
-  display: grid;
-  gap: 2px;
-  height: 100%;
-  padding: 14px;
-  border-radius: 18px;
+.exp__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 16px 14px 14px;
+  border-radius: 20px;
   background: #fff;
   border: 1px solid var(--line);
+  box-shadow: 0 8px 22px rgba(5, 10, 48, 0.05);
   text-decoration: none;
-  transition: transform 0.3s var(--ease), border-color 0.3s ease;
+  transition: transform 0.35s var(--ease), border-color 0.3s ease, box-shadow 0.35s ease;
 }
 
-.hB__exp a:hover {
-  transform: translateY(-2px);
+.exp__card:hover {
+  transform: translateY(-3px);
   border-color: rgba(33, 158, 188, 0.45);
+  box-shadow: 0 14px 30px rgba(5, 10, 48, 0.09);
 }
 
-.hB__exp .ic-line {
-  margin-bottom: 6px;
-  color: var(--teal);
+.exp__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 8px;
+  border-radius: 50%;
+  background: rgba(33, 158, 188, 0.1);
+  color: var(--teal-d);
 }
 
-.hB__exp b {
-  font-size: 0.9rem;
+.exp__name {
+  font-size: 0.98rem;
   font-weight: 700;
 }
 
-.hB__exp span {
+.exp__desc {
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.exp__price {
+  display: grid;
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.exp__price b {
+  font-size: 0.92rem;
+  color: var(--night);
+}
+
+.exp__price small {
+  font-size: 0.7rem;
+  color: var(--teal-d);
+}
+
+.exp__go {
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  color: rgba(5, 10, 48, 0.35);
+  transition: transform 0.3s var(--ease), color 0.3s ease;
+}
+
+.exp__card:hover .exp__go {
+  transform: translateX(3px);
+  color: var(--teal);
+}
+
+/* Sección 3 · Masajes (controles comunes) */
+.ms {
+  background: linear-gradient(180deg, var(--ice), #e9eef9);
+}
+
+.ms__label {
+  margin: 0 0 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.seg {
+  display: flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.seg button {
+  flex: 1;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 700 0.84rem var(--f);
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.seg button.is-on {
+  background: var(--night);
+  color: var(--ice);
+}
+
+.seg button:focus-visible,
+.ms-a__press button:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.ms__premium {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.35s ease, margin 0.35s ease, max-height 0.45s var(--ease);
+  max-height: 0;
+}
+
+.ms__premium.is-on {
+  max-height: 120px;
+  margin: 12px 0 0;
+  opacity: 1;
+}
+
+.ms__premium b {
+  color: var(--teal-d);
+}
+
+.ms__foot {
+  margin: 14px 0 0;
   font-size: 0.74rem;
   color: var(--muted);
 }
 
-/* ───────── Portada C · Piedras y agua + hoja ───────── */
-.hC {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100svh;
-  background: radial-gradient(90% 50% at 50% 30%, rgba(33, 158, 188, 0.32), transparent 65%), var(--night);
-}
-
-.hC__art {
-  position: relative;
-  flex: 1;
-  display: grid;
-  place-items: center;
-  align-content: center;
+.dots {
+  display: inline-flex;
   gap: 4px;
-  min-height: 250px;
-  padding: 0 20px 34px;
 }
 
-.stones {
-  width: min(70vw, 300px);
-  height: auto;
-  overflow: visible;
+.dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(5, 10, 48, 0.14);
 }
 
-.stones .rings ellipse {
-  fill: none;
-  stroke: rgba(33, 158, 188, 0.6);
-  stroke-width: 1;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: ring 6s ease-out infinite;
+.dots i.is-on {
+  background: var(--teal);
 }
 
-.stones .rings ellipse:nth-child(2) {
-  animation-delay: 2s;
-}
-
-.stones .rings ellipse:nth-child(3) {
-  animation-delay: 4s;
-}
-
-@keyframes ring {
-  0% {
-    opacity: 0.9;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(2.6);
-  }
-}
-
-.stones .stack {
-  animation: float 7s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-3px);
-  }
-}
-
-.stones .steam path {
-  fill: none;
-  stroke: rgba(244, 246, 252, 0.35);
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-dasharray: 50;
-  animation: steam 4.5s ease-in-out infinite;
-}
-
-.stones .steam path:nth-child(2) {
-  animation-delay: 1.6s;
-}
-
-@keyframes steam {
-  0% {
-    stroke-dashoffset: 50;
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    stroke-dashoffset: -50;
-    opacity: 0;
-  }
-}
-
-.hC__logo {
-  width: min(64vw, 260px);
-}
-
-.hC__sheet {
-  position: relative;
-  z-index: 2;
+/* A · Calculadora */
+.ms-a__press {
   display: grid;
-  gap: 12px;
-  margin-top: -22px;
-  padding: 26px 22px 26px;
-  border-radius: 28px 28px 0 0;
-  background: var(--ice);
-  text-align: center;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.hC__sheet::before {
-  content: "";
-  justify-self: center;
-  width: 40px;
-  height: 4px;
-  margin: -12px 0 4px;
-  border-radius: 4px;
-  background: rgba(5, 10, 48, 0.12);
+.ms-a__press button {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  min-width: 0;
+  padding: 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--night);
+  font-family: var(--f);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s var(--ease);
 }
 
-.hC__title {
-  margin: 0;
-  font-size: clamp(1.5rem, 6.8vw, 2.2rem);
-  font-weight: 300;
-  line-height: 1.15;
+.ms-a__press button .dots {
+  margin-bottom: 6px;
 }
 
-.hC__text {
-  max-width: 36ch;
-  margin: 0 auto;
-  font-size: 0.9rem;
+.ms-a__press button b {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 0.8rem;
+  hyphens: auto;
+}
+
+.ms-a__press button span {
+  font-size: 0.68rem;
   color: var(--muted);
+}
+
+.ms-a__press button.is-on {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px var(--teal), 0 10px 22px rgba(33, 158, 188, 0.15);
+}
+
+.ms-a__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.ms-a__row .seg button {
+  padding: 0 6px;
+}
+
+.ms-a__total {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: var(--r);
+  background: radial-gradient(120% 90% at 90% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
+  color: var(--ice);
+}
+
+.ms-a__sum {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(244, 246, 252, 0.7);
+}
+
+.ms-a__price {
+  margin: 2px 0 0;
+}
+
+.ms-a__price b {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.ms-a__price span {
+  margin-left: 6px;
+  font-size: 0.95rem;
+  color: var(--teal-l);
+}
+
+.ms-a__pp {
+  margin: 0;
+  font-size: 0.74rem;
+  color: rgba(244, 246, 252, 0.6);
+}
+
+/* B · Tarjetas */
+.ms-b__ctrl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ms-b__ctrl .seg button {
+  padding: 0 6px;
+}
+
+.ms-b__list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ms-b__card {
+  padding: 18px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.ms-b__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ms-b__top h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.ms-b__desc {
+  margin: 6px 0 14px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.ms-b__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.ms-b__price {
+  margin: 0;
+}
+
+.ms-b__price b {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.ms-b__price span {
+  margin-left: 4px;
+  font-size: 0.8rem;
+  color: var(--teal-d);
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 8px 18px;
+  font-size: 0.84rem;
+}
+
+/* C · Tabla */
+.ms-c__table {
+  width: 100%;
+  margin-top: 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 0.82rem;
+}
+
+.ms-c__table th,
+.ms-c__table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.ms-c__table tr:last-child th,
+.ms-c__table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ms-c__table thead th {
+  background: var(--night);
+  color: var(--ice);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ms-c__table tbody th,
+.ms-c__table td {
+  display: table-cell;
+}
+
+.ms-c__table tbody th b,
+.ms-c__table td b {
+  display: block;
+}
+
+.ms-c__table tbody th span,
+.ms-c__table td span {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.ms-c__table td span {
+  color: var(--teal-d);
+}
+
+.ms-c__btn {
+  width: 100%;
+  margin-top: 16px;
 }
 
 /* ───────── Varios ───────── */

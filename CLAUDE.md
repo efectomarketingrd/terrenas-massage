@@ -35,5 +35,6 @@ npm run build && npx next start -p 3200
 
 ## Estado
 
-- Portada: 3 opciones en vista previa (`/es?portada=a|b|c`). Pendiente que el cliente elija.
+- Inicio aprobado: 1) Portada A (noche completa, logo grande, ondas) · 2) Experiencias (4 tarjetas con precio desde).
+- Sección 3 Masajes: 3 opciones en vista previa (`/es?masajes=a|b|c`), pendiente elegir. Botones de reservar van a WhatsApp hasta que exista la agenda.
 - Pendiente: duración de los complementos Premium, aprobar política de cancelación, fotos (se generarán).
