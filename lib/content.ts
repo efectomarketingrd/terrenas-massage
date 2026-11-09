@@ -48,7 +48,7 @@ const es = {
     items: [
       { k: "individual", t: "Masajes individuales", d: "Relajante, profundo o descontracturante. Básico o Premium, de 60 o 90 minutos." },
       { k: "pareja", t: "Ritual Connection", d: "Masaje en pareja, lado a lado. El Premium incluye piedras calientes, copa de vino, velas aromáticas y un obsequio." },
-      { k: "domicilio", t: "En tu villa", d: "Vamos a tu villa u hotel en Las Terrenas y El Limón con todo lo necesario, incluso la música." },
+      { k: "domicilio", t: "En tu villa", d: "Vamos a tu villa u hotel en Las Terrenas y El Limón con lo necesario para tu masaje." },
       { k: "grupo", t: "Grupos y eventos", d: "Bodas, cumpleaños, retiros, empresas y producciones. Hasta 8 masajistas a la vez." },
     ],
     groupDeal: "Desde 10% menos",
@@ -60,12 +60,13 @@ const es = {
     spa: {
       tab: "En el spa",
       t: "Nuestro espacio en Las Terrenas",
-      d: "Un espacio tranquilo, moderno y limpio, a pasos de la playa, para desconectar del mundo.",
+      d: "Un espacio tranquilo, moderno y limpio en el centro de Las Terrenas, para desconectar del mundo.",
       items: [
         "Cabina privada, individual o para dos",
         "Ambiente tranquilo con música suave",
         "Llega 10 minutos antes para empezar sin prisa",
-        "Pagas al llegar: tarjeta, efectivo (RD$, US$, €), transferencia o Zelle",
+        "Pagas al llegar, o por adelantado cuando te confirmemos la disponibilidad",
+        "Tarjeta, efectivo (RD$, US$ o €), transferencia o Zelle",
       ],
       where: "Blvd. Turístico del Atlántico, La Ceiba, edificio #6, 2.º nivel",
       map: "Cómo llegar",
@@ -76,8 +77,8 @@ const es = {
       t: "Vamos a donde estés",
       d: "Ideal si te alojas en una villa u hotel, viajas en familia o prefieres no moverte.",
       items: [
-        "Llevamos todo lo necesario, incluso la música",
-        "Solo necesitas un espacio tranquilo: una habitación o una terraza",
+        "Llevamos lo necesario para tu masaje",
+        "Solo necesitas un espacio tranquilo: una habitación fresca o una terraza",
         "Cubrimos Las Terrenas y El Limón; otras zonas de Samaná para grupos grandes, bajo solicitud",
         "Se paga por adelantado para confirmar la cita",
       ],
@@ -257,7 +258,7 @@ const en: Dict = {
     items: [
       { k: "individual", t: "Individual massages", d: "Relaxing, deep tissue or knot relief. Basic or Premium, 60 or 90 minutes." },
       { k: "pareja", t: "Ritual Connection", d: "Couples massage, side by side. Premium includes hot stones, a glass of wine, scented candles and a gift." },
-      { k: "domicilio", t: "At your villa", d: "We come to your villa or hotel in Las Terrenas and El Limón with everything needed, even the music." },
+      { k: "domicilio", t: "At your villa", d: "We come to your villa or hotel in Las Terrenas and El Limón with what is needed for your massage." },
       { k: "grupo", t: "Groups & events", d: "Weddings, birthdays, retreats, companies and film crews. Up to 8 therapists at once." },
     ],
     groupDeal: "From 10% off",
@@ -269,12 +270,13 @@ const en: Dict = {
     spa: {
       tab: "At the spa",
       t: "Our space in Las Terrenas",
-      d: "A calm, modern and clean space, steps from the beach, to switch off from the world.",
+      d: "A calm, modern and clean space in the heart of Las Terrenas, to switch off from the world.",
       items: [
         "Private room, for one or for two",
         "Calm atmosphere with soft music",
         "Arrive 10 minutes early to start without rushing",
-        "Pay on arrival: card, cash (RD$, US$, €), bank transfer or Zelle",
+        "Pay on arrival, or in advance once we confirm availability",
+        "Card, cash (RD$, US$ or €), bank transfer or Zelle",
       ],
       where: "Blvd. Turístico del Atlántico, La Ceiba, building #6, 2nd floor",
       map: "Get directions",
@@ -285,8 +287,8 @@ const en: Dict = {
       t: "We come to you",
       d: "Perfect if you're staying at a villa or hotel, travelling with family or would rather stay in.",
       items: [
-        "We bring everything needed, even the music",
-        "All you need is a quiet space: a bedroom or a terrace",
+        "We bring what is needed for your massage",
+        "All you need is a quiet space: a cool bedroom or a terrace",
         "We cover Las Terrenas and El Limón; other areas of Samaná for large groups, on request",
         "Paid in advance to confirm the booking",
       ],

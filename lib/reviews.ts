@@ -17,8 +17,8 @@ export const reviews = [
   {
     name: "Jose N.",
     lang: "en",
-    en: "They came to our villa and gave really relaxing massages to me and my partner. They brought everything they needed, even music, which made the experience extra soothing.",
-    es: "Vinieron a nuestra villa y nos dieron unos masajes muy relajantes a mi pareja y a mí. Trajeron todo lo necesario, incluso música, lo que hizo la experiencia aún más placentera.",
+    en: "Terrenas Massage was amazing! They came to our villa and gave really relaxing massages to me and my partner. The masseuses were very professional, kind, and lovely.",
+    es: "¡Terrenas Massage fue increíble! Vinieron a nuestra villa y nos dieron unos masajes muy relajantes a mi pareja y a mí. Las masajistas fueron muy profesionales, amables y encantadoras.",
   },
   {
     name: "Shayla E.",
