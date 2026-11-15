@@ -1119,6 +1119,259 @@ a {
   fill: rgba(33, 158, 188, 0.14);
 }
 
+/* Sección 5 · Opiniones */
+.rv {
+  padding-top: 30px;
+  background: var(--ice);
+}
+
+.rv__stars {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rv__stars svg {
+  fill: #f5b301;
+}
+
+.rv__sum {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.rv__sum > b {
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.rv__sum > span {
+  display: grid;
+  gap: 2px;
+}
+
+.rv__sum small {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.rv__card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  margin: 0;
+  padding: 18px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 22px rgba(5, 10, 48, 0.04);
+}
+
+.rv__card blockquote {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--night);
+}
+
+.rv__card figcaption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rv__card figcaption > span:last-child {
+  display: grid;
+  line-height: 1.3;
+}
+
+.rv__card figcaption b {
+  font-size: 0.86rem;
+}
+
+.rv__card figcaption small {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.rv__avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--night);
+  color: var(--teal-l);
+  font-weight: 700;
+}
+
+.rv__list {
+  display: grid;
+  gap: 10px;
+}
+
+.rv__list.js-anim > * {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.rv__list.is-in > * {
+  animation: rise 0.7s var(--ease) both;
+  animation-delay: calc(var(--i) * 0.08s);
+}
+
+.rv__more {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 12px;
+  border: 1px solid rgba(5, 10, 48, 0.18);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--night);
+  font: 700 0.86rem var(--f);
+  cursor: pointer;
+}
+
+.rv__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 86%;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  padding-bottom: 4px;
+}
+
+.rv__track::-webkit-scrollbar {
+  display: none;
+}
+
+.rv__track > * {
+  scroll-snap-align: start;
+}
+
+.rv__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.rv__nav button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--night);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rv__nav button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.rv__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.rv__dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(5, 10, 48, 0.15);
+  transition: width 0.3s var(--ease), background 0.3s ease;
+}
+
+.rv__dots i.is-on {
+  width: 20px;
+  border-radius: 4px;
+  background: var(--teal);
+}
+
+.rv__feat {
+  display: grid;
+  gap: 12px;
+}
+
+.rv__feat > .rv__card {
+  background: radial-gradient(120% 90% at 100% 0%, rgba(33, 158, 188, 0.4), transparent 60%), var(--night);
+  border-color: transparent;
+}
+
+.rv__feat > .rv__card blockquote {
+  font-size: 1.02rem;
+  font-weight: 300;
+  color: var(--ice);
+}
+
+.rv__feat > .rv__card figcaption b {
+  color: var(--ice);
+}
+
+.rv__feat > .rv__card .rv__avatar {
+  background: var(--teal);
+  color: #fff;
+}
+
+.rv__mini {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rv__mini li {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.rv__mini b {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.rv__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-top: 16px;
+}
+
+.rv__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--teal-d);
+  text-decoration: none;
+}
+
 /* ───────── Varios ───────── */
 
 .wa-float {

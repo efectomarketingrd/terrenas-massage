@@ -4,8 +4,8 @@ import InView from "./InView";
 import { Arrow, ExpIcon, WaIcon } from "./Icons";
 import { Ripples, Waves } from "./Water";
 
-// Sección 4 · Grupos y eventos
-export default function Groups({ t, lang, variant = "a" }: { t: Dict; lang: Locale; variant?: "a" | "b" }) {
+// Sección 4 · Grupos y eventos (con los 3 pasos)
+export default function Groups({ t, lang }: { t: Dict; lang: Locale }) {
   const c = t.groups;
   const buttons = (
     <div className="gr__btns">
@@ -18,7 +18,7 @@ export default function Groups({ t, lang, variant = "a" }: { t: Dict; lang: Loca
     </div>
   );
   return (
-    <section id="grupos" className={`gr gr--${variant}`}>
+    <section id="grupos" className="gr">
       <Ripples />
       <div className="wrap gr__wrap">
         <InView className="gr__head">
@@ -35,8 +35,7 @@ export default function Groups({ t, lang, variant = "a" }: { t: Dict; lang: Loca
           </ul>
         </InView>
 
-        {variant === "b" && (
-          <InView className="gr__steps">
+        <InView className="gr__steps">
             <p className="gr__stitle">{c.stepsTitle}</p>
             <ol>
               {c.steps.map((s, i) => (
@@ -50,7 +49,6 @@ export default function Groups({ t, lang, variant = "a" }: { t: Dict; lang: Loca
               ))}
             </ol>
           </InView>
-        )}
 
         <p className="gr__note">{c.note}</p>
         {buttons}
