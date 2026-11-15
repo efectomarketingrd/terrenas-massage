@@ -35,7 +35,7 @@ npm run build && npx next start -p 3200
 
 ## Estado
 
-- Inicio, orden aprobado: 1) Portada · 2) Nuestros masajes: acordeón informativo SIN precios + Por qué elegirnos (`components/About.tsx`, aprobado) · 3) En el spa o en tu villa (pestañas, aprobado) · 4) Grupos y eventos con 3 pasos (`components/Groups.tsx`, aprobado) · 5) Opiniones de Google (`components/Reviews.tsx`, opciones A/B/C/D en `?opiniones=`; D = cinta animada) · 6) Preguntas frecuentes + cierre · Pie.
+- Inicio, orden aprobado: 1) Portada · 2) Nuestros masajes: acordeón informativo SIN precios + Por qué elegirnos (`components/About.tsx`, aprobado) · 3) En el spa o en tu villa (pestañas, aprobado) · 4) Grupos y eventos con 3 pasos (`components/Groups.tsx`, aprobado) · 5) Opiniones de Google en cinta animada (`components/Reviews.tsx`, aprobado) · 6) Preguntas frecuentes + cierre (`components/Faq.tsx`, opciones A/B en `?faq=`) · Pie.
 - Sin precios en el inicio (salvo el "desde" de la portada): los precios y selectores viven en la agenda.
 - Opiniones reales en `lib/reviews.ts` (4,9 ★, 20 opiniones; perfil https://share.google/vdUnDXdpuNsyRW4Yq). Nunca inventar opiniones.
 - Grupos: hasta 8 masajistas a la vez (el cliente elige; sujeto a disponibilidad) y tipo de evento en la agenda.
