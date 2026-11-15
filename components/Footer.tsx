@@ -4,13 +4,13 @@ import { bookPath, mapsUrl, site, waLink, type Locale } from "@/lib/site";
 import { Clock, IgIcon, Mail, Pin, WaIcon } from "./Icons";
 import { Waves } from "./Water";
 
-export default function Footer({ t, lang, altHref, seamless = false }: { t: Dict; lang: Locale; altHref?: string; seamless?: boolean }) {
+export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; altHref?: string }) {
   const f = t.footer;
   const other = lang === "es" ? "en" : "es";
   return (
     <>
-      <footer className={`ft ${seamless ? "ft--seamless" : ""}`}>
-        {!seamless && <Waves cls="waves--top" />}
+      <footer className="ft">
+        <Waves cls="waves--top" />
         <div className="wrap ft__grid">
           <div className="ft__brand">
             <Image src="/brand/terrenas-massage-blanco.png" alt="Terrenas Massage · Relax your body" width={824} height={180} sizes="200px" />

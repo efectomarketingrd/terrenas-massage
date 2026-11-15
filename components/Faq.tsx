@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import type { Dict } from "@/lib/content";
 import { bookPath, waLink, type Locale } from "@/lib/site";
 import InView from "./InView";
@@ -9,7 +8,7 @@ import { Arrow, WaIcon } from "./Icons";
 import { Ripples } from "./Water";
 
 // Sección 6 · Preguntas frecuentes + cierre "¿Listo para relajarte?"
-export default function Faq({ t, lang, variant = "a" }: { t: Dict; lang: Locale; variant?: "a" | "b" }) {
+export default function Faq({ t, lang }: { t: Dict; lang: Locale }) {
   const f = t.faq;
   const c = t.closing;
   const [open, setOpen] = useState(0);
@@ -22,9 +21,8 @@ export default function Faq({ t, lang, variant = "a" }: { t: Dict; lang: Locale;
   };
 
   const closing = (
-    <div className={`cl ${variant === "b" ? "cl--band" : "cl--card"}`}>
+    <div className="cl cl--card">
       <Ripples />
-      {variant === "b" && <Image className="cl__logo" src="/brand/terrenas-massage-blanco.png" alt="" width={824} height={180} sizes="220px" />}
       <h2 className="cl__t">{c.title}</h2>
       <p className="cl__d">{c.text}</p>
       <div className="cl__btns">
@@ -39,8 +37,7 @@ export default function Faq({ t, lang, variant = "a" }: { t: Dict; lang: Locale;
   );
 
   return (
-    <>
-      <section id="preguntas" className="sec fq">
+    <section id="preguntas" className="sec fq">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
         <div className="wrap">
           <InView className="sec__head">
@@ -66,10 +63,8 @@ export default function Faq({ t, lang, variant = "a" }: { t: Dict; lang: Locale;
           <a className="fq__pol" href={`${bookPath(lang)}#politicas`}>
             {f.policies} <Arrow size={14} />
           </a>
-          {variant === "a" && closing}
+          {closing}
         </div>
       </section>
-      {variant === "b" && closing}
-    </>
   );
 }

@@ -18,9 +18,10 @@ export default function Header({ t, lang, tone = "dark", logo = true, altHref }:
   const links = [
     { href: `/${lang}`, label: t.nav.home },
     { href: `/${lang}#masajes`, label: t.nav.massages },
-    { href: `/${lang}#pareja`, label: t.nav.couple },
-    { href: `/${lang}#domicilio`, label: t.nav.home_service },
-    { href: `/${lang}#info`, label: t.nav.info },
+    { href: `/${lang}#lugar`, label: t.nav.places },
+    { href: `/${lang}#grupos`, label: t.nav.groups },
+    { href: `/${lang}#opiniones`, label: t.nav.reviews },
+    { href: `/${lang}#preguntas`, label: t.nav.faq },
   ];
   return (
     <header className={`hd hd--${tone} ${logo ? "" : "hd--nologo"}`}>

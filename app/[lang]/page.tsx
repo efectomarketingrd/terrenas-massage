@@ -8,10 +8,8 @@ import Reviews from "@/components/Reviews";
 import Faq from "@/components/Faq";
 import Footer from "@/components/Footer";
 
-// Vista previa de la sección 6: ?faq=a | b (se quitará al elegir)
-export default async function Home({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<{ faq?: string }> }) {
+export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const { faq } = await searchParams;
   const t = dictionaries[lang as Locale];
   return (
     <main>
@@ -20,8 +18,8 @@ export default async function Home({ params, searchParams }: { params: Promise<{
       <Places t={t} lang={lang as Locale} />
       <Groups t={t} lang={lang as Locale} />
       <Reviews t={t} lang={lang as Locale} />
-      <Faq t={t} lang={lang as Locale} variant={faq === "b" ? "b" : "a"} />
-      <Footer t={t} lang={lang as Locale} seamless={faq === "b"} />
+      <Faq t={t} lang={lang as Locale} />
+      <Footer t={t} lang={lang as Locale} />
     </main>
   );
 }

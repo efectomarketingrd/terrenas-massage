@@ -537,6 +537,7 @@ a {
 /* ───────── Secciones ───────── */
 .sec {
   padding: 44px 0;
+  scroll-margin-top: 8px;
 }
 
 .wrap {
@@ -617,6 +618,47 @@ a {
 
 .ab__dots i.is-on {
   background: var(--teal);
+}
+
+.ab__desc {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.ab__ideal {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--ice);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--night);
+}
+
+.ab__ideal b {
+  color: var(--teal-d);
+}
+
+.ab__link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 6px;
+  padding: 4px 0;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--teal-d);
+  text-decoration: none;
+}
+
+.ab__link .ic-line {
+  transition: transform 0.3s var(--ease);
+}
+
+.ab__link:hover .ic-line {
+  transform: translateX(3px);
 }
 
 .ab__why {
@@ -1411,16 +1453,6 @@ a {
   box-shadow: 0 20px 44px rgba(5, 10, 48, 0.2);
 }
 
-.cl--band {
-  padding: 56px 22px 10px;
-  background: radial-gradient(90% 60% at 50% 0%, rgba(33, 158, 188, 0.35), transparent 65%), var(--night);
-}
-
-.cl__logo {
-  width: 200px;
-  margin-bottom: 10px;
-}
-
 .cl__t {
   margin: 0;
   font-size: clamp(1.5rem, 6.6vw, 2rem);
@@ -1441,10 +1473,6 @@ a {
   width: 100%;
   max-width: 360px;
   margin-top: 8px;
-}
-
-.ft--seamless {
-  padding-top: 40px;
 }
 
 /* ───────── Varios ───────── */

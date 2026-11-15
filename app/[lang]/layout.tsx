@@ -8,6 +8,9 @@ import "../globals.css";
 import { dictionaries } from "@/lib/content";
 import { locales, site, type Locale } from "@/lib/site";
 
+// Solo existen /es y /en: cualquier otra ruta de primer nivel da 404.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
