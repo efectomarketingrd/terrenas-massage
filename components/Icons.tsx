@@ -96,3 +96,16 @@ export function Check({ size = 16 }: P) {
     </svg>
   );
 }
+
+// Iconos de "Por qué elegirnos" y extras
+export function WhyIcon({ k, size = 24 }: { k: string; size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" className="ic-line">
+      {k === "hands" && <path d="M7 11V6.5a1.5 1.5 0 0 1 3 0V10m0-4.5v-1a1.5 1.5 0 0 1 3 0V10m0-4a1.5 1.5 0 0 1 3 0v5m0-2.5a1.5 1.5 0 0 1 3 0V14c0 4-2.7 6.5-6.5 6.5-2.6 0-4.3-1.2-5.6-3.3L4.6 13.4a1.5 1.5 0 0 1 2.4-1.8L8 13" />}
+      {k === "tune" && <><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle cx="10" cy="17" r="2" /></>}
+      {k === "clean" && <><path d="M12 3c3 4 6 7 6 10.5A6 6 0 0 1 6 13.5C6 10 9 7 12 3Z" /><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5" /></>}
+      {k === "star" && <path d="m12 3.8 2.5 5.1 5.6.8-4 3.9 1 5.6-5.1-2.7-5 2.7 1-5.6-4-3.9 5.5-.8Z" />}
+      {k === "premium" && <><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" /><circle cx="12" cy="12" r="3" /></>}
+    </svg>
+  );
+}

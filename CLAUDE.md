@@ -35,8 +35,8 @@ npm run build && npx next start -p 3200
 
 ## Estado
 
-- Inicio, orden aprobado: 1) Portada · 2) Servicios (diseño A: ritual y grupos a lo ancho) · 3) En el spa o en tu villa (opciones A/B/C en `?lugar=`) · 4) Grupos y eventos · 5) Opiniones de Google · 6) Preguntas frecuentes + cierre · Pie.
-- Se quitaron "Elige tu experiencia" y "Elige tu masaje" (repetían la agenda).
+- Inicio, orden aprobado: 1) Portada · 2) Nuestros masajes: información y calidad SIN precios (`components/About.tsx`, opciones A/B/C en `?masajes=`) · 3) En el spa o en tu villa (pestañas, aprobado) · 4) Grupos y eventos · 5) Opiniones de Google · 6) Preguntas frecuentes + cierre · Pie.
+- Sin precios en el inicio (salvo el "desde" de la portada): los precios y selectores viven en la agenda.
 - Opiniones reales en `lib/reviews.ts` (4,9 ★, 20 opiniones; perfil https://share.google/vdUnDXdpuNsyRW4Yq). Nunca inventar opiniones.
 - Grupos: hasta 8 masajistas a la vez (el cliente elige; sujeto a disponibilidad) y tipo de evento en la agenda.
 - Agenda: `/es/reservar` · `/en/book` (`components/BookingWizard.tsx`, días/horas en `lib/agenda.ts`). Envío por WhatsApp y correo (mailto).
