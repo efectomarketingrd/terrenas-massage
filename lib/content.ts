@@ -121,6 +121,8 @@ const es = {
     translated: { en: "Traducida del inglés", de: "Traducida del alemán", es: "" },
     prev: "Anterior",
     next: "Siguiente",
+    pause: "Pausar",
+    play: "Reanudar",
   },
   massages: {
     eyebrow: "Masajes individuales",
@@ -368,6 +370,8 @@ const en: Dict = {
     translated: { es: "Translated from Spanish", de: "Translated from German", en: "" },
     prev: "Previous",
     next: "Next",
+    pause: "Pause",
+    play: "Play",
   },
   massages: {
     eyebrow: "Individual massages",

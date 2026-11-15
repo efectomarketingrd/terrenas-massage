@@ -1354,6 +1354,75 @@ a {
   color: var(--muted);
 }
 
+/* D · Cinta animada */
+.rv__marquee {
+  margin: 0 -18px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+}
+
+.rv__belt {
+  display: flex;
+  width: max-content;
+  animation: belt 70s linear infinite;
+}
+
+.rv__marquee.is-paused .rv__belt,
+.rv__marquee:hover .rv__belt,
+.rv__marquee:focus-within .rv__belt {
+  animation-play-state: paused;
+}
+
+.rv__lane {
+  display: flex;
+  gap: 12px;
+  padding: 4px 6px 4px 18px;
+}
+
+.rv__lane .rv__card {
+  width: min(290px, 78vw);
+  flex: none;
+}
+
+@keyframes belt {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.rv__pause {
+  display: block;
+  margin: 10px auto 0;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 600 0.76rem var(--f);
+  cursor: pointer;
+}
+
+/* Con "reducir movimiento": cinta quieta y deslizable a mano */
+@media (prefers-reduced-motion: reduce) {
+  .rv__marquee {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .rv__lane[aria-hidden="true"],
+  .rv__pause {
+    display: none;
+  }
+
+  .rv__lane .rv__card {
+    scroll-snap-align: start;
+  }
+}
+
 .rv__links {
   display: flex;
   flex-wrap: wrap;

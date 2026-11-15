@@ -7,7 +7,7 @@ import Groups from "@/components/Groups";
 import Reviews from "@/components/Reviews";
 import Footer from "@/components/Footer";
 
-// Vista previa de la sección 5: ?opiniones=a | b | c (se quitará al elegir)
+// Vista previa de la sección 5: ?opiniones=a | b | c | d (se quitará al elegir)
 export default async function Home({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<{ opiniones?: string }> }) {
   const { lang } = await params;
   const { opiniones } = await searchParams;
@@ -18,7 +18,7 @@ export default async function Home({ params, searchParams }: { params: Promise<{
       <About t={t} lang={lang as Locale} />
       <Places t={t} lang={lang as Locale} />
       <Groups t={t} lang={lang as Locale} />
-      <Reviews t={t} lang={lang as Locale} variant={opiniones === "b" || opiniones === "c" ? opiniones : "a"} />
+      <Reviews t={t} lang={lang as Locale} variant={opiniones === "b" || opiniones === "c" || opiniones === "d" ? opiniones : "a"} />
       <Footer t={t} lang={lang as Locale} />
     </main>
   );

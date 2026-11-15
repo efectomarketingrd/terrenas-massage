@@ -20,11 +20,13 @@ function Stars({ n = 5, size = 15 }: { n?: number; size?: number }) {
 }
 
 // Sección 5 · Opiniones reales de Google (nunca inventar opiniones)
-export default function Reviews({ t, lang, variant = "a" }: { t: Dict; lang: Locale; variant?: "a" | "b" | "c" }) {
+export default function Reviews({ t, lang, variant = "a" }: { t: Dict; lang: Locale; variant?: "a" | "b" | "c" | "d" }) {
   const c = t.reviewsSec;
   const [showAll, setShowAll] = useState(false);
   const track = useRef<HTMLDivElement>(null);
   const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [touching, setTouching] = useState(false);
   const rating = lang === "es" ? String(googleProfile.rating).replace(".", ",") : String(googleProfile.rating);
 
   const Card = ({ r, i }: { r: (typeof reviews)[number]; i: number }) => {
@@ -121,6 +123,30 @@ export default function Reviews({ t, lang, variant = "a" }: { t: Dict; lang: Loc
                 ›
               </button>
             </div>
+          </>
+        )}
+
+        {/* D · Cinta animada que pasa sola (se detiene al tocarla) */}
+        {variant === "d" && (
+          <>
+            <div
+              className={`rv__marquee ${paused || touching ? "is-paused" : ""}`}
+              onTouchStart={() => setTouching(true)}
+              onTouchEnd={() => setTimeout(() => setTouching(false), 2500)}
+            >
+              <div className="rv__belt">
+                {[0, 1].map((copy) => (
+                  <div key={copy} className="rv__lane" aria-hidden={copy === 1}>
+                    {reviews.map((r, i) => (
+                      <Card key={r.name + copy} r={r} i={i} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <button type="button" className="rv__pause" onClick={() => setPaused((v) => !v)} aria-pressed={paused}>
+              {paused ? `▶ ${c.play}` : `❚❚ ${c.pause}`}
+            </button>
           </>
         )}
 
