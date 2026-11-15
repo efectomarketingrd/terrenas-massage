@@ -2,7 +2,8 @@
 export const site = {
   name: "Terrenas Massage",
   tagline: "Relax your body",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://terrenasmassage.com",
+  // Cambiar a "https://terrenasmassage.com" cuando el dominio esté conectado en Vercel.
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://terrenas-massage.vercel.app",
   email: "terrenasmassagerd@gmail.com",
   phone: "+1 (829) 371-0276",
   whatsapp: "18293710276",
