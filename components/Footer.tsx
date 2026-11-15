@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Dict } from "@/lib/content";
 import { bookPath, mapsUrl, site, waLink, type Locale } from "@/lib/site";
-import { Clock, IgIcon, Mail, Pin, WaIcon } from "./Icons";
+import { Clock, FbIcon, IgIcon, Mail, Pin, WaIcon } from "./Icons";
 import { Waves } from "./Water";
 
 export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; altHref?: string }) {
@@ -22,6 +22,9 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
               <a href={site.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${site.igHandle}`}>
                 <IgIcon size={20} />
               </a>
+              <a href={site.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <FbIcon size={20} />
+              </a>
               <a href={`mailto:${site.email}`} aria-label={site.email}>
                 <Mail size={20} />
               </a>
@@ -35,6 +38,7 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
               <li><a href={bookPath(lang)}>{t.nav.book}</a></li>
               <li><a href={`${bookPath(lang)}#politicas`}>{f.policies}</a></li>
               <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
+              <li><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
             </ul>
           </div>
 

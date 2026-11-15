@@ -8,6 +8,7 @@ export const site = {
   whatsapp: "18293710276",
   instagram: "https://www.instagram.com/terrenasmassage/",
   igHandle: "@terrenasmassage",
+  facebook: "https://www.facebook.com/profile.php?id=61576134364193",
   address: {
     street: "Blvd. Turístico del Atlántico, sector La Ceiba, edificio #6, segundo nivel",
     locality: "Las Terrenas",

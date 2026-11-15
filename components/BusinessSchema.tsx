@@ -46,7 +46,7 @@ export default function BusinessSchema({ lang, description }: { lang: Locale; de
       "@type": "ReserveAction",
       target: `${site.url}${bookPath(lang)}`,
     },
-    sameAs: [site.instagram, googleProfile.url],
+    sameAs: [site.instagram, site.facebook, googleProfile.url],
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }

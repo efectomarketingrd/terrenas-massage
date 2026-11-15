@@ -37,7 +37,7 @@ npm run build && npx next start -p 3200
 
 - Inicio, orden aprobado: 1) Portada · 2) Nuestros masajes: acordeón informativo SIN precios + Por qué elegirnos (`components/About.tsx`, aprobado) · 3) En el spa o en tu villa (pestañas, aprobado) · 4) Grupos y eventos con 3 pasos (`components/Groups.tsx`, aprobado) · 5) Opiniones de Google en cinta animada (`components/Reviews.tsx`, aprobado) · 6) Preguntas frecuentes + cierre en tarjeta (`components/Faq.tsx`, aprobado; incluye datos FAQPage para Google) · Pie. Inicio completo.
 - Menú: enlaces a #masajes, #lugar, #grupos, #opiniones, #preguntas. Rutas de idioma desconocidas → 404 (`dynamicParams = false`). Ícono en `app/icon.png`.
-- Datos para Google: `components/BusinessSchema.tsx` (DaySpa: dirección, teléfono, horario 9–19 todos los días, pagos, zonas, Instagram y perfil de Google). Falta el enlace de Facebook. Dominio terrenasmassage.com conectado en Vercel (plan Pro); `site.url` = https://terrenasmassage.com.
+- Datos para Google: `components/BusinessSchema.tsx` (DaySpa: dirección, teléfono, horario 9–19 todos los días, pagos, zonas, Instagram y perfil de Google). Facebook: https://www.facebook.com/profile.php?id=61576134364193 (en datos de Google y pie). Dominio terrenasmassage.com conectado en Vercel (plan Pro); www y vercel.app redirigen (308) al dominio; `site.url` = https://terrenasmassage.com.
 - Sin precios en el inicio (salvo el "desde" de la portada): los precios y selectores viven en la agenda.
 - Opiniones reales en `lib/reviews.ts` (4,9 ★, 20 opiniones; perfil https://share.google/vdUnDXdpuNsyRW4Yq). Nunca inventar opiniones.
 - Grupos: hasta 8 masajistas a la vez (el cliente elige; sujeto a disponibilidad) y tipo de evento en la agenda.

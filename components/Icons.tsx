@@ -109,3 +109,11 @@ export function WhyIcon({ k, size = 24 }: { k: string; size?: number }) {
     </svg>
   );
 }
+
+export function FbIcon({ size = 18 }: P) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" className="ic-line">
+      <path d="M14.5 8.5H16V5.5h-2a3.5 3.5 0 0 0-3.5 3.5v2H8.5v3h2V20h3v-6h2.2l.5-3h-2.7V9.5a1 1 0 0 1 1-1Z" />
+    </svg>
+  );
+}
