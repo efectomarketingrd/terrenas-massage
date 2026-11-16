@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import BookingWizard from "@/components/BookingWizard";
 import { Ripples } from "@/components/Water";
 import Footer from "@/components/Footer";
+import Policies from "@/components/Policies";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -38,18 +39,7 @@ export default async function BookPage({ params }: { params: Promise<{ lang: str
         <Suspense>
           <BookingWizard t={t} lang={lang as Locale} />
         </Suspense>
-        <section id="politicas" className="bkp__pol">
-          <p className="eyebrow">{t.policies.eyebrow}</p>
-          <h2 className="sec__title">{t.policies.title}</h2>
-          <ul>
-            {t.policies.items.map((p) => (
-              <li key={p.t}>
-                <b>{p.t}</b>
-                <span>{p.d}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Policies t={t} />
       </div>
       <Footer t={t} lang={lang as Locale} altHref={bookPath(lang === "es" ? "en" : "es")} />
     </main>

@@ -2237,39 +2237,125 @@ textarea.bk-input {
   color: inherit;
 }
 
-.bkp__pol {
+.pol {
   display: grid;
-  gap: 8px;
-  padding: 44px 0 56px;
+  gap: 10px;
+  padding: 40px 0 56px;
   scroll-margin-top: 16px;
 }
 
-.bkp__pol ul {
+.pol__card {
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 22px rgba(5, 10, 48, 0.05);
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pol__card.is-open {
+  border-color: rgba(33, 158, 188, 0.45);
+  box-shadow: 0 14px 30px rgba(5, 10, 48, 0.08);
+}
+
+.pol__head {
   display: grid;
-  gap: 12px;
-  margin: 12px 0 0;
-  padding: 0;
+  grid-template-columns: 44px 1fr 14px;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  border: 0;
+  background: none;
+  color: var(--night);
+  font-family: var(--f);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pol__head:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: -2px;
+}
+
+.pol__ico {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--night);
+  color: var(--teal-l);
+}
+
+.pol__txt {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.pol__txt b {
+  font-size: 0.98rem;
+  line-height: 1.3;
+}
+
+.pol__txt small {
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--teal-d);
+}
+
+.pol__card.is-open .ab__plus::after {
+  transform: rotate(0);
+}
+
+.pol__body[hidden] {
+  display: none;
+}
+
+.pol__body {
+  padding: 0 16px 18px;
+  animation: rise 0.4s var(--ease) both;
+}
+
+.pol__body ol {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line);
   list-style: none;
 }
 
-.bkp__pol li {
+.pol__body li {
   display: grid;
-  gap: 4px;
-  padding: 16px;
-  border-radius: 18px;
-  background: #fff;
-  border: 1px solid var(--line);
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
 }
 
-.bkp__pol b {
-  font-size: 0.92rem;
+.pol__n {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(33, 158, 188, 0.12);
+  color: var(--teal-d);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
-.bkp__pol span {
-  font-size: 0.84rem;
+.pol__body b {
+  font-size: 0.9rem;
+}
+
+.pol__body p {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
   line-height: 1.55;
   color: var(--muted);
 }
+
 
 /* Portada: para quién */
 .hA__for {

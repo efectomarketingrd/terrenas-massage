@@ -247,6 +247,9 @@ const es = {
   policies: {
     eyebrow: "Antes de reservar",
     title: "Políticas de reserva y cancelación",
+    hint: "Confirmación, cambios, cancelaciones y pagos",
+    open: "Toca para ver",
+    close: "Ocultar",
     items: [
       { t: "Confirmación", d: "Tu reserva queda confirmada cuando te respondemos por WhatsApp o por correo. Reservas con al menos 1 hora de anticipación, sujetas a disponibilidad." },
       { t: "Puntualidad", d: "Te recomendamos llegar 10 minutos antes. Si llegas tarde, el masaje termina a la hora prevista para no retrasar al siguiente cliente y se cobra completo." },
@@ -521,6 +524,9 @@ const en: Dict = {
   policies: {
     eyebrow: "Before you book",
     title: "Booking & cancellation policies",
+    hint: "Confirmation, changes, cancellations and payments",
+    open: "Tap to view",
+    close: "Hide",
     items: [
       { t: "Confirmation", d: "Your booking is confirmed once we reply on WhatsApp or by email. Book at least 1 hour ahead, subject to availability." },
       { t: "Arrival", d: "Please arrive 10 minutes early. If you arrive late, the massage ends at the scheduled time so the next guest isn't delayed, and the full price applies." },
