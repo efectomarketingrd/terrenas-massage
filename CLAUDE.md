@@ -43,6 +43,6 @@ npm run build && npx next start -p 3200
 - Grupos: hasta 8 masajistas a la vez (el cliente elige; sujeto a disponibilidad) y tipo de evento en la agenda.
 - Agenda: `/es/reservar` · `/en/book` (`components/BookingWizard.tsx`, días/horas en `lib/agenda.ts`). Envío por WhatsApp y correo (mailto).
 - Políticas aprobadas (`lib/content.ts` → `policies`), visibles en la agenda y en `/es/reservar#politicas`.
-- Agenda: horas cada 60 min (9:00–19:00); el cliente indica su país (opcional).
+- Agenda: paso 2 con calendario mensual como la clínica (lunes primero, leyenda disponible/no disponible) + horas cada 60 min (9:00–19:00) + recuadro azul noche que destaca horario y 1 h de anticipación; el cliente indica su país (opcional).
 - Pie de página (`components/Footer.tsx`) en inicio y reservas.
 - Pendiente: duración de los complementos Premium, fotos (se generarán).

@@ -6,7 +6,7 @@ import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
 import { bookableDays, fmtTime, timesFor, ymd, nowDR } from "@/lib/agenda";
 import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
-import { ExpIcon, WaIcon } from "./Icons";
+import { Clock, ExpIcon, WaIcon } from "./Icons";
 
 const TYPES: BookType[] = ["individual", "pareja", "domicilio", "grupo"];
 const PRESS: Pressure[] = ["relajante", "profundo", "descontracturante"];
@@ -62,14 +62,21 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   const [event, setEvent] = useState<EventT>("none");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [daysShown, setDaysShown] = useState(12);
   const [days, setDays] = useState<string[]>([]);
+  const [cursor, setCursor] = useState(() => {
+    const n = nowDR();
+    return new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), 1));
+  });
   const [form, setForm] = useState({ name: "", phone: "", email: "", country: "", address: "", notes: "" });
   const [accept, setAccept] = useState(false);
   const [tried, setTried] = useState(false);
 
   // Las fechas dependen de la hora actual: se calculan en el navegador.
-  useEffect(() => setDays(bookableDays()), []);
+  useEffect(() => {
+    const d = bookableDays();
+    setDays(d);
+    if (d[0]) setCursor(new Date(Date.UTC(Number(d[0].slice(0, 4)), Number(d[0].slice(5, 7)) - 1, 1)));
+  }, []);
 
   // Reglas por tipo de servicio
   useEffect(() => {
@@ -80,6 +87,26 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
     if (type !== "grupo" && zone === "samana") setZone("terrenas");
     setTherapists((n) => Math.min(Math.max(n, 1), Math.min(8, people)));
   }, [type, ritual, massage, zone, people]);
+
+  // Calendario mensual (semana empieza en lunes); fechas como "AAAA-MM-DD" en hora de R.D.
+  const openSet = useMemo(() => new Set(days), [days]);
+  const loc = lang === "es" ? "es-DO" : "en-US";
+  const monthLabel = cursor.toLocaleDateString(loc, { month: "long", year: "numeric", timeZone: "UTC" });
+  const cells = useMemo(() => {
+    const y = cursor.getUTCFullYear();
+    const m = cursor.getUTCMonth();
+    const offset = (new Date(Date.UTC(y, m, 1)).getUTCDay() + 6) % 7;
+    const dim = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+    const out: (string | null)[] = Array(offset).fill(null);
+    for (let d = 1; d <= dim; d++) out.push(ymd(new Date(Date.UTC(y, m, d))));
+    while (out.length % 7) out.push(null);
+    return out;
+  }, [cursor]);
+  const monthKey = (d: Date) => d.getUTCFullYear() * 12 + d.getUTCMonth();
+  const firstDay = days[0];
+  const lastDay = days[days.length - 1];
+  const canPrev = !!firstDay && monthKey(cursor) > monthKey(new Date(firstDay + "T12:00:00Z"));
+  const canNext = !!lastDay && monthKey(cursor) < monthKey(new Date(lastDay + "T12:00:00Z"));
 
   const atHome = type === "domicilio" || (type === "grupo" && place === "domicilio");
   const sel: Sel = { type, massage, level, min, ritual, people, place };
@@ -298,44 +325,96 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
         </div>
       )}
 
-      {/* ── Paso 2 · Fecha y hora ── */}
+      {/* ── Paso 2 · Fecha y hora (calendario mensual como en la clínica) ── */}
       {step === 2 && (
         <div className="bk-panel" key="s2">
-          <Field label={b.date}>
-            <div className="bk-days">
-              {days.slice(0, daysShown).map((d) => {
-                const l = dayLabel(d);
+          <div className="bk-open" role="note">
+            <span className="bk-open__ico" aria-hidden="true">
+              <Clock size={22} />
+            </span>
+            <div>
+              <p className="bk-open__t">{b.openTitle}</p>
+              <p className="bk-open__h">{b.openHours}</p>
+            </div>
+            <ul>
+              {b.openNotes.map((n) => (
+                <li key={n}>{n}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="cal">
+            <div className="cal__head">
+              <span className="cal__month">{monthLabel}</span>
+              <div>
+                <button type="button" aria-label={b.prevMonth} disabled={!canPrev} onClick={() => setCursor(new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() - 1, 1)))}>
+                  ‹
+                </button>
+                <button type="button" aria-label={b.nextMonth} disabled={!canNext} onClick={() => setCursor(new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 1)))}>
+                  ›
+                </button>
+              </div>
+            </div>
+            <div className="cal__grid" key={ymd(cursor)}>
+              {[1, 2, 3, 4, 5, 6, 0].map((i) => (
+                <span className="cal__dow" key={i}>
+                  {b.days[i]}
+                </span>
+              ))}
+              {cells.map((d, i) => {
+                if (!d) return <span key={i} />;
+                const ok = openSet.has(d);
                 return (
-                  <button key={d} type="button" aria-pressed={date === d} className={date === d ? "is-on" : ""} onClick={() => { setDate(d); setTime(""); }}>
-                    <span>{l.wd}</span>
-                    <b>{l.md}</b>
+                  <button
+                    type="button"
+                    key={d}
+                    disabled={!ok}
+                    style={{ "--c": i } as React.CSSProperties}
+                    className={`cal__day ${ok ? "is-open" : ""} ${date === d ? "is-on" : ""}`}
+                    aria-pressed={date === d}
+                    aria-label={dayLabel(d, true).full}
+                    onClick={() => {
+                      setDate(d);
+                      setTime("");
+                    }}
+                  >
+                    {Number(d.slice(8))}
                   </button>
                 );
               })}
             </div>
-            {daysShown < days.length && (
-              <button type="button" className="bk-more" onClick={() => setDaysShown((n) => n + 12)}>
-                {lang === "es" ? "Ver más días" : "More days"}
-              </button>
-            )}
-          </Field>
+            <div className="cal__legend">
+              <span>
+                <i className="dot dot--open" /> {b.legendOpen}
+              </span>
+              <span>
+                <i className="dot dot--closed" /> {b.legendClosed}
+              </span>
+            </div>
+          </div>
 
-          {date && (
-            <Field label={b.time}>
-              {times.length ? (
-                <div className="bk-times">
-                  {times.map((tm) => (
-                    <button key={tm} type="button" aria-pressed={time === tm} className={time === tm ? "is-on" : ""} onClick={() => setTime(tm)}>
-                      {fmtTime(tm, lang)}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <p className="bk-note">{b.noTimes}</p>
-              )}
-            </Field>
-          )}
-          <p className="bk-note">{b.timeNote}</p>
+          <div className="bk-times-wrap">
+            {!date ? (
+              <p className="bk-note">{b.pickDay}</p>
+            ) : (
+              <div key={date} className="bk-in">
+                <p className="times__title">
+                  {b.available} {dayLabel(date, true).full}
+                </p>
+                {times.length ? (
+                  <div className="bk-times">
+                    {times.map((tm, i) => (
+                      <button key={tm} type="button" style={{ "--i": i } as React.CSSProperties} aria-pressed={time === tm} className={time === tm ? "is-on" : ""} onClick={() => setTime(tm)}>
+                        {fmtTime(tm, lang)}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="bk-note">{b.noTimes}</p>
+                )}
+              </div>
+            )}
+          </div>
           {tried && !valid2 && <p className="bk-err">{b.required}</p>}
 
           <div className="bk-nav">
