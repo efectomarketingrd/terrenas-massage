@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
+import { reservaUrl } from "@/lib/reserva";
 import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
 import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
 import { Clock, ExpIcon, WaIcon } from "./Icons";
@@ -155,6 +156,24 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
     return base;
   };
 
+  // Monto a pagar por adelantado: domicilio 100 %; Ritual Premium y grupos 50 %; en el spa, al llegar.
+  const due = type === "domicilio" ? price.total : type === "grupo" || (type === "pareja" && ritual === "premium") ? Math.round(price.total / 2) : 0;
+  const confirmUrl = () =>
+    date && time
+      ? reservaUrl({
+          l: lang,
+          n: form.name,
+          s: [serviceText, (type === "grupo" || type === "domicilio") && people > 1 ? `${people} ${b.people.toLowerCase()}` : "", atHome ? b.zones[zone] : ""].filter(Boolean).join(" · "),
+          d: date,
+          h: time,
+          dom: atHome ? 1 : 0,
+          t: price.total,
+          due,
+          est: price.estimate ? 1 : 0,
+          ok: 1,
+        })
+      : "";
+
   const message = () => {
     const short = date && time ? minutesUntil(date, time) < agenda.recommendedNotice : false;
     const L = [
@@ -177,6 +196,9 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
       form.country ? `${b.country}: ${form.country}` : "",
       atHome ? `${b.address}: ${form.address}` : "",
       form.notes ? `${b.notes.replace(/ \(.*\)/, "")}: ${form.notes}` : "",
+      "",
+      `${t.pay.confirmLink}`,
+      confirmUrl(),
     ];
     return L.filter((l, i) => l !== "" || L[i - 1] !== "").join("\n").replace(/\n{3,}/g, "\n\n").trim();
   };

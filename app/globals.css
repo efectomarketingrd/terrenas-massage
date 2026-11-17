@@ -1858,6 +1858,286 @@ a {
   margin-top: 8px;
 }
 
+/* ───────── Paga tu masaje ───────── */
+.pay__wrap {
+  display: grid;
+  gap: 16px;
+  margin-top: -32px;
+  padding-bottom: 56px;
+  position: relative;
+}
+
+.pay__h {
+  margin: 0 0 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--teal-d);
+}
+
+.pay__res {
+  padding: 18px 16px;
+  border-radius: var(--r);
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 44px rgba(5, 10, 48, 0.1);
+}
+
+.pay__status {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: #fff6e0;
+  color: #8a5a00;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.pay__status.is-ok {
+  background: rgba(31, 170, 83, 0.12);
+  color: #137a3b;
+}
+
+.pay__dl {
+  display: grid;
+  margin: 0;
+}
+
+.pay__dl > div {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.86rem;
+}
+
+.pay__dl dt {
+  color: var(--muted);
+}
+
+.pay__dl dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.pay__dl dd small {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.pay__due {
+  display: grid;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  background: radial-gradient(120% 120% at 100% 0%, rgba(33, 158, 188, 0.45), transparent 60%), var(--night);
+  color: var(--ice);
+}
+
+.pay__due small {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-l);
+}
+
+.pay__due b {
+  font-size: 1.9rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.pay__due span {
+  font-size: 0.84rem;
+  color: rgba(244, 246, 252, 0.75);
+}
+
+.pay__due p {
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(244, 246, 252, 0.15);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.pay__methods {
+  padding: 18px 16px;
+  border-radius: var(--r);
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.pay__res + .pay__methods {
+  margin-top: 0;
+}
+
+.pay__methods:first-child {
+  box-shadow: 0 20px 44px rgba(5, 10, 48, 0.1);
+}
+
+.pay__m {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  animation: rise 0.6s var(--ease) both;
+  animation-delay: calc(var(--i) * 0.07s + 0.1s);
+}
+
+.pay__m:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pay__n {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(33, 158, 188, 0.12);
+  color: var(--teal-d);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.pay__mb {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pay__mb h3 {
+  margin: 4px 0 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.pay__mb p {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.pay__mb p a {
+  color: var(--teal-d);
+  font-weight: 600;
+}
+
+.pay__mb .btn {
+  justify-self: start;
+}
+
+.pay__bank {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.pay__bank > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--ice);
+}
+
+.pay__bank dt {
+  grid-column: 1;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.pay__bank dd {
+  grid-column: 1;
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.pay__bank .copy {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+.pay__num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.copy {
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid rgba(33, 158, 188, 0.5);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--teal-d);
+  font: 700 0.76rem var(--f);
+  cursor: pointer;
+}
+
+.copy.is-ok {
+  border-color: #1faa53;
+  color: #137a3b;
+}
+
+.pay__proof {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 22px 18px;
+  border-radius: var(--r);
+  background: rgba(33, 158, 188, 0.08);
+  border: 1px dashed rgba(33, 158, 188, 0.45);
+  text-align: center;
+}
+
+.pay__proof h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.pay__proof .btn {
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.pay__proof p {
+  margin: 0 0 6px;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.pay__nores {
+  margin: 0;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.pay__nores a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--teal-d);
+  text-decoration: none;
+}
+
 /* ───────── Varios ───────── */
 
 .wa-float {

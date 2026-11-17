@@ -22,6 +22,7 @@ export default function Header({ t, lang, tone = "dark", logo = true, altHref }:
     { href: `/${lang}#grupos`, label: t.nav.groups },
     { href: `/${lang}#opiniones`, label: t.nav.reviews },
     { href: `/${lang}#preguntas`, label: t.nav.faq },
+    { href: `/${lang}/${lang === "es" ? "pagar" : "pay"}`, label: t.nav.pay },
   ];
   return (
     <header className={`hd hd--${tone} ${logo ? "" : "hd--nologo"}`}>

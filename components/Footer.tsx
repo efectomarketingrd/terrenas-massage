@@ -36,6 +36,7 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
             <ul className="ft__links">
               <li><a href={`/${lang}`}>{t.nav.home}</a></li>
               <li><a href={bookPath(lang)}>{t.nav.book}</a></li>
+              <li><a href={`/${lang}/${lang === "es" ? "pagar" : "pay"}`}>{t.nav.pay}</a></li>
               <li><a href={`${bookPath(lang)}#politicas`}>{f.policies}</a></li>
               <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
               <li><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
