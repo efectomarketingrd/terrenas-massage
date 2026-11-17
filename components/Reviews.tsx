@@ -33,6 +33,7 @@ export default function Reviews({ t, lang }: { t: Dict; lang: Locale }) {
         <InView className="sec__head">
           <p className="eyebrow">{c.eyebrow}</p>
           <h2 className="sec__title">{c.title}</h2>
+          <p className="sec__lead">{c.lead}</p>
         </InView>
 
         <a className="rv__sum" href={googleProfile.url} target="_blank" rel="noopener noreferrer">

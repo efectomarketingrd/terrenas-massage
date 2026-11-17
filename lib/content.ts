@@ -106,8 +106,9 @@ const es = {
     waMsg: "Hola, quiero cotizar masajes para un grupo/evento.",
   },
   reviewsSec: {
-    eyebrow: "Opiniones",
-    title: "Lo que dicen nuestros clientes",
+    eyebrow: "Opiniones en Google",
+    title: "La calma, en palabras de nuestros clientes",
+    lead: "Opiniones reales de quienes ya vinieron al spa o lo recibieron en su villa.",
     count: "opiniones en Google",
     all: "Ver todas en Google",
     write: "Deja tu opinión",
@@ -377,8 +378,9 @@ const en: Dict = {
     waMsg: "Hi, I'd like a quote for massages for a group/event.",
   },
   reviewsSec: {
-    eyebrow: "Reviews",
-    title: "What our guests say",
+    eyebrow: "Google reviews",
+    title: "Calm, in our guests' own words",
+    lead: "Real reviews from guests who visited the spa or enjoyed it at their villa.",
     count: "reviews on Google",
     all: "See all on Google",
     write: "Leave a review",
