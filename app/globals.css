@@ -847,7 +847,7 @@ a {
   justify-self: start;
 }
 
-/* B · Selector + tarjeta */
+/* B · Selector + tarjeta animada */
 .ab__tabsB {
   display: grid;
   gap: 14px;
@@ -859,12 +859,35 @@ a {
   gap: 8px;
 }
 
+.ab__tabsB.js-anim .ab__chips button,
+.ab__tabsB.js-anim .ab__card {
+  opacity: 0;
+}
+
+.ab__tabsB.is-in .ab__chips button {
+  animation: chip-in 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+  animation-delay: calc(var(--i) * 0.07s);
+}
+
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .ab__chips button {
+  position: relative;
+  overflow: hidden;
   display: grid;
   justify-items: center;
   gap: 6px;
   min-width: 0;
-  padding: 12px 6px;
+  padding: 12px 6px 14px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: #fff;
@@ -872,27 +895,25 @@ a {
   font: 600 0.74rem/1.25 var(--f);
   text-align: center;
   cursor: pointer;
-  transition: transform 0.35s var(--ease), border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+  transition: border-color 0.35s ease, background 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
 }
 
-.ab__chips button > span:last-child {
+.ab__chipT {
   max-width: 100%;
   overflow-wrap: break-word;
   hyphens: auto;
   -webkit-hyphens: auto;
 }
 
-.ab__chips button:hover {
-  transform: translateY(-2px);
-}
-
 .ab__chips button.is-on {
   border-color: var(--night);
   background: var(--night);
   color: var(--ice);
+  box-shadow: 0 12px 24px rgba(5, 10, 48, 0.22);
 }
 
 .ab__chipIco {
+  position: relative;
   display: grid;
   place-items: center;
   width: 40px;
@@ -900,12 +921,73 @@ a {
   border-radius: 50%;
   background: rgba(33, 158, 188, 0.1);
   color: var(--teal-d);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 .ab__chips button.is-on .ab__chipIco {
   background: var(--teal);
   color: #fff;
+  animation: chip-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Onda que sale del ícono activo */
+.ab__chips button.is-on .ab__chipIco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--teal);
+  animation: chip-ring 2.4s ease-out infinite;
+}
+
+@keyframes chip-pop {
+  0% {
+    transform: scale(0.7) rotate(-12deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes chip-ring {
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+/* Barra de tiempo mientras pasa sola */
+.ab__timer {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(244, 246, 252, 0.18);
+  overflow: hidden;
+}
+
+.ab__timer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--teal-l);
+  transform-origin: left;
+  animation: timer var(--ms) linear both;
+}
+
+@keyframes timer {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .ab__chips button:focus-visible {
@@ -918,48 +1000,78 @@ a {
   overflow: hidden;
   display: grid;
   gap: 14px;
-  padding: 22px 20px;
+  padding: 22px 20px 40px;
   border-radius: var(--r);
   background: radial-gradient(120% 90% at 100% 0%, rgba(33, 158, 188, 0.45), transparent 60%), var(--night);
   color: var(--ice);
   box-shadow: 0 20px 44px rgba(5, 10, 48, 0.2);
-  animation: card-in 0.5s var(--ease) both;
 }
 
-.ab__card > *:not(.ripples) {
-  position: relative;
-  z-index: 1;
-  animation: rise 0.5s var(--ease) both;
+.ab__tabsB.is-in .ab__card--fwd {
+  animation: card-fwd 0.55s var(--ease) both;
 }
 
-.ab__card > :nth-child(3) {
-  animation-delay: 0.06s;
+.ab__tabsB.is-in .ab__card--back {
+  animation: card-back 0.55s var(--ease) both;
 }
 
-.ab__card > :nth-child(4) {
-  animation-delay: 0.12s;
-}
-
-.ab__card > :nth-child(5) {
-  animation-delay: 0.18s;
-}
-
-.ab__card .ripples {
-  bottom: 90px;
-  right: 26px;
-  width: 60px;
-  height: 60px;
-}
-
-@keyframes card-in {
+@keyframes card-fwd {
   from {
-    opacity: 0.4;
-    transform: scale(0.97);
+    opacity: 0;
+    transform: translateX(28px) scale(0.98);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: none;
+    filter: none;
   }
+}
+
+@keyframes card-back {
+  from {
+    opacity: 0;
+    transform: translateX(-28px) scale(0.98);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.ab__card > *:not(.ripples):not(.waves) {
+  position: relative;
+  z-index: 1;
+  animation: rise 0.55s var(--ease) both;
+}
+
+.ab__card > :nth-child(3) {
+  animation-delay: 0.08s;
+}
+
+.ab__card > :nth-child(4) {
+  animation-delay: 0.16s;
+}
+
+.ab__card > :nth-child(5) {
+  animation-delay: 0.24s;
+}
+
+.ab__card > :nth-child(6) {
+  animation-delay: 0.32s;
+}
+
+.ab__card .ripples {
+  top: 26px;
+  right: -10px;
+  width: 70px;
+  height: 70px;
+}
+
+.ab__card .waves--card {
+  height: 54px;
 }
 
 .ab__cardTop {
@@ -977,6 +1089,19 @@ a {
   border-radius: 50%;
   background: var(--teal);
   color: #fff;
+  box-shadow: 0 0 0 6px rgba(33, 158, 188, 0.18);
+  animation: ico-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes ico-in {
+  from {
+    transform: rotate(-90deg) scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
 }
 
 .ab__cardTop h3 {
@@ -1016,8 +1141,29 @@ a {
   color: var(--teal-l);
 }
 
+/* Botón con un brillo que lo recorre al cambiar de servicio */
 .ab__cardCta {
+  position: relative;
+  overflow: hidden;
   width: 100%;
+}
+
+.ab__cardCta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-18deg);
+  animation: shine 1.2s ease 0.5s both;
+}
+
+@keyframes shine {
+  to {
+    left: 120%;
+  }
 }
 
 .ms__label {
@@ -1781,6 +1927,15 @@ a {
   .stones .rings,
   .stones .steam {
     display: none;
+  }
+
+  /* Sin animaciones, todo lo que entra al aparecer se muestra directamente */
+  .js-anim > *,
+  .js-anim li,
+  .ab__tabsB.js-anim .ab__chips button,
+  .ab__tabsB.js-anim .ab__card {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

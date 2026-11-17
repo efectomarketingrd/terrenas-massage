@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Dict } from "@/lib/content";
 import { bookPath, type Locale } from "@/lib/site";
 import InView from "./InView";
 import { Arrow, MassageIcon } from "./Icons";
-import { Ripples } from "./Water";
+import { Ripples, Waves } from "./Water";
 
 // Sección 2 · Nuestros masajes (sin precios: están en la agenda).
-// Vista previa de diseños: ?masajes=a (acordeón animado) | b (selector + tarjeta)
-export default function About({ t, lang, variant = "a" }: { t: Dict; lang: Locale; variant?: "a" | "b" }) {
+// Diseño B (selector + tarjeta animada) por defecto; ?masajes=a muestra el acordeón para comparar.
+export default function About({ t, lang, variant = "b" }: { t: Dict; lang: Locale; variant?: "a" | "b" }) {
   const c = t.about;
   const bookWord = lang === "es" ? "Reservar" : "Book";
   const items = [
@@ -27,7 +27,40 @@ export default function About({ t, lang, variant = "a" }: { t: Dict; lang: Local
   ];
   const [open, setOpen] = useState<string>(items[0].k);
   const [sel, setSel] = useState<string>(items[0].k);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const [auto, setAuto] = useState(true); // pasa sola hasta que el visitante toque un servicio
+  const [visible, setVisible] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
   const cur = items.find((i) => i.k === sel) ?? items[0];
+  const idx = items.findIndex((i) => i.k === sel);
+  const AUTO_MS = 6000;
+
+  const choose = (k: string, user = true) => {
+    const n = items.findIndex((i) => i.k === k);
+    setDir(n >= idx ? 1 : -1);
+    setSel(k);
+    if (user) setAuto(false);
+  };
+
+  // Solo avanza sola mientras la sección está en pantalla y sin "reducir movimiento"
+  useEffect(() => {
+    const el = box.current;
+    if (!el || variant !== "b") return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { threshold: 0.35 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [variant]);
+
+  useEffect(() => {
+    if (!auto || !visible || variant !== "b") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setTimeout(() => {
+      setDir(1);
+      setSel(items[(idx + 1) % items.length].k);
+    }, AUTO_MS);
+    return () => window.clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auto, visible, sel, variant]);
 
   // Medidor de presión: se llena con animación al mostrarse
   const Meter = ({ n, light = false }: { n: number; light?: boolean }) => (
@@ -89,56 +122,60 @@ export default function About({ t, lang, variant = "a" }: { t: Dict; lang: Local
           </InView>
         )}
 
-        {/* B · Selector de iconos + tarjeta grande */}
+        {/* B · Selector de iconos + tarjeta grande animada */}
         {variant === "b" && (
-          <InView className="ab__tabsB">
-            <div className="ab__chips" role="tablist" aria-label={c.title}>
-              {items.map((it, i) => (
-                <button
-                  key={it.k}
-                  type="button"
-                  role="tab"
-                  aria-selected={sel === it.k}
-                  aria-controls="ab-card"
-                  className={sel === it.k ? "is-on" : ""}
-                  style={{ "--i": i } as React.CSSProperties}
-                  onClick={() => setSel(it.k)}
-                >
-                  <span className="ab__chipIco">
-                    <MassageIcon k={it.k} size={22} />
-                  </span>
-                  <span>{it.t}</span>
-                </button>
-              ))}
-            </div>
-            <div id="ab-card" role="tabpanel" className="ab__card" key={cur.k}>
-              <Ripples />
-              <div className="ab__cardTop">
-                <span className="ab__cardIco">
-                  <MassageIcon k={cur.k} size={28} />
-                </span>
-                <div>
-                  <h3>{cur.t}</h3>
-                  <p>{cur.tag}</p>
-                </div>
+          <div ref={box}>
+            <InView className="ab__tabsB">
+              <div className="ab__chips" role="tablist" aria-label={c.title}>
+                {items.map((it, i) => (
+                  <button
+                    key={it.k}
+                    type="button"
+                    role="tab"
+                    aria-selected={sel === it.k}
+                    aria-controls="ab-card"
+                    className={sel === it.k ? "is-on" : ""}
+                    style={{ "--i": i } as React.CSSProperties}
+                    onClick={() => choose(it.k)}
+                  >
+                    <span className="ab__chipIco">
+                      <MassageIcon k={it.k} size={22} />
+                    </span>
+                    <span className="ab__chipT">{it.t}</span>
+                    {sel === it.k && auto && visible && <span className="ab__timer" key={`t-${sel}`} style={{ "--ms": `${AUTO_MS}ms` } as React.CSSProperties} aria-hidden="true" />}
+                  </button>
+                ))}
               </div>
-              {cur.p > 0 && (
-                <div className="ab__press ab__press--light">
-                  <span>{c.pressure}</span>
-                  <Meter n={cur.p} light />
+              <div id="ab-card" role="tabpanel" aria-live="polite" className={`ab__card ${dir === 1 ? "ab__card--fwd" : "ab__card--back"}`} key={cur.k}>
+                <Ripples />
+                <div className="ab__cardTop">
+                  <span className="ab__cardIco">
+                    <MassageIcon k={cur.k} size={28} />
+                  </span>
+                  <div>
+                    <h3>{cur.t}</h3>
+                    <p>{cur.tag}</p>
+                  </div>
                 </div>
-              )}
-              <p className="ab__cardD">{cur.d}</p>
-              {cur.ideal && (
-                <p className="ab__cardIdeal">
-                  <b>{c.idealFor}:</b> {cur.ideal}
-                </p>
-              )}
-              <a className="btn btn--teal ab__cardCta" href={cur.href}>
-                {cur.cta} <Arrow size={14} />
-              </a>
-            </div>
-          </InView>
+                {cur.p > 0 && (
+                  <div className="ab__press ab__press--light">
+                    <span>{c.pressure}</span>
+                    <Meter n={cur.p} light />
+                  </div>
+                )}
+                <p className="ab__cardD">{cur.d}</p>
+                {cur.ideal && (
+                  <p className="ab__cardIdeal">
+                    <b>{c.idealFor}:</b> {cur.ideal}
+                  </p>
+                )}
+                <a className="btn btn--teal ab__cardCta" href={cur.href}>
+                  {cur.cta} <Arrow size={14} />
+                </a>
+                <Waves cls="waves--card" />
+              </div>
+            </InView>
+          </div>
         )}
       </div>
     </section>
