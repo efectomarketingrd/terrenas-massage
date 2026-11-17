@@ -36,7 +36,7 @@ export default function BusinessSchema({ lang, description }: { lang: Locale; de
     ],
     priceRange: "RD$3,500 – RD$15,000",
     currenciesAccepted: "DOP, USD, EUR",
-    paymentAccepted: "Cash, Credit Card, Bank Transfer, Zelle",
+    paymentAccepted: "Cash, Credit Card, Bank Transfer, Zelle, Wise, Remitly, Western Union",
     areaServed: [
       { "@type": "Place", name: "Las Terrenas" },
       { "@type": "Place", name: "El Limón" },

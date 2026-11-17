@@ -546,7 +546,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               {type === "pareja" ? ` · ${b.forTwo}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ""}
             </span>
           </div>
-          <p className="bk-note">{b.pay}</p>
+          <p className="bk-note">{atHome ? b.payHome : b.pay}</p>
           <div className="bk-send">
             <a className="btn btn--teal" href={waLink(message())} target="_blank" rel="noopener noreferrer">
               <WaIcon /> {b.sendWa}

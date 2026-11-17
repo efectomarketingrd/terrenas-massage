@@ -31,6 +31,7 @@ npm run build && npx next start -p 3200
 - `lib/site.ts` — contacto, WhatsApp 18293710276, horario (todos los días, feriados incluidos, 9:00–19:00; 19:00 es la última hora de inicio).
 - `lib/prices.ts` — precios RD$ y US$ (tasa `usdRate`).
 - `lib/content.ts` — todos los textos ES/EN.
+- Pagos: en el spa tarjeta (Verifone), efectivo RD$/US$/€, transferencia, Zelle. A domicilio (por adelantado): transferencia, Zelle, Wise, Remitly, Western Union; tarjeta dominicana solo por enlace de pago; tarjetas extranjeras solo en persona en el spa.
 - A domicilio: solo Las Terrenas y El Limón; resto de la provincia de Samaná solo para grupos grandes bajo solicitud. En hoteles, resorts y residenciales el cliente debe avisar antes a la administración (algunos no permiten servicios externos): aparece en spa/villa, preguntas, agenda y políticas.
 
 ## Estado
