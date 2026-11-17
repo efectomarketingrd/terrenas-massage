@@ -4,6 +4,8 @@
 // ─────────────────────────────────────────────────────────────
 export const payments = {
   remitly: "https://remitly.com/pay/omarh1185",
+  // Cómo aparece la cuenta al abrir Remitly (se avisa en la web para que el cliente no se sorprenda)
+  remitlyAccount: { name: "OMAR H", handle: "@omarh1185", initials: "OH" },
   cardLink: "", // pendiente: enlace de pago para tarjetas dominicanas
   // Datos para transferencia bancaria (pendiente). Ejemplo:
   // bank: { holder: "Nombre del titular", bank: "Banco Popular", accounts: [{ cur: "RD$", type: "Ahorro", number: "000000000" }] },

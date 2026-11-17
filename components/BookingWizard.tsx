@@ -5,9 +5,11 @@ import { useSearchParams } from "next/navigation";
 import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
 import { reservaUrl } from "@/lib/reserva";
+import { serviceLabel, type ServiceSel } from "@/lib/service";
 import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
 import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
-import { Clock, ExpIcon, WaIcon } from "./Icons";
+import { Clock, ExpIcon, PayIcon, WaIcon } from "./Icons";
+import { Ripples } from "./Water";
 
 const TYPES: BookType[] = ["individual", "pareja", "domicilio", "grupo"];
 const PRESS: Pressure[] = ["relajante", "profundo", "descontracturante"];
@@ -136,18 +138,8 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
     return { wd: rel || wd, md, full: `${rel ? rel + ", " : ""}${wd} ${md}` };
   };
 
-  const serviceText = useMemo(() => {
-    const parts: string[] = [b.types[type].t];
-    if (type === "pareja") {
-      parts.push(`Ritual Connection ${b.ritualOpts[ritual].t}`);
-      if (ritual === "basic") parts.push(m.names[massage]);
-    } else {
-      parts.push(m.names[massage]);
-      if (type === "individual" || (type === "grupo" && place === "spa")) parts.push(m.levels[level]);
-    }
-    parts.push(`${type === "pareja" && ritual === "premium" ? 60 : min} min`);
-    return parts.join(" · ");
-  }, [b, m, type, ritual, massage, place, level, min]);
+  const svcSel: ServiceSel = { type, massage, level, min, ritual, place, people, zone };
+  const serviceText = serviceLabel(t, svcSel);
 
   const priceText = () => {
     const base = `${fmtRd(price.total)} (${fmtUsd(price.total)})`;
@@ -160,18 +152,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   const due = type === "domicilio" ? price.total : type === "grupo" || (type === "pareja" && ritual === "premium") ? Math.round(price.total / 2) : 0;
   const confirmUrl = () =>
     date && time
-      ? reservaUrl({
-          l: lang,
-          n: form.name,
-          s: [serviceText, (type === "grupo" || type === "domicilio") && people > 1 ? `${people} ${b.people.toLowerCase()}` : "", atHome ? b.zones[zone] : ""].filter(Boolean).join(" · "),
-          d: date,
-          h: time,
-          dom: atHome ? 1 : 0,
-          t: price.total,
-          due,
-          est: price.estimate ? 1 : 0,
-          ok: 1,
-        })
+      ? reservaUrl({ l: lang, n: form.name, sel: svcSel, d: date, h: time, t: price.total, due, est: price.estimate ? 1 : 0, ok: 1 })
       : "";
 
   const message = () => {
@@ -532,7 +513,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               </dt>
               <dd>
                 {serviceText}
-                {(type === "grupo" || type === "domicilio") && ` · ${people} ${b.people.toLowerCase()}`}
+                {(type === "grupo" || type === "domicilio") && people > 1 && ` · ${people} ${b.people.toLowerCase()}`}
                 {type === "grupo" && ` · ${therapists} ${b.therapists.toLowerCase()} · ${b.events[event]}`}
                 {atHome && ` · ${b.zones[zone]}`}
                 {type === "pareja" && occasion !== "none" && ` · ${b.occasions[occasion]}`}
@@ -560,15 +541,48 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               </dd>
             </div>
           </dl>
-          <div className="bk-total">
-            <small>{price.estimate ? b.estimate : b.total}</small>
-            <b>{fmtRd(price.total)}</b>
-            <span>
-              {fmtUsd(price.total)}
-              {type === "pareja" ? ` · ${b.forTwo}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ""}
-            </span>
+          {/* Ticket con el precio */}
+          <div className="tk">
+            <div className="tk__top">
+              <Ripples />
+              <small>{price.estimate ? b.estimate : b.total}</small>
+              <b>{fmtRd(price.total)}</b>
+              <span>
+                ≈ {fmtUsd(price.total)}
+                {type === "pareja" ? ` · ${b.forTwo}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ` · ${b.perPerson}`}
+              </span>
+            </div>
+            <div className="tk__cut" aria-hidden="true" />
+            <div className="tk__bot">
+              {due > 0 && due === price.total ? (
+                <span className="tk__lbl tk__lbl--warn">{b.payFull}</span>
+              ) : due > 0 ? (
+                <>
+                  <span className="tk__lbl">{atHome ? b.payNow : b.deposit50}</span>
+                  <b className="tk__due">
+                    {fmtRd(due)} <small>≈ {fmtUsd(due)}</small>
+                  </b>
+                </>
+              ) : (
+                <span className="tk__lbl tk__lbl--ok">✓ {b.payLater}</span>
+              )}
+            </div>
           </div>
-          <p className="bk-note">{atHome ? b.payHome : b.pay}</p>
+
+          {/* Formas de pago */}
+          <div className="bk-pay">
+            <p className="ms__label">{b.howPay}</p>
+            <ul className="bk-pay__chips">
+              {(["cash", "card", "bank", "remitly"] as const).map((k, i) => (
+                <li key={k} style={{ "--i": i } as React.CSSProperties}>
+                  <PayIcon k={k} />
+                  <span>{b.payChips[k]}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="bk-note">{atHome ? `${t.pay.dueDom} ${b.payChipsNote}` : b.payChipsNote}</p>
+          </div>
+
           <div className="bk-send">
             <a className="btn btn--teal" href={waLink(message())} target="_blank" rel="noopener noreferrer">
               <WaIcon /> {b.sendWa}
@@ -577,7 +591,19 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
               {b.sendMail}
             </a>
           </div>
-          <p className="bk-note bk-note--c">{b.sentNote}</p>
+
+          {/* Qué pasa después */}
+          <div className="bk-next">
+            <p className="ms__label">{b.nextTitle}</p>
+            <ol>
+              {b.nextSteps.map((x, i) => (
+                <li key={x}>
+                  <span>{i + 1}</span>
+                  {x}
+                </li>
+              ))}
+            </ol>
+          </div>
           <button type="button" className="bk-more" onClick={() => go(3)}>
             {b.back}
           </button>

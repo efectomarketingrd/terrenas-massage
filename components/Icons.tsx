@@ -117,3 +117,15 @@ export function MassageIcon({ k, size = 24 }: { k: string; size?: number }) {
     </svg>
   );
 }
+
+// Iconos de formas de pago
+export function PayIcon({ k, size = 20 }: { k: string; size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" className="ic-line">
+      {k === "cash" && <><rect x="3" y="6.5" width="18" height="11" rx="2" /><circle cx="12" cy="12" r="2.6" /><path d="M6 9.5v5M18 9.5v5" /></>}
+      {k === "card" && <><rect x="3" y="5.5" width="18" height="13" rx="2.5" /><path d="M3 10h18M7 15h4" /></>}
+      {k === "bank" && <><path d="M3.5 9 12 4.5 20.5 9" /><path d="M5.5 10v7M10 10v7M14 10v7M18.5 10v7M3.5 19.5h17" /></>}
+      {k === "remitly" && <path d="M4 12.5 20 5l-5.5 15-3-6.5Zm7.5 1L20 5" />}
+    </svg>
+  );
+}

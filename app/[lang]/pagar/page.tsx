@@ -6,6 +6,7 @@ import { fmtTime } from "@/lib/agenda";
 import { fmtRd, fmtUsd } from "@/lib/prices";
 import { payments, payPath } from "@/lib/payments";
 import { readReserva } from "@/lib/reserva";
+import { serviceLabel } from "@/lib/service";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CopyBtn from "@/components/CopyBtn";
@@ -45,8 +46,10 @@ export default async function PayPage({ params, searchParams }: { params: Promis
       })()
     : "";
   const amount = r ? (r.due > 0 ? r.due : r.t) : 0;
+  const svc = r ? serviceLabel(t, r.sel, true) : "";
+  const dom = r ? r.sel.type === "domicilio" || (r.sel.type === "grupo" && r.sel.place === "domicilio") : false;
   const proofText = r
-    ? `${p.proofMsg}\n\n${p.name}: ${r.n}\n${p.service}: ${r.s}\n${p.when}: ${day}, ${fmtTime(r.h, lang)}\n${r.due > 0 ? p.dueNow : p.total}: ${fmtRd(amount)} (${fmtUsd(amount)})`
+    ? `${p.proofMsg}\n\n${p.name}: ${r.n}\n${p.service}: ${svc}\n${p.when}: ${day}, ${fmtTime(r.h, lang)}\n${r.due > 0 ? p.dueNow : p.total}: ${fmtRd(amount)} (${fmtUsd(amount)})`
     : p.proofMsg;
   const other = lang === "es" ? "en" : "es";
 
@@ -81,7 +84,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
               </div>
               <div>
                 <dt>{p.service}</dt>
-                <dd>{r.s}</dd>
+                <dd>{svc}</dd>
               </div>
               <div>
                 <dt>{p.when}</dt>
@@ -91,7 +94,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
               </div>
               <div>
                 <dt>{p.place}</dt>
-                <dd>{r.dom ? p.places.dom : p.places.spa}</dd>
+                <dd>{dom ? p.places.dom : p.places.spa}</dd>
               </div>
               <div>
                 <dt>{p.total}</dt>
@@ -107,7 +110,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
               <span>
                 {p.amountUsd} {fmtUsd(amount)}
               </span>
-              <p>{r.dom ? p.dueDom : r.due > 0 ? p.dueDeposit : p.dueLater}</p>
+              <p>{dom ? p.dueDom : r.due > 0 ? p.dueDeposit : p.dueLater}</p>
             </div>
           </section>
         )}
@@ -128,6 +131,22 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                   <>
                     <h3>{p.remitly.t}</h3>
                     <p>{p.remitly.d}</p>
+                    <div className="pay__acct" role="note">
+                      <span className="pay__avatar" aria-hidden="true">
+                        {payments.remitlyAccount.initials}
+                      </span>
+                      <div>
+                        <small>{p.remitly.noticeT}</small>
+                        <b>{payments.remitlyAccount.name}</b>
+                        <span>{payments.remitlyAccount.handle}</span>
+                      </div>
+                      <p>{p.remitly.notice}</p>
+                    </div>
+                    <ol className="pay__steps">
+                      {p.remitly.steps.map((x) => (
+                        <li key={x}>{x}</li>
+                      ))}
+                    </ol>
                     <a className="btn btn--night btn--sm" href={payments.remitly} target="_blank" rel="noopener noreferrer">
                       {p.remitly.btn} <Arrow size={14} />
                     </a>
