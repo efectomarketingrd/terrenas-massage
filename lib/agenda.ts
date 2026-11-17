@@ -8,6 +8,7 @@ export const agenda = {
   open: "09:00",
   lastStart: "19:00", // última hora en que puede INICIAR un masaje
   step: 60, // minutos entre una hora y la siguiente (9:00, 10:00 … 19:00)
+  todayStep: 30, // el mismo día se ofrecen también las medias horas (6:00, 6:30 …) para reservas de último momento
 
   // Anticipación mínima que acepta la agenda (minutos). Los textos siguen diciendo "1 hora":
   // se permite reservar con 30 min para dar más opciones, y el spa confirma sí o no.
@@ -43,9 +44,9 @@ const toMin = (hhmm: string) => {
 };
 
 /** Todas las horas de inicio del día (09:00 … 19:00). */
-export function allTimes() {
+export function allTimes(step: number = agenda.step) {
   const out: string[] = [];
-  for (let m = toMin(agenda.open); m <= toMin(agenda.lastStart); m += agenda.step) out.push(`${pad(Math.floor(m / 60))}:${pad(m % 60)}`);
+  for (let m = toMin(agenda.open); m <= toMin(agenda.lastStart); m += step) out.push(`${pad(Math.floor(m / 60))}:${pad(m % 60)}`);
   return out;
 }
 
@@ -56,7 +57,8 @@ export function timesFor(date: string) {
   const now = nowDR();
   const today = ymd(now);
   const nowMin = now.getUTCHours() * 60 + now.getUTCMinutes();
-  return allTimes().filter((t) => !blocked.includes(t) && (date !== today || toMin(t) >= nowMin + agenda.minNotice));
+  if (date === today) return allTimes(agenda.todayStep).filter((t) => !blocked.includes(t) && toMin(t) >= nowMin + agenda.minNotice);
+  return allTimes().filter((t) => !blocked.includes(t));
 }
 
 /** Próximos días reservables (incluye hoy si aún quedan horas). */
