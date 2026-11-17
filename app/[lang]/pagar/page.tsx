@@ -53,7 +53,6 @@ export default async function PayPage({ params, searchParams }: { params: Promis
   const methods = [
     { k: "cash", show: true },
     { k: "remitly", show: !!payments.remitly },
-    { k: "wise", show: !!payments.wise },
     { k: "card", show: !!payments.cardLink },
     { k: "bank", show: true },
   ].filter((m) => m.show);
@@ -131,15 +130,6 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                     <p>{p.remitly.d}</p>
                     <a className="btn btn--night btn--sm" href={payments.remitly} target="_blank" rel="noopener noreferrer">
                       {p.remitly.btn} <Arrow size={14} />
-                    </a>
-                  </>
-                )}
-                {m.k === "wise" && (
-                  <>
-                    <h3>{p.wise.t}</h3>
-                    <p>{p.wise.d}</p>
-                    <a className="btn btn--night btn--sm" href={payments.wise} target="_blank" rel="noopener noreferrer">
-                      {p.wise.btn} <Arrow size={14} />
                     </a>
                   </>
                 )}

@@ -31,7 +31,7 @@ npm run build && npx next start -p 3200
 - `lib/site.ts` — contacto, WhatsApp 18293710276, horario (todos los días, feriados incluidos, 9:00–19:00; 19:00 es la última hora de inicio).
 - `lib/prices.ts` — precios RD$ y US$ (tasa `usdRate`).
 - `lib/content.ts` — todos los textos ES/EN.
-- Pagos (sin Zelle: la cuenta no es del spa). Efectivo primero. En el spa: efectivo RD$/US$/€, tarjeta (Verifone, en persona), transferencia, Wise, Remitly, Western Union. A domicilio (por adelantado): efectivo o tarjeta en el spa, transferencia, Wise, Remitly, Western Union; tarjeta dominicana también por enlace de pago.
+- Pagos (sin Zelle: la cuenta no es del spa; sin Wise: la cuenta de Wise no puede recibir en R.D.; sin Western Union). Efectivo primero. En el spa: efectivo RD$/US$/€, tarjeta (Verifone, en persona), transferencia, Remitly. A domicilio (por adelantado): efectivo o tarjeta en el spa, transferencia, Remitly; tarjeta dominicana también por enlace de pago.
 - A domicilio: solo Las Terrenas y El Limón; resto de la provincia de Samaná solo para grupos grandes bajo solicitud. En hoteles, resorts y residenciales el cliente debe avisar antes a la administración (algunos no permiten servicios externos): aparece en spa/villa, preguntas, agenda y políticas.
 
 ## Estado
@@ -45,7 +45,7 @@ npm run build && npx next start -p 3200
 - Agenda: `/es/reservar` · `/en/book` (`components/BookingWizard.tsx`, días/horas en `lib/agenda.ts`). Envío por WhatsApp y correo (mailto).
 - Políticas aprobadas (`lib/content.ts` → `policies`), visibles en la agenda y en `/es/reservar#politicas` como tarjeta desplegable (`components/Policies.tsx`; se abre sola con #politicas).
 - Agenda: paso 2 con calendario mensual como la clínica (lunes primero, leyenda disponible/no disponible) + horas cada 60 min (9:00–19:00), y el mismo día también medias horas (`todayStep`); la agenda acepta reservas con 30 min de anticipación (`minNotice`) aunque los textos dicen 1 hora, y si es con menos de 1 h el mensaje avisa al spa para confirmar; recuadro azul noche que destaca horario y 1 h de anticipación; el cliente indica su país (opcional).
-- Paga tu masaje: `/es/pagar` · `/en/pay` (`app/[lang]/pagar/page.tsx`). Medios en `lib/payments.ts` (Remitly activo: remitly.com/pay/omarh1185; Wise, enlace de tarjeta dominicana y datos bancarios pendientes; un medio vacío no se muestra). Sin Western Union.
+- Paga tu masaje: `/es/pagar` · `/en/pay` (`app/[lang]/pagar/page.tsx`). Medios en `lib/payments.ts` (Remitly activo: remitly.com/pay/omarh1185; enlace de tarjeta dominicana y datos bancarios pendientes; un medio vacío no se muestra). Sin Wise ni Western Union.
 - Enlace personal de la reserva: `lib/reserva.ts` (datos en el enlace, sin teléfono/correo/dirección) → `/r/<código>` redirige a la página de pago con resumen y monto a pagar (domicilio 100 %, Ritual Premium y grupos 50 %, spa al llegar). El mensaje de la agenda incluye este enlace para que el spa lo reenvíe al confirmar. Página personal sin indexar.
 - Pie de página (`components/Footer.tsx`) en inicio, reservas y pagos; menú y pie enlazan a "Paga tu masaje".
 - Con "reducir movimiento" todo lo que entra animado (.js-anim) se muestra sin animación (regla en globals.css); comprobar que no quede nada invisible.
