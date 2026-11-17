@@ -238,6 +238,7 @@ const es = {
     sentNote: "Tu reserva queda confirmada cuando te respondemos.",
     edit: "Cambiar",
     msgTitle: "Nueva reserva · Terrenas Massage",
+    shortNotice: "⚠️ Reserva con menos de 1 hora de anticipación: por favor confirmar disponibilidad.",
   },
   policies: {
     eyebrow: "Antes de reservar",
@@ -510,6 +511,7 @@ const en: Dict = {
     sentNote: "Your booking is confirmed once we reply.",
     edit: "Change",
     msgTitle: "New booking · Terrenas Massage",
+    shortNotice: "⚠️ Booked less than 1 hour ahead: please confirm availability.",
   },
   policies: {
     eyebrow: "Before you book",

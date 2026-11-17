@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
-import { bookableDays, fmtTime, timesFor, ymd, nowDR } from "@/lib/agenda";
+import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
 import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
 import { Clock, ExpIcon, WaIcon } from "./Icons";
 
@@ -156,8 +156,10 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   };
 
   const message = () => {
+    const short = date && time ? minutesUntil(date, time) < agenda.recommendedNotice : false;
     const L = [
       b.msgTitle,
+      short ? b.shortNotice : "",
       "",
       `${b.service}: ${serviceText}`,
       type === "grupo" || type === "domicilio" ? `${b.people}: ${people}` : "",

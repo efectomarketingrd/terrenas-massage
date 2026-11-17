@@ -9,8 +9,11 @@ export const agenda = {
   lastStart: "19:00", // última hora en que puede INICIAR un masaje
   step: 60, // minutos entre una hora y la siguiente (9:00, 10:00 … 19:00)
 
-  // Anticipación mínima para reservar (minutos)
-  minNotice: 60,
+  // Anticipación mínima que acepta la agenda (minutos). Los textos siguen diciendo "1 hora":
+  // se permite reservar con 30 min para dar más opciones, y el spa confirma sí o no.
+  minNotice: 30,
+  // Anticipación que se comunica al cliente; si reserva con menos, el mensaje lo avisa al spa.
+  recommendedNotice: 60,
 
   // Hasta cuántos días hacia adelante se puede reservar
   maxDaysAhead: 60,
@@ -74,4 +77,12 @@ export function fmtTime(t: string, lang: "es" | "en") {
   const h12 = ((h + 11) % 12) + 1;
   const suf = h < 12 ? (lang === "es" ? "a.\u00a0m." : "am") : lang === "es" ? "p.\u00a0m." : "pm";
   return `${h12}:${pad(m)}\u00a0${suf}`;
+}
+
+/** Minutos que faltan desde ahora (hora de R.D.) hasta una fecha y hora. */
+export function minutesUntil(date: string, time: string) {
+  const [y, mo, d] = date.split("-").map(Number);
+  const [h, m] = time.split(":").map(Number);
+  const target = Date.UTC(y, mo - 1, d, h, m);
+  return Math.round((target - nowDR().getTime()) / 60000);
 }
