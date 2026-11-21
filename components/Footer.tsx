@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Dict } from "@/lib/content";
-import { bookPath, mapsUrl, site, waLink, type Locale } from "@/lib/site";
+import { bookPath, mapsUrl, privacyPath, site, waLink, type Locale } from "@/lib/site";
 import { Clock, FbIcon, IgIcon, Mail, Pin, WaIcon } from "./Icons";
 import { Waves } from "./Water";
 
@@ -38,6 +38,7 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
               <li><a href={bookPath(lang)}>{t.nav.book}</a></li>
               <li><a href={`/${lang}/${lang === "es" ? "pagar" : "pay"}`}>{t.nav.pay}</a></li>
               <li><a href={`${bookPath(lang)}#politicas`}>{f.policies}</a></li>
+              <li><a href={privacyPath(lang)}>{f.privacy}</a></li>
               <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
               <li><a href={site.facebook} target="_blank" rel="noopener noreferrer">Facebook</a></li>
             </ul>

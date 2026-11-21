@@ -302,8 +302,81 @@ const es = {
     address: "Blvd. Turístico del Atlántico, La Ceiba, edificio #6, 2.º nivel, Las Terrenas, Samaná",
     map: "Cómo llegar",
     policies: "Políticas de reserva",
+    privacy: "Privacidad",
     rights: "Todos los derechos reservados.",
     lang: "English version",
+  },
+  privacy: {
+    metaTitle: "Política de privacidad · Terrenas Massage",
+    metaDesc: "Qué datos recibe Terrenas Massage al reservar, para qué los usa, qué cookies utiliza la web y cómo pedir que se borren tus datos.",
+    eyebrow: "Privacidad",
+    title: "Política de privacidad",
+    lead: "Te explicamos de forma sencilla qué datos recibimos, para qué los usamos y cómo puedes pedir que los borremos.",
+    updated: "Última actualización: 21 de noviembre de 2026",
+    sections: [
+      {
+        t: "Quiénes somos",
+        p: [
+          "Terrenas Massage es un spa de masajes en Blvd. Turístico del Atlántico, sector La Ceiba, edificio #6, segundo nivel, Las Terrenas, Samaná, República Dominicana. Somos responsables de los datos que nos envías a través de esta web.",
+        ],
+      },
+      {
+        t: "Qué datos recibimos",
+        p: ["Solo los que tú nos envías al reservar o escribirnos:"],
+        li: [
+          "Nombre, teléfono y, si lo indicas, correo y país.",
+          "Dirección, solo si el masaje es a domicilio.",
+          "El servicio, día y hora que eliges, y las notas que quieras añadir.",
+        ],
+        p2: ["La web no tiene cuentas de usuario ni guarda tus datos en una base de datos: la reserva se arma en tu teléfono y nos llega por WhatsApp o por correo cuando tú la envías."],
+      },
+      {
+        t: "Para qué los usamos",
+        li: [
+          "Confirmar tu reserva y coordinar el masaje (en el spa o a domicilio).",
+          "Gestionar el pago y responder tus preguntas.",
+          "Llevar el registro de nuestros servicios y cumplir nuestras obligaciones contables.",
+        ],
+        p2: ["No vendemos ni compartimos tus datos con otras empresas para su publicidad. Solo te escribiremos sobre tu reserva, salvo que nos pidas recibir otra información."],
+      },
+      {
+        t: "Servicios que intervienen",
+        p: ["Para funcionar usamos servicios de otras empresas, que tratan los datos según sus propias políticas:"],
+        li: [
+          "WhatsApp y correo electrónico (Gmail), por donde nos llega tu reserva.",
+          "Vercel, donde está alojada la web.",
+          "Remitly, si eliges pagar por ese medio.",
+          "Google y Meta, para medir visitas y anuncios (ver Cookies).",
+        ],
+      },
+      {
+        t: "Cookies y medición",
+        p: [
+          "Medimos de forma anónima cuántas personas visitan la web, sin usar cookies.",
+          "Si aceptas en el aviso de cookies, también usamos herramientas de Google (Analytics y Ads) y de Meta (Facebook e Instagram) para saber cómo nos encuentran y si un anuncio termina en una reserva. Si eliges «Solo las necesarias», no se usan esas cookies.",
+          "En tu teléfono guardamos tu elección sobre las cookies y, durante 30 días, de dónde llegaste a la web (por ejemplo, un anuncio), para que tu reserva nos diga cómo nos encontraste.",
+        ],
+      },
+      {
+        t: "Cuánto tiempo los guardamos",
+        p: ["El tiempo necesario para atender tu reserva y cumplir nuestras obligaciones contables. Después los borramos o los dejamos de usar."],
+      },
+      {
+        t: "Tus derechos",
+        p: [
+          "Puedes pedirnos en cualquier momento ver los datos que tenemos sobre ti, corregirlos o borrarlos, conforme a la Ley 172-13 sobre protección de datos personales de la República Dominicana. Si nos visitas desde la Unión Europea, también puedes ejercer los derechos que te da el RGPD.",
+          "Para hacerlo, escríbenos por WhatsApp o al correo de abajo. Te respondemos lo antes posible.",
+        ],
+      },
+      {
+        t: "Cambios",
+        p: ["Si cambiamos esta política, publicaremos la nueva versión en esta página con su fecha."],
+      },
+    ],
+    contactTitle: "¿Preguntas sobre tus datos?",
+    wa: "Escribir por WhatsApp",
+    waMsg: "Hola, tengo una pregunta sobre mis datos personales.",
+    more: "Más información",
   },
   pay: {
     metaTitle: "Paga tu masaje · Terrenas Massage",
@@ -651,8 +724,81 @@ const en: Dict = {
     address: "Blvd. Turístico del Atlántico, La Ceiba, building #6, 2nd floor, Las Terrenas, Samaná",
     map: "Get directions",
     policies: "Booking policies",
+    privacy: "Privacy",
     rights: "All rights reserved.",
     lang: "Versión en español",
+  },
+  privacy: {
+    metaTitle: "Privacy policy · Terrenas Massage",
+    metaDesc: "What data Terrenas Massage receives when you book, what it is used for, which cookies the site uses and how to ask us to delete your data.",
+    eyebrow: "Privacy",
+    title: "Privacy policy",
+    lead: "A plain explanation of what data we receive, what we use it for and how you can ask us to delete it.",
+    updated: "Last updated: November 21, 2026",
+    sections: [
+      {
+        t: "Who we are",
+        p: [
+          "Terrenas Massage is a massage spa at Blvd. Turístico del Atlántico, La Ceiba area, building #6, second floor, Las Terrenas, Samaná, Dominican Republic. We are responsible for the data you send us through this website.",
+        ],
+      },
+      {
+        t: "What data we receive",
+        p: ["Only what you send us when you book or contact us:"],
+        li: [
+          "Your name, phone number and, if you choose, your email and country.",
+          "Your address, only for massages at your villa or hotel.",
+          "The service, day and time you choose, and any notes you add.",
+        ],
+        p2: ["The website has no user accounts and does not store your data in a database: your booking is put together on your phone and reaches us by WhatsApp or email when you send it."],
+      },
+      {
+        t: "What we use it for",
+        li: [
+          "Confirming your booking and arranging your massage (at the spa or at your place).",
+          "Handling payment and answering your questions.",
+          "Keeping a record of our services and meeting our accounting obligations.",
+        ],
+        p2: ["We do not sell your data or share it with other companies for their advertising. We will only contact you about your booking, unless you ask to receive other information."],
+      },
+      {
+        t: "Services involved",
+        p: ["To run, we use services from other companies, which handle data under their own policies:"],
+        li: [
+          "WhatsApp and email (Gmail), where your booking reaches us.",
+          "Vercel, which hosts the website.",
+          "Remitly, if you choose to pay that way.",
+          "Google and Meta, to measure visits and ads (see Cookies).",
+        ],
+      },
+      {
+        t: "Cookies and measurement",
+        p: [
+          "We count visits to the website anonymously, without cookies.",
+          "If you accept in the cookie notice, we also use tools from Google (Analytics and Ads) and Meta (Facebook and Instagram) to learn how people find us and whether an ad leads to a booking. If you choose “Only necessary”, those cookies are not used.",
+          "On your phone we store your cookie choice and, for 30 days, where you came to the website from (for example, an ad), so your booking tells us how you found us.",
+        ],
+      },
+      {
+        t: "How long we keep it",
+        p: ["As long as needed to handle your booking and meet our accounting obligations. After that we delete it or stop using it."],
+      },
+      {
+        t: "Your rights",
+        p: [
+          "You can ask us at any time to see the data we hold about you, correct it or delete it, under Dominican Law 172-13 on personal data protection. If you visit us from the European Union, you can also exercise your rights under the GDPR.",
+          "To do so, message us on WhatsApp or at the email below. We will reply as soon as possible.",
+        ],
+      },
+      {
+        t: "Changes",
+        p: ["If we change this policy, we will publish the new version on this page with its date."],
+      },
+    ],
+    contactTitle: "Questions about your data?",
+    wa: "Message us on WhatsApp",
+    waMsg: "Hi, I have a question about my personal data.",
+    more: "Learn more",
   },
   pay: {
     metaTitle: "Pay for your massage · Terrenas Massage",

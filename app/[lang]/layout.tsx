@@ -6,7 +6,7 @@ import "@fontsource/open-sans/600.css";
 import "@fontsource/open-sans/700.css";
 import "../globals.css";
 import { dictionaries } from "@/lib/content";
-import { locales, site, type Locale } from "@/lib/site";
+import { locales, privacyPath, site, type Locale } from "@/lib/site";
 import Analytics from "@/components/Analytics";
 
 // Solo existen /es y /en: cualquier otra ruta de primer nivel da 404.
@@ -47,7 +47,7 @@ export default async function LangLayout({ children, params }: { children: React
     <html lang={lang}>
       <body>
         {children}
-        <Analytics c={dictionaries[lang as Locale].consent} />
+        <Analytics c={{ ...dictionaries[lang as Locale].consent, more: dictionaries[lang as Locale].privacy.more, href: privacyPath(lang as Locale) }} />
       </body>
     </html>
   );

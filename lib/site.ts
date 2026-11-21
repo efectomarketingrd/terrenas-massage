@@ -29,6 +29,9 @@ export const waLink = (text: string) => `https://wa.me/${site.whatsapp}?text=${e
 export const bookPath = (lang: Locale, q = "") => `/${lang}/${lang === "es" ? "reservar" : "book"}${q ? `?${q}` : ""}`;
 
 // Perfil de Google del spa (abre el lugar exacto en Google Maps, con la ruta).
+/** Política de privacidad en cada idioma (/es/privacidad · /en/privacy). */
+export const privacyPath = (lang: Locale) => `/${lang}/${lang === "es" ? "privacidad" : "privacy"}`;
+
 export const mapsUrl = "https://share.google/vdUnDXdpuNsyRW4Yq";
 
 /**

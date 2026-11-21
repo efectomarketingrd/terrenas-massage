@@ -6,6 +6,7 @@ const pages = [
   { es: "/es", en: "/en", priority: 1 },
   { es: "/es/reservar", en: "/en/book", priority: 0.9 },
   { es: "/es/pagar", en: "/en/pay", priority: 0.5 },
+  { es: "/es/privacidad", en: "/en/privacy", priority: 0.2 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

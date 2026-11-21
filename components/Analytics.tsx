@@ -6,7 +6,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { tracking } from "@/lib/site";
 import { actionFor, saveOrigin, track } from "@/lib/track";
 
-type Texts = { text: string; accept: string; reject: string };
+type Texts = { text: string; accept: string; reject: string; more: string; href: string };
 
 const KEY = "tm_consent";
 const read = () => {
@@ -76,7 +76,9 @@ gtag('js',new Date());${ids.map((id) => `gtag('config','${id}');`).join("")}`}
       )}
       {any && consent === null && (
         <div className="ck" role="dialog" aria-live="polite" aria-label={c.text}>
-          <p>{c.text}</p>
+          <p>
+            {c.text} <a href={c.href}>{c.more}</a>
+          </p>
           <div className="ck__btns">
             <button type="button" className="btn btn--teal" onClick={() => choose("yes")}>
               {c.accept}

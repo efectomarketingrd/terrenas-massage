@@ -3746,6 +3746,11 @@ textarea.bk-input {
   margin: 0;
 }
 
+.ck p a {
+  font-weight: 700;
+  color: var(--teal-d);
+}
+
 .ck__btns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3756,4 +3761,95 @@ textarea.bk-input {
   min-height: 42px;
   padding: 0 10px;
   font-size: 0.8rem;
+}
+
+/* ───────── Política de privacidad ───────── */
+.pv {
+  position: relative;
+  margin-top: -32px;
+  padding: 20px 18px 8px;
+  border-radius: var(--r);
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 44px rgba(5, 10, 48, 0.1);
+}
+
+.pv__date {
+  margin: 0 0 6px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--teal-d);
+}
+
+.pv__sec {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.pv__sec:last-child {
+  border-bottom: 0;
+}
+
+.pv__sec h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.pv__sec h2 span {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--ice);
+  font-size: 0.76rem;
+  color: var(--teal-d);
+}
+
+.pv__sec p,
+.pv__sec li {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.pv__sec p {
+  margin: 0 0 8px;
+}
+
+.pv__sec ul {
+  margin: 0 0 8px;
+  padding-left: 20px;
+}
+
+.pv__contact {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  margin: 22px 0 40px;
+  padding: 20px 18px;
+  border-radius: var(--r);
+  background: var(--night);
+  text-align: center;
+  color: var(--ice);
+}
+
+.pv__ct {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.pv__mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--teal-l);
+  overflow-wrap: anywhere;
 }
