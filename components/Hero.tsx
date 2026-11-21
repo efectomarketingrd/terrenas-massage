@@ -13,9 +13,9 @@ export default function Hero({ t, lang }: { t: Dict; lang: Locale }) {
       <Header t={t} lang={lang} tone="dark" logo={false} />
       <Ripples />
       <div className="hA__body rise">
-        <p className="eyebrow">{t.hero.eyebrow}</p>
+        <h1 className="eyebrow">{t.hero.eyebrow}</h1>
         <Image className="hA__logo" src="/brand/terrenas-massage-blanco.png" alt="Terrenas Massage · Relax your body" width={824} height={180} priority sizes="(max-width: 480px) 82vw, 380px" />
-        <h1 className="hA__title">{t.hero.title}</h1>
+        <p className="hA__title">{t.hero.title}</p>
         <p className="hA__text">{t.hero.text}</p>
         <div className="btns">
           <a className="btn btn--teal" href={bookPath(lang)}>

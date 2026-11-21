@@ -21,6 +21,7 @@ export default function Header({ t, lang, tone = "dark", logo = true, altHref }:
     { href: `/${lang}#lugar`, label: t.nav.places },
     { href: `/${lang}#grupos`, label: t.nav.groups },
     { href: `/${lang}#opiniones`, label: t.nav.reviews },
+    { href: `/${lang}#ubicacion`, label: t.nav.location },
     { href: `/${lang}#preguntas`, label: t.nav.faq },
     { href: `/${lang}/${lang === "es" ? "pagar" : "pay"}`, label: t.nav.pay },
   ];
@@ -38,7 +39,7 @@ export default function Header({ t, lang, tone = "dark", logo = true, altHref }:
       </Link>
       <div className="hd__right">
         {/* Enlace normal (recarga completa) para que el otro idioma abra arriba */}
-        <a className="hd__lang" href={altHref ?? `/${other}`} hrefLang={other} aria-label={t.nav.lang}>
+        <a className="hd__lang" href={altHref ?? `/${other}`} hrefLang={other} aria-label={`${t.nav.langShort} · ${t.nav.lang}`}>
           {t.nav.langShort}
         </a>
         <button type="button" className="hd__burger" aria-expanded={open} aria-controls="menu" onClick={() => setOpen(true)}>

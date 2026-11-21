@@ -7,6 +7,7 @@ import "@fontsource/open-sans/700.css";
 import "../globals.css";
 import { dictionaries } from "@/lib/content";
 import { locales, site, type Locale } from "@/lib/site";
+import Analytics from "@/components/Analytics";
 
 // Solo existen /es y /en: cualquier otra ruta de primer nivel da 404.
 export const dynamicParams = false;
@@ -44,7 +45,10 @@ export default async function LangLayout({ children, params }: { children: React
   if (!locales.includes(lang as Locale)) notFound();
   return (
     <html lang={lang}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics c={dictionaries[lang as Locale].consent} />
+      </body>
     </html>
   );
 }

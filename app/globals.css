@@ -4,7 +4,9 @@
 
 :root {
   --teal: #219ebc;
-  --teal-d: #1b8aa5;
+  --teal-d: #177a93; /* texto turquesa sobre claro (contraste AA) */
+  --teal-btn: #187c95; /* fondo de botones con texto blanco (contraste AA) */
+  --teal-btn-h: #136a80;
   --teal-l: #8fd3e4;
   --ice: #f4f6fc;
   --night: #050a30;
@@ -113,13 +115,13 @@ a {
 }
 
 .btn--teal {
-  background: var(--teal);
+  background: var(--teal-btn);
   color: #fff;
   box-shadow: 0 10px 26px rgba(33, 158, 188, 0.35);
 }
 
 .btn--teal:hover {
-  background: var(--teal-d);
+  background: var(--teal-btn-h);
 }
 
 .btn--ghost {
@@ -2471,10 +2473,293 @@ a {
   .js-anim > *,
   .js-anim li,
   .ab__tabsB.js-anim .ab__chips button,
-  .ab__tabsB.js-anim .ab__card {
+  .ab__tabsB.js-anim .ab__card,
+  .lc-mapbox.js-anim .lc-poi,
+  .lc-mapbox.js-anim .lc-pin__drop {
     opacity: 1 !important;
     transform: none !important;
   }
+
+  .lc-mapbox.js-anim .lc-roads path {
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+/* Sección · Cómo llegar */
+.lc {
+  background: #fff;
+}
+
+.lc-map {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(5, 10, 48, 0.08);
+  text-decoration: none;
+  color: inherit;
+}
+
+.lc-map__art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lc-map__card {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.lc-map__card strong {
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.lc-map__card > span:not(.btn) {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.lc-map__btn {
+  justify-self: start;
+  margin-top: 6px;
+}
+
+/* Animación del mapa: empieza al aparecer en pantalla */
+.lc-mapbox.js-anim .lc-roads path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.lc-mapbox.is-in .lc-roads path {
+  animation: lc-draw 1.4s var(--ease) 0.2s forwards;
+}
+
+.lc-mapbox.is-in .lc-roads path:nth-child(2) {
+  animation-delay: 0.45s;
+}
+
+.lc-mapbox.is-in .lc-roads path:nth-child(3) {
+  animation-delay: 0.65s;
+}
+
+.lc-mapbox.js-anim .lc-poi,
+.lc-mapbox.js-anim .lc-pin__drop,
+.lc-mapbox.js-anim .lc-pin__ring {
+  opacity: 0;
+}
+
+.lc-mapbox.is-in .lc-poi {
+  animation: rise 0.6s ease forwards;
+  animation-delay: calc(var(--p, 0) * 0.15s + 0.9s);
+}
+
+.lc-pin__drop {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+.lc-mapbox.is-in .lc-pin__drop {
+  animation: lc-drop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.4s both, lc-bob 2.6s ease-in-out 2.3s infinite;
+}
+
+.lc-pin__ring {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.lc-mapbox.is-in .lc-pin__ring {
+  animation: lc-ring 2.4s ease-out 2.1s infinite;
+}
+
+.lc-mapbox.is-in .lc-pin__ring--2 {
+  animation-delay: 3.3s;
+}
+
+.lc-wave {
+  animation: lc-wave 4s ease-in-out infinite;
+}
+
+.lc-wave--2 {
+  animation-delay: -2s;
+}
+
+@keyframes lc-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes lc-wave {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes lc-drop {
+  from {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes lc-bob {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes lc-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+.lc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lc-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--ice);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--night);
+}
+
+.lc-chips svg {
+  width: 16px;
+  height: 16px;
+  color: var(--teal-d);
+}
+
+.lc-chips li > svg:not(.ic-line) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lc-h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.lc-refs,
+.lc-arrive {
+  margin-top: 26px;
+}
+
+.lc-refs ul,
+.lc-arrive ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lc-refs li,
+.lc-arrive li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--ice);
+}
+
+.lc-refs li > span:last-child,
+.lc-arrive li > span:last-child {
+  display: grid;
+  gap: 2px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.lc-refs b,
+.lc-arrive b {
+  font-size: 0.9rem;
+  color: var(--night);
+}
+
+.lc-refs__ico,
+.lc-arrive__n {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--teal-d);
+}
+
+.lc-refs__ico svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lc-arrive__n {
+  border-radius: 50%;
+  background: var(--night);
+  font-weight: 700;
+  color: #fff;
+}
+
+.lc-refs.js-anim li,
+.lc-arrive.js-anim li {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.lc-refs.is-in li,
+.lc-arrive.is-in li {
+  animation: rise 0.7s var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 0.1s);
+}
+
+.lc-help {
+  width: 100%;
+  margin-top: 22px;
 }
 
 /* ───────── Reservas ───────── */
@@ -3436,4 +3721,39 @@ textarea.bk-input {
   .ft .wrap {
     max-width: 1080px;
   }
+}
+
+/* Aviso de cookies (solo aparece si hay códigos de medición en lib/site.ts) */
+.ck {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 60;
+  display: grid;
+  gap: 10px;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgba(5, 10, 48, 0.25);
+  font-size: 0.84rem;
+  color: var(--night);
+}
+
+.ck p {
+  margin: 0;
+}
+
+.ck__btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ck__btns .btn {
+  min-height: 42px;
+  padding: 0 10px;
+  font-size: 0.8rem;
 }

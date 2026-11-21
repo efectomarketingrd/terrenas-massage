@@ -194,7 +194,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                       </dl>
                     ) : (
                       <p>
-                        <a href={waLink(lang === "es" ? "Hola, ¿me envían los datos para la transferencia del pago de mi masaje?" : "Hi, could you send me the bank details to pay for my massage?")} target="_blank" rel="noopener noreferrer">
+                        <a href={waLink(lang === "es" ? "Hola, ¿me envían los datos para la transferencia del pago de mi masaje?" : "Hi, could you send me the bank details to pay for my massage?")} target="_blank" rel="noopener noreferrer" data-track="bank_details_whatsapp">
                           {p.bank.pending}
                         </a>
                       </p>
@@ -209,7 +209,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
         <section className="pay__proof">
           <h2>{p.proofTitle}</h2>
           <p>{p.proofText}</p>
-          <a className="btn btn--teal" href={waLink(proofText)} target="_blank" rel="noopener noreferrer">
+          <a className="btn btn--teal" href={waLink(proofText)} target="_blank" rel="noopener noreferrer" data-track="proof_whatsapp">
             <WaIcon /> {p.proofBtn}
           </a>
         </section>

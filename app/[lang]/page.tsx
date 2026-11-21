@@ -6,6 +6,7 @@ import Places from "@/components/Places";
 import Groups from "@/components/Groups";
 import Reviews from "@/components/Reviews";
 import Faq from "@/components/Faq";
+import Location from "@/components/Location";
 import BusinessSchema from "@/components/BusinessSchema";
 import Footer from "@/components/Footer";
 
@@ -22,6 +23,7 @@ export default async function Home({ params, searchParams }: { params: Promise<{
       <Places t={t} lang={lang as Locale} />
       <Groups t={t} lang={lang as Locale} />
       <Reviews t={t} lang={lang as Locale} />
+      <Location t={t} lang={lang as Locale} />
       <Faq t={t} lang={lang as Locale} />
       <Footer t={t} lang={lang as Locale} />
     </main>

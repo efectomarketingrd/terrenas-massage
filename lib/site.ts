@@ -28,4 +28,19 @@ export const waLink = (text: string) => `https://wa.me/${site.whatsapp}?text=${e
 /** Página de reservas en cada idioma (/es/reservar · /en/book). */
 export const bookPath = (lang: Locale, q = "") => `/${lang}/${lang === "es" ? "reservar" : "book"}${q ? `?${q}` : ""}`;
 
-export const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Blvd. Turístico del Atlántico, La Ceiba, Las Terrenas, Samaná, República Dominicana");
+// Perfil de Google del spa (abre el lugar exacto en Google Maps, con la ruta).
+export const mapsUrl = "https://share.google/vdUnDXdpuNsyRW4Yq";
+
+/**
+ * Medición para anuncios (SEM). Pegar aquí los códigos cuando existan las cuentas:
+ * - ga4: ID de Google Analytics 4 (G-XXXXXXX)
+ * - googleAds: ID de Google Ads (AW-XXXXXXXXX) y las etiquetas de cada conversión
+ * - metaPixel: ID del píxel de Meta (solo números)
+ * Mientras estén vacíos no se carga nada ni aparece el aviso de cookies.
+ */
+export const tracking = {
+  ga4: "",
+  googleAds: "",
+  adsLabels: { booking: "", contact: "" },
+  metaPixel: "",
+};

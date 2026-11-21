@@ -64,7 +64,7 @@ export default function About({ t, lang, variant = "b" }: { t: Dict; lang: Local
 
   // Medidor de presión: se llena con animación al mostrarse
   const Meter = ({ n, light = false }: { n: number; light?: boolean }) => (
-    <span className={`ab__meter ${light ? "ab__meter--light" : ""}`} aria-label={`${c.pressure} ${n}/3`}>
+    <span className={`ab__meter ${light ? "ab__meter--light" : ""}`} role="img" aria-label={`${c.pressure} ${n}/3`}>
       {[1, 2, 3].map((i) => (
         <i key={i} className={i <= n ? "is-on" : ""} style={{ "--m": i } as React.CSSProperties} />
       ))}

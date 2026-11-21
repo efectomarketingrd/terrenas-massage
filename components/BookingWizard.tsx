@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
 import { reservaUrl } from "@/lib/reserva";
+import { getOrigin } from "@/lib/track";
 import { serviceLabel, type ServiceSel } from "@/lib/service";
 import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
 import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
@@ -156,6 +157,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
       : "";
 
   const message = () => {
+    const origin = getOrigin();
     const short = date && time ? minutesUntil(date, time) < agenda.recommendedNotice : false;
     const L = [
       b.msgTitle,
@@ -177,6 +179,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
       form.country ? `${b.country}: ${form.country}` : "",
       atHome ? `${b.address}: ${form.address}` : "",
       form.notes ? `${b.notes.replace(/ \(.*\)/, "")}: ${form.notes}` : "",
+      origin ? `${b.origin}: ${origin}` : "",
       "",
       `${t.pay.confirmLink}`,
       confirmUrl(),
@@ -584,10 +587,10 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
           </div>
 
           <div className="bk-send">
-            <a className="btn btn--teal" href={waLink(message())} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn--teal" href={waLink(message())} target="_blank" rel="noopener noreferrer" data-track="booking_whatsapp">
               <WaIcon /> {b.sendWa}
             </a>
-            <a className="btn btn--line" href={mailHref()}>
+            <a className="btn btn--line" href={mailHref()} data-track="booking_email">
               {b.sendMail}
             </a>
           </div>
