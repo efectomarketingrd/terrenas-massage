@@ -64,7 +64,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     const tipo = q.get("tipo");
     const lugar = q.get("lugar");
     if (lugar === "spa" || lugar === "villa") return lugar;
-    if (tipo === "domicilio") return "villa";
+    if (tipo === "domicilio" || tipo === "grupo") return "villa"; // la cabina del spa es para 1 o 2 personas: los grupos van a domicilio
     if (tipo === "individual" || tipo === "pareja") return "spa";
     return null;
   });
@@ -74,7 +74,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const [ritual, setRitual] = useState<"basic" | "premium">(pre("ritual", ["basic", "premium"] as const, "basic"));
   const [occasion, setOccasion] = useState<Occasion>("none");
   const [people, setPeople] = useState(1);
-  const [place, setPlace] = useState<"spa" | "domicilio">(q.get("lugar") === "villa" ? "domicilio" : "spa");
+  const [place, setPlace] = useState<"spa" | "domicilio">(q.get("lugar") === "villa" || q.get("tipo") === "grupo" ? "domicilio" : "spa");
   const [zone, setZone] = useState<Zone>("terrenas");
   const [therapists, setTherapists] = useState(2);
   const [event, setEvent] = useState<EventT>("none");
@@ -101,9 +101,12 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     if (type === "pareja" && massage === "descontracturante") setMassage("relajante");
     if (type === "pareja" && ritual === "premium") setMin(60);
     if (type === "domicilio") setPeople((p) => Math.min(Math.max(p, 1), 6));
-    if (type === "grupo") setPeople((p) => Math.max(p, 3));
+    if (type === "grupo") {
+      setPeople((p) => Math.max(p, 3));
+      setPlace("domicilio");
+    }
     if (type !== "grupo" && zone === "samana") setZone("terrenas");
-    setTherapists((n) => Math.min(Math.max(n, 1), Math.min(8, people)));
+    setTherapists((n) => Math.min(Math.max(n, type === "grupo" ? 2 : 1), Math.min(8, Math.max(people, type === "grupo" ? 3 : 1))));
   }, [type, ritual, massage, zone, people]);
 
   // Calendario mensual (semana empieza en lunes); fechas como "AAAA-MM-DD" en hora de R.D.
@@ -211,10 +214,11 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     setWhere(w);
     setPlace(w === "villa" ? "domicilio" : "spa");
     if (w === "villa" && type !== "grupo") setType("domicilio");
-    if (w === "spa" && type === "domicilio") setType("individual");
+    if (w === "spa" && (type === "domicilio" || type === "grupo")) setType("individual");
     setTried(false);
   };
-  const typesHere: BookType[] = where === "villa" ? ["domicilio", "grupo"] : ["individual", "pareja", "grupo"];
+  // El spa tiene una sola cabina, para 1 o 2 personas: en el spa solo individual o en pareja; los grupos, a domicilio.
+  const typesHere: BookType[] = where === "villa" ? ["domicilio", "grupo"] : ["individual", "pareja"];
 
   return (
     <div className="bk" ref={top}>

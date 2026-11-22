@@ -6,7 +6,7 @@ import { alternates } from "@/lib/i18n";
 import { dictionaries, type Dict } from "@/lib/content";
 import { bookPath, locales, site, waLink, type Locale } from "@/lib/site";
 import { servicePath } from "@/lib/services";
-import { couple, fmtRd, fmtUsd, home, individual } from "@/lib/prices";
+import { couple, fmtRd, fmtUsd, home } from "@/lib/prices";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Reviews from "@/components/Reviews";
@@ -66,7 +66,7 @@ function priceRows(t: Dict, s: Svc): { unit: string; rows: Row[] } {
   return {
     unit: c.perPerson,
     rows: [
-      { label: t.places.spa.tab, cells: [{ k: c.from, v: individual.relajante.basico[60], from: true }] },
+      // Grupos solo a domicilio (la cabina del spa es para 1 o 2 personas)
       { label: t.places.villa.tab, cells: [{ k: c.from, v: home.relajante[60], from: true }] },
     ],
   };
