@@ -252,6 +252,7 @@ export const fr: Dict = {
     groupSpaNote: "Confirmation avec un acompte de 50 %, ou en payant sur place au spa au moins 1 heure avant le premier créneau. Groupes de 10 personnes ou plus : 10 % de réduction.",
     schedTitle: "Horaire de votre groupe",
     noTimesGroup: "Tous les créneaux ne tiennent pas ce jour-là (le dernier doit commencer au plus tard à 19 h). Choisissez un autre jour ou une heure plus tôt.",
+    groupTimesNote: "Votre groupe a {n} créneaux successifs ({d} au total). Choisissez l'heure du premier créneau : seules les heures où le dernier créneau peut commencer au plus tard à 19 h sont affichées. Touchez une heure pour voir l'horaire complet de votre groupe ci-dessous.",
     turnsMsg: "Turnos en cabina (2 personas por turno):",
     homeNote: "Le massage à domicile couvre Las Terrenas et El Limón et se paie à l'avance : espèces ou carte au spa, virement bancaire ou Remitly (carte dominicaine aussi par lien de paiement). Si vous logez dans un hôtel, un resort ou une résidence, vérifiez d'abord auprès de la direction que les massages par des prestataires extérieurs sont autorisés.",
     premiumNote: "Le Premium ajoute un gommage des mains et des pieds, un masque et un massage du visage ; ces soins prennent du temps en plus du massage.",

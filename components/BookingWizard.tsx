@@ -153,6 +153,8 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     return `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`;
   };
   const offsets = turns.map((_, i) => turns.slice(0, i).reduce((s, x) => s + x.min, 0));
+  // Duración total del grupo, p. ej. «3 h 30 min»
+  const fmtDur = (m: number) => `${Math.floor(m / 60)}\u00a0h${m % 60 ? `\u00a0${m % 60}\u00a0min` : ""}`;
 
   const sel: Sel = { type, massage, level: spaGroup ? "basico" : level, min, ritual, people, place, turns: spaGroup ? turns : undefined };
   const price = quote(sel);
@@ -516,6 +518,12 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 <p className="times__title">
                   {b.available} {dayLabel(date, true).full}
                 </p>
+                {spaGroup && turns.length > 0 && (
+                  <p className="bk-gnote" role="note">
+                    <Clock />
+                    <span>{b.groupTimesNote.replace("{n}", String(turns.length)).replace("{d}", fmtDur(turns.reduce((sum, x) => sum + x.min, 0)))}</span>
+                  </p>
+                )}
                 {times.length ? (
                   <div className="bk-times">
                     {times.map((tm, i) => (

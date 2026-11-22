@@ -4324,3 +4324,22 @@ textarea.bk-input {
   font-size: 0.84rem;
   color: var(--muted);
 }
+
+/* Agenda · nota sobre las horas de un grupo en el spa */
+.bk-gnote {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #e8f5f9;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--night);
+}
+
+.bk-gnote .ic-line {
+  margin-top: 2px;
+  color: var(--teal-d);
+}
