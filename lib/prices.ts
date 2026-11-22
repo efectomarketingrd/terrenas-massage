@@ -16,9 +16,13 @@ export const individual: Record<Pressure, Record<Level, Record<Minutes, number>>
   descontracturante: { basico: { 60: 4500, 90: 5500 }, premium: { 60: 6000, 90: 7000 } },
 };
 
-// Ritual Connection · pareja (precio total para dos)
+// Ritual Connection · pareja (precio total para dos).
+// Basic = 2 × el precio individual Básico del masaje elegido (relajante o profundo); Premium, precio fijo de 60 min.
 export const couple = {
-  basic: { 60: 7000, 90: 9000 },
+  basic: {
+    relajante: { 60: individual.relajante.basico[60] * 2, 90: individual.relajante.basico[90] * 2 }, // RD$7,000 · RD$9,000
+    profundo: { 60: individual.profundo.basico[60] * 2, 90: individual.profundo.basico[90] * 2 }, // RD$9,000 · RD$11,000
+  },
   premium: { 60: 15000 },
 };
 
@@ -52,7 +56,7 @@ export function quote(s: Sel): { total: number; unit: number; estimate: boolean 
       return { total: u, unit: u, estimate: false };
     }
     case "pareja": {
-      const u = s.ritual === "premium" ? couple.premium[60] : couple.basic[s.min];
+      const u = s.ritual === "premium" ? couple.premium[60] : couple.basic[s.massage === "profundo" ? "profundo" : "relajante"][s.min];
       return { total: u, unit: u, estimate: false };
     }
     case "domicilio": {

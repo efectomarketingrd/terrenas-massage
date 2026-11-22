@@ -59,8 +59,9 @@ function priceRows(t: Dict, s: Svc): { unit: string; rows: Row[] } {
     return {
       unit: c.forTwo,
       rows: [
-        { label: "Ritual Connection Basic", cells: [{ k: mins(60), v: couple.basic[60] }, { k: mins(90), v: couple.basic[90] }] },
-        { label: "Ritual Connection Premium", cells: [{ k: mins(60), v: couple.premium[60] }] },
+        { label: `Basic · ${m.relajante}`, cells: [{ k: mins(60), v: couple.basic.relajante[60] }, { k: mins(90), v: couple.basic.relajante[90] }] },
+        { label: `Basic · ${m.profundo}`, cells: [{ k: mins(60), v: couple.basic.profundo[60] }, { k: mins(90), v: couple.basic.profundo[90] }] },
+        { label: "Premium", cells: [{ k: mins(60), v: couple.premium[60] }] },
       ],
     };
   return {

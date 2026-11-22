@@ -402,7 +402,7 @@ export const fr: Dict = {
         ],
         faq: [
           { q: "Que comprend le Rituel Premium ?", a: "Un massage en duo de 60 minutes avec pierres chaudes, verre de vin, bougies parfumées et un petit cadeau." },
-          { q: "Combien coûte le massage en duo ?", a: "Le Ritual Connection Basic coûte RD$7,000 (60 min) ou RD$9,000 (90 min) pour deux. Le Premium, RD$15,000 pour deux." },
+          { q: "Combien coûte le massage en duo ?", a: "Ritual Connection Basic, pour deux : relaxant RD$7,000 (60 min) ou RD$9,000 (90 min) ; profond RD$9,000 (60 min) ou RD$11,000 (90 min). Le Premium, RD$15,000 pour deux (60 min)." },
           { q: "Pouvez-vous décorer pour une occasion spéciale ?", a: "Oui. Pour un anniversaire ou la Saint-Valentin, nous décorons sur demande : indiquez-le en réservant." },
           { q: "Chacun peut-il choisir la pression ?", a: "Oui. Pendant la séance, chacun peut demander plus ou moins de pression et notre équipe l'ajuste." },
           { q: "Puis-je modifier ou annuler ?", a: "Le Basic, sans frais jusqu'à 3 heures avant. Le Premium, jusqu'à 48 heures avant." },

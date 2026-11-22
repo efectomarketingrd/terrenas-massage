@@ -398,7 +398,7 @@ const es = {
         ],
         faq: [
           { q: "¿Qué incluye el Ritual Premium?", a: "Masaje en pareja de 60 minutos con piedras calientes, copa de vino, velas aromáticas y un obsequio." },
-          { q: "¿Cuánto cuesta el masaje en pareja?", a: "El Ritual Connection Basic cuesta RD$7,000 (60 min) o RD$9,000 (90 min) para los dos. El Premium, RD$15,000 para los dos." },
+          { q: "¿Cuánto cuesta el masaje en pareja?", a: "Ritual Connection Basic, para los dos: relajante RD$7,000 (60 min) o RD$9,000 (90 min); profundo RD$9,000 (60 min) o RD$11,000 (90 min). El Premium, RD$15,000 para los dos (60 min)." },
           { q: "¿Pueden decorar para una ocasión especial?", a: "Sí. Para cumpleaños, aniversarios o San Valentín decoramos bajo solicitud: indícalo al reservar." },
           { q: "¿Cada uno puede elegir la presión?", a: "Sí. Durante la sesión cada uno puede pedir más o menos presión y nuestro equipo la ajusta." },
           { q: "¿Puedo cambiar o cancelar?", a: "El Basic, sin costo hasta 3 horas antes. El Premium, hasta 48 horas antes." },
@@ -958,7 +958,7 @@ const en: Dict = {
         ],
         faq: [
           { q: "What does the Premium Ritual include?", a: "A 60-minute couples massage with hot stones, a glass of wine, aromatic candles and a gift." },
-          { q: "How much is a couples massage?", a: "Ritual Connection Basic is RD$7,000 (60 min) or RD$9,000 (90 min) for two. Premium is RD$15,000 for two." },
+          { q: "How much is a couples massage?", a: "Ritual Connection Basic, for two: relaxing RD$7,000 (60 min) or RD$9,000 (90 min); deep tissue RD$9,000 (60 min) or RD$11,000 (90 min). Premium is RD$15,000 for two (60 min)." },
           { q: "Can you decorate for a special occasion?", a: "Yes. For birthdays, anniversaries or Valentine's Day we decorate on request: just mention it when you book." },
           { q: "Can each of us choose the pressure?", a: "Yes. During the session each of you can ask for more or less pressure and our team will adjust it." },
           { q: "Can I change or cancel?", a: "Basic: free of charge up to 3 hours before. Premium: up to 48 hours before." },

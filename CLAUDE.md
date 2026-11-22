@@ -29,7 +29,7 @@ npm run build && npx next start -p 3200
 ## Datos
 
 - `lib/site.ts` — contacto, WhatsApp 18293710276, horario (todos los días, feriados incluidos, 9:00–19:00; 19:00 es la última hora de inicio).
-- `lib/prices.ts` — precios RD$ y US$ (tasa `usdRate`).
+- `lib/prices.ts` — precios RD$ y US$ (tasa `usdRate`). Pareja Basic = 2 × precio individual Básico del masaje (relajante 7,000/9,000; profundo 9,000/11,000 por 60/90 min); Premium 15,000 (60 min). Corregido el 22 nov 2026: antes era fijo sin importar el masaje.
 - `lib/content.ts` — todos los textos ES/EN; francés en `lib/content-fr.ts` (mismo tipo `Dict`, vouvoiement).
 - Idiomas (`lib/i18n.ts`): es, en, fr. Nombres de página por idioma en `slugs` (reservar/book/reserver, pagar/pay/payer, privacidad/privacy/confidentialite y los 3 servicios); `langRedirects()` genera las redirecciones 308 de nombres en otro idioma; `alternates()` arma hreflang. Cabecera: un botón por cada otro idioma; pie: nombres de los otros idiomas. `/` manda a fr si el teléfono está en francés. Horas en francés «11 h 00». Opiniones con traducción `fr` (se indica «Traduit de…»). Al añadir una página fija nueva: slug en `slugs`, carpeta por cada nombre que re-exporte la página, sitemap.
 - Pagos (sin Zelle: la cuenta no es del spa; sin Wise: la cuenta de Wise no puede recibir en R.D.; sin Western Union). Efectivo primero. En el spa: efectivo RD$/US$/€, tarjeta (Verifone, en persona), transferencia, Remitly. A domicilio (por adelantado): efectivo o tarjeta en el spa, transferencia, Remitly; tarjeta dominicana también por enlace de pago.
