@@ -4238,3 +4238,9 @@ textarea.bk-input {
 .ripples i:nth-child(3) {
   animation-delay: 5.5s;
 }
+
+/* Agenda · "¿Dónde quieres tu masaje?" (obligatorio) */
+.bk-where.is-err button {
+  border-color: #d64545;
+  background: #fff6f6;
+}

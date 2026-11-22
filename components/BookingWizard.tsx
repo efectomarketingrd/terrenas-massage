@@ -59,13 +59,22 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
 
   const [step, setStep] = useState(1);
   const [type, setType] = useState<BookType>(pre("tipo", TYPES, "individual"));
+  // Lugar obligatorio: no viene marcado salvo que la dirección lo indique (?tipo=domicilio · ?lugar=spa|villa)
+  const [where, setWhere] = useState<"spa" | "villa" | null>(() => {
+    const tipo = q.get("tipo");
+    const lugar = q.get("lugar");
+    if (lugar === "spa" || lugar === "villa") return lugar;
+    if (tipo === "domicilio") return "villa";
+    if (tipo === "individual" || tipo === "pareja") return "spa";
+    return null;
+  });
   const [massage, setMassage] = useState<Pressure>(pre("masaje", PRESS, "relajante"));
   const [level, setLevel] = useState<Level>(pre("nivel", ["basico", "premium"] as const, "basico"));
   const [min, setMin] = useState<Minutes>(q.get("min") === "90" ? 90 : 60);
   const [ritual, setRitual] = useState<"basic" | "premium">(pre("ritual", ["basic", "premium"] as const, "basic"));
   const [occasion, setOccasion] = useState<Occasion>("none");
   const [people, setPeople] = useState(1);
-  const [place, setPlace] = useState<"spa" | "domicilio">("spa");
+  const [place, setPlace] = useState<"spa" | "domicilio">(q.get("lugar") === "villa" ? "domicilio" : "spa");
   const [zone, setZone] = useState<Zone>("terrenas");
   const [therapists, setTherapists] = useState(2);
   const [event, setEvent] = useState<EventT>("none");
@@ -170,9 +179,9 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
       msgT ? mb.frClient : null,
       short ? mb.shortNotice : null,
       "",
+      `${mb.whereLabel}: ${mb.whereMsg[atHome ? "villa" : "spa"]}`,
       `${mb.service}: ${serviceLabel(mt, svcSel)}`,
       type === "grupo" || type === "domicilio" ? `${mb.people}: ${people}` : null,
-      type === "grupo" ? `${mb.place} ${mb.places[place]}` : null,
       type === "grupo" ? `${mb.therapists}: ${therapists}` : null,
       type === "grupo" ? `${mb.event}: ${mb.events[event]}` : null,
       atHome ? `${mb.zone}: ${mb.zones[zone]}` : null,
@@ -198,6 +207,15 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
 
   const next = (ok: boolean, n: number) => (ok ? go(n) : setTried(true));
 
+  const pickWhere = (w: "spa" | "villa") => {
+    setWhere(w);
+    setPlace(w === "villa" ? "domicilio" : "spa");
+    if (w === "villa" && type !== "grupo") setType("domicilio");
+    if (w === "spa" && type === "domicilio") setType("individual");
+    setTried(false);
+  };
+  const typesHere: BookType[] = where === "villa" ? ["domicilio", "grupo"] : ["individual", "pareja", "grupo"];
+
   return (
     <div className="bk" ref={top}>
       {/* Progreso */}
@@ -213,9 +231,24 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
       {/* ── Paso 1 · Servicio ── */}
       {step === 1 && (
         <div className="bk-panel" key="s1">
+          <Field label={b.where}>
+            <div className={`bk-types bk-where ${tried && !where ? "is-err" : ""}`} role="radiogroup" aria-label={b.where}>
+              {(["spa", "villa"] as const).map((k) => (
+                <button key={k} type="button" role="radio" aria-checked={where === k} className={where === k ? "is-on" : ""} onClick={() => pickWhere(k)}>
+                  <ExpIcon k={k === "spa" ? "individual" : "domicilio"} size={26} />
+                  <b>{b.whereOpts[k].t}</b>
+                  <span>{b.whereOpts[k].d}</span>
+                </button>
+              ))}
+            </div>
+            {tried && !where && <p className="bk-err">{b.whereErr}</p>}
+          </Field>
+
+          {where && (
+          <>
           <Field label={b.type}>
             <div className="bk-types" role="radiogroup" aria-label={b.type}>
-              {TYPES.map((k) => (
+              {typesHere.map((k) => (
                 <button key={k} type="button" role="radio" aria-checked={type === k} className={type === k ? "is-on" : ""} onClick={() => setType(k)}>
                   <ExpIcon k={k} size={26} />
                   <b>{b.types[k].t}</b>
@@ -239,12 +272,6 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 onChange={setMassage}
                 opts={PRESS.filter((p) => type !== "pareja" || p !== "descontracturante").map((v) => ({ v, l: m.names[v], d: m.press[v] }))}
               />
-            </Field>
-          )}
-
-          {type === "grupo" && (
-            <Field label={b.place}>
-              <Chips label={b.place} value={place} onChange={setPlace} opts={(["spa", "domicilio"] as const).map((v) => ({ v, l: b.places[v] }))} />
             </Field>
           )}
 
@@ -323,8 +350,11 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
           {(type === "individual" || (type === "grupo" && place === "spa")) && level === "premium" && <p className="bk-note">{b.premiumNote}</p>}
           {type === "domicilio" && <p className="bk-note">{b.homeNote}</p>}
           {type === "grupo" && <p className="bk-note">{b.groupNote}</p>}
+          </>
+          )}
 
           <div className="bk-bar">
+            {where ? (
             <div className="bk-price" aria-live="polite">
               <small>{price.estimate ? b.estimate : b.total}</small>
               <b>{fmtRd(price.total)}</b>
@@ -333,7 +363,10 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 {type === "pareja" ? ` · ${b.forTwo}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ` · ${b.perPerson}`}
               </span>
             </div>
-            <button type="button" className="btn btn--teal" onClick={() => go(2)}>
+            ) : (
+              <span />
+            )}
+            <button type="button" className="btn btn--teal" onClick={() => next(!!where, 2)}>
               {b.next}
             </button>
           </div>
@@ -517,6 +550,13 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
         <div className="bk-panel" key="s4">
           <h2 className="bk-h">{b.summary}</h2>
           <dl className="bk-sum">
+            <div>
+              <dt>
+                {b.whereLabel}
+                <button type="button" onClick={() => go(1)}>{b.edit}</button>
+              </dt>
+              <dd>{b.whereMsg[atHome ? "villa" : "spa"]}</dd>
+            </div>
             <div>
               <dt>
                 {b.service}
