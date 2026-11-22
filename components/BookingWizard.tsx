@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
 import { reservaUrl } from "@/lib/reserva";
@@ -41,10 +40,15 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
+// msgT: textos del mensaje que recibe el spa (en la versión francesa llega en español: recepción no habla francés).
+// query: parámetros de la dirección (?tipo=…), leídos en el servidor para que la agenda llegue ya dibujada (sin saltos al cargar).
+export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; lang: Locale; msgT?: Dict; query?: Record<string, string> }) {
   const b = t.booking;
+  const mt = msgT ?? t;
+  const mb = mt.booking;
+  const msgLang: Locale = msgT ? "es" : lang;
   const m = t.massages;
-  const q = useSearchParams();
+  const q = { get: (k: string) => query[k] ?? null };
   const top = useRef<HTMLDivElement>(null);
 
   // Preselección desde los botones de la web: ?tipo=individual&masaje=profundo&nivel=premium&min=90
@@ -128,25 +132,25 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   const valid3 = form.name.trim().length > 1 && form.phone.replace(/\D/g, "").length >= 7 && (!atHome || form.address.trim().length > 3) && accept;
 
   // Etiquetas
-  const dayLabel = (d: string, long = false) => {
+  const dayLabel = (d: string, long = false, L: Locale = lang, B = b) => {
     const [y, mo, da] = d.split("-").map(Number);
     const dt = new Date(Date.UTC(y, mo - 1, da, 12));
     const today = ymd(nowDR());
     const tomorrow = ymd(new Date(nowDR().getTime() + 86400000));
-    const loc = intlLocale[lang];
+    const loc = intlLocale[L];
     const wd = dt.toLocaleDateString(loc, { weekday: long ? "long" : "short", timeZone: "UTC" });
     const md = dt.toLocaleDateString(loc, { day: "numeric", month: long ? "long" : "short", timeZone: "UTC" });
-    const rel = d === today ? b.today : d === tomorrow ? b.tomorrow : "";
+    const rel = d === today ? B.today : d === tomorrow ? B.tomorrow : "";
     return { wd: rel || wd, md, full: `${rel ? rel + ", " : ""}${wd} ${md}` };
   };
 
   const svcSel: ServiceSel = { type, massage, level, min, ritual, place, people, zone };
   const serviceText = serviceLabel(t, svcSel);
 
-  const priceText = () => {
+  const priceText = (B = b) => {
     const base = `${fmtRd(price.total)} (${fmtUsd(price.total)})`;
-    if (type === "pareja") return `${base} ${b.forTwo}`;
-    if (price.total !== price.unit) return `${base} · ${people} × ${fmtRd(price.unit)}${price.estimate ? ` · ${b.estimate}` : ""}`;
+    if (type === "pareja") return `${base} ${B.forTwo}`;
+    if (price.total !== price.unit) return `${base} · ${people} × ${fmtRd(price.unit)}${price.estimate ? ` · ${B.estimate}` : ""}`;
     return base;
   };
 
@@ -160,35 +164,37 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
   const message = () => {
     const origin = getOrigin();
     const short = date && time ? minutesUntil(date, time) < agenda.recommendedNotice : false;
-    const L = [
-      b.msgTitle,
-      short ? b.shortNotice : "",
+    // null = línea que no aplica (se quita); "" = línea en blanco a propósito
+    const L = ([
+      mb.msgTitle,
+      msgT ? mb.frClient : null,
+      short ? mb.shortNotice : null,
       "",
-      `${b.service}: ${serviceText}`,
-      type === "grupo" || type === "domicilio" ? `${b.people}: ${people}` : "",
-      type === "grupo" ? `${b.place} ${b.places[place]}` : "",
-      type === "grupo" ? `${b.therapists}: ${therapists}` : "",
-      type === "grupo" ? `${b.event}: ${b.events[event]}` : "",
-      atHome ? `${b.zone}: ${b.zones[zone]}` : "",
-      type === "pareja" && occasion !== "none" ? `${b.occasion.split("(")[0].trim()} ${b.occasions[occasion]}` : "",
-      `${b.total}: ${priceText()}`,
-      `${b.when}: ${date ? dayLabel(date, true).full : ""}, ${time ? fmtTime(time, lang) : ""}`,
+      `${mb.service}: ${serviceLabel(mt, svcSel)}`,
+      type === "grupo" || type === "domicilio" ? `${mb.people}: ${people}` : null,
+      type === "grupo" ? `${mb.place} ${mb.places[place]}` : null,
+      type === "grupo" ? `${mb.therapists}: ${therapists}` : null,
+      type === "grupo" ? `${mb.event}: ${mb.events[event]}` : null,
+      atHome ? `${mb.zone}: ${mb.zones[zone]}` : null,
+      type === "pareja" && occasion !== "none" ? `${mb.occasion.split("(")[0].trim()} ${mb.occasions[occasion]}` : null,
+      `${mb.total}: ${priceText(mb)}`,
+      `${mb.when}: ${date ? dayLabel(date, true, msgLang, mb).full : ""}, ${time ? fmtTime(time, msgLang) : ""}`,
       "",
-      `${b.name}: ${form.name}`,
-      `${b.phone}: ${form.phone}`,
-      form.email ? `${b.email.replace(/ \(.*\)/, "")}: ${form.email}` : "",
-      form.country ? `${b.country}: ${form.country}` : "",
-      atHome ? `${b.address}: ${form.address}` : "",
-      form.notes ? `${b.notes.replace(/ \(.*\)/, "")}: ${form.notes}` : "",
-      origin ? `${b.origin}: ${origin}` : "",
+      `${mb.name}: ${form.name}`,
+      `${mb.phone}: ${form.phone}`,
+      form.email ? `${mb.email.replace(/ \(.*\)/, "")}: ${form.email}` : null,
+      form.country ? `${mb.country}: ${form.country}` : null,
+      atHome ? `${mb.address}: ${form.address}` : null,
+      form.notes ? `${mb.notes.replace(/ \(.*\)/, "")}: ${form.notes}` : null,
+      origin ? `${mb.origin}: ${origin}` : null,
       "",
-      `${t.pay.confirmLink}`,
+      `${mt.pay.confirmLink}`,
       confirmUrl(),
-    ];
+    ] as (string | null)[]).filter((l): l is string => l !== null);
     return L.filter((l, i) => l !== "" || L[i - 1] !== "").join("\n").replace(/\n{3,}/g, "\n\n").trim();
   };
 
-  const mailHref = () => `mailto:${site.email}?subject=${encodeURIComponent(`${b.msgTitle} · ${form.name}`)}&body=${encodeURIComponent(message())}`;
+  const mailHref = () => `mailto:${site.email}?subject=${encodeURIComponent(`${mb.msgTitle} · ${form.name}`)}&body=${encodeURIComponent(message())}`;
 
   const next = (ok: boolean, n: number) => (ok ? go(n) : setTried(true));
 

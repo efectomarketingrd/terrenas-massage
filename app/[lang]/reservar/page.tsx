@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { dictionaries } from "@/lib/content";
 import { bookPath, locales, type Locale } from "@/lib/site";
@@ -21,8 +20,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-export default async function BookPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function BookPage({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { lang } = await params;
+  const sp = await searchParams;
+  const query = Object.fromEntries(Object.entries(sp).filter((e): e is [string, string] => typeof e[1] === "string"));
   if (!locales.includes(lang as Locale)) notFound();
   const t = dictionaries[lang as Locale];
   return (
@@ -37,9 +38,7 @@ export default async function BookPage({ params }: { params: Promise<{ lang: str
         </div>
       </div>
       <div className="wrap">
-        <Suspense>
-          <BookingWizard t={t} lang={lang as Locale} />
-        </Suspense>
+        <BookingWizard t={t} lang={lang as Locale} msgT={lang === "fr" ? dictionaries.es : undefined} query={query} />
         <Policies t={t} />
       </div>
       <Footer t={t} lang={lang as Locale} alts={alternates((l) => bookPath(l))} />

@@ -46,12 +46,23 @@ export default async function PayPage({ params, searchParams }: { params: Promis
         return s.charAt(0).toUpperCase() + s.slice(1);
       })()
     : "";
+  // Lo que se envía al spa por WhatsApp desde la versión francesa va en español (recepción no habla francés).
+  const mLang: Locale = lang === "fr" ? "es" : lang;
+  const mT = dictionaries[mLang];
+  const mp = mT.pay;
+  const mDay = r
+    ? (() => {
+        const [y, m, d] = r.d.split("-").map(Number);
+        const s = new Date(Date.UTC(y, m - 1, d, 12)).toLocaleDateString(intlLocale[mLang], { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      })()
+    : "";
   const amount = r ? (r.due > 0 ? r.due : r.t) : 0;
   const svc = r ? serviceLabel(t, r.sel, true) : "";
   const dom = r ? r.sel.type === "domicilio" || (r.sel.type === "grupo" && r.sel.place === "domicilio") : false;
   const proofText = r
-    ? `${p.proofMsg}\n\n${p.name}: ${r.n}\n${p.service}: ${svc}\n${p.when}: ${day}, ${fmtTime(r.h, lang)}\n${r.due > 0 ? p.dueNow : p.total}: ${fmtRd(amount)} (${fmtUsd(amount)})`
-    : p.proofMsg;
+    ? `${mp.proofMsg}\n\n${mp.name}: ${r.n}\n${mp.service}: ${serviceLabel(mT, r.sel, true)}\n${mp.when}: ${mDay}, ${fmtTime(r.h, mLang)}\n${r.due > 0 ? mp.dueNow : mp.total}: ${fmtRd(amount)} (${fmtUsd(amount)})`
+    : mp.proofMsg;
   const alts = alternates((l) => payPath(l, code));
 
   const methods = [
@@ -195,7 +206,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                       </dl>
                     ) : (
                       <p>
-                        <a href={waLink(p.bankWa)} target="_blank" rel="noopener noreferrer" data-track="bank_details_whatsapp">
+                        <a href={waLink(mp.bankWa)} target="_blank" rel="noopener noreferrer" data-track="bank_details_whatsapp">
                           {p.bank.pending}
                         </a>
                       </p>

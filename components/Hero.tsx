@@ -12,12 +12,13 @@ export default function Hero({ t, lang }: { t: Dict; lang: Locale }) {
     <section className="hA">
       <Header t={t} lang={lang} tone="dark" logo={false} />
       <Ripples />
-      <div className="hA__body rise">
-        <h1 className="eyebrow">{t.hero.eyebrow}</h1>
-        <Image className="hA__logo" src="/brand/terrenas-massage-blanco.png" alt="Terrenas Massage · Relax your body" width={824} height={180} priority sizes="(max-width: 480px) 82vw, 380px" />
-        <p className="hA__title">{t.hero.title}</p>
-        <p className="hA__text">{t.hero.text}</p>
-        <div className="btns">
+      {/* El logo se pinta sin animación (es el elemento principal que mide Google); el resto entra suave */}
+      <div className="hA__body">
+        <h1 className="eyebrow rise">{t.hero.eyebrow}</h1>
+        <Image className="hA__logo" src="/brand/terrenas-massage-blanco.png" alt="Terrenas Massage · Relax your body" width={824} height={180} priority fetchPriority="high" sizes="(max-width: 480px) 82vw, 380px" />
+        <p className="hA__title rise rise--2">{t.hero.title}</p>
+        <p className="hA__text rise rise--2">{t.hero.text}</p>
+        <div className="btns rise rise--3">
           <a className="btn btn--teal" href={bookPath(lang)}>
             {t.hero.book} <Arrow />
           </a>
@@ -25,7 +26,7 @@ export default function Hero({ t, lang }: { t: Dict; lang: Locale }) {
             <WaIcon /> {t.hero.wa}
           </a>
         </div>
-        <ul className="meta">
+        <ul className="meta rise rise--3">
           <li>
             <Clock /> {t.hero.open}
           </li>
@@ -35,7 +36,7 @@ export default function Hero({ t, lang }: { t: Dict; lang: Locale }) {
             </p>
           </li>
         </ul>
-        <p className="hA__for">{t.hero.forWho}</p>
+        <p className="hA__for rise rise--3">{t.hero.forWho}</p>
       </div>
       <a className="hA__scroll" href="#masajes" aria-label={t.hero.scroll}>
         <span />

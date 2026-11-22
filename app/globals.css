@@ -4206,3 +4206,35 @@ textarea.bk-input {
 .ph--sv + .sv__inc {
   margin-top: 14px;
 }
+
+/* ───────── Velocidad ─────────
+   Las secciones fuera de pantalla no se pintan hasta acercarse (menos trabajo al cargar en móviles). */
+.pl,
+.gr,
+.rv,
+.lc,
+.fq,
+.ft,
+.sv__more {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/* Las ondas de agua empiezan a moverse un momento después de cargar (la página aparece antes en móviles) */
+.wave--1,
+.wave--2,
+.wave--3 {
+  animation-delay: 2.5s;
+}
+
+.ripples i {
+  animation-delay: 1.5s;
+}
+
+.ripples i:nth-child(2) {
+  animation-delay: 3.5s;
+}
+
+.ripples i:nth-child(3) {
+  animation-delay: 5.5s;
+}
