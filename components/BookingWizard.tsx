@@ -8,7 +8,7 @@ import { getOrigin } from "@/lib/track";
 import { intlLocale } from "@/lib/i18n";
 import { serviceLabel, type ServiceSel } from "@/lib/service";
 import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
-import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
+import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel, type Turn } from "@/lib/prices";
 import { Clock, ExpIcon, PayIcon, WaIcon } from "./Icons";
 import { Ripples } from "./Water";
 
@@ -64,7 +64,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     const tipo = q.get("tipo");
     const lugar = q.get("lugar");
     if (lugar === "spa" || lugar === "villa") return lugar;
-    if (tipo === "domicilio" || tipo === "grupo") return "villa"; // la cabina del spa es para 1 o 2 personas: los grupos van a domicilio
+    if (tipo === "domicilio") return "villa";
     if (tipo === "individual" || tipo === "pareja") return "spa";
     return null;
   });
@@ -74,7 +74,8 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const [ritual, setRitual] = useState<"basic" | "premium">(pre("ritual", ["basic", "premium"] as const, "basic"));
   const [occasion, setOccasion] = useState<Occasion>("none");
   const [people, setPeople] = useState(1);
-  const [place, setPlace] = useState<"spa" | "domicilio">(q.get("lugar") === "villa" || q.get("tipo") === "grupo" ? "domicilio" : "spa");
+  const [place, setPlace] = useState<"spa" | "domicilio">(q.get("lugar") === "villa" ? "domicilio" : "spa");
+  const [turns, setTurns] = useState<Turn[]>([]);
   const [zone, setZone] = useState<Zone>("terrenas");
   const [therapists, setTherapists] = useState(2);
   const [event, setEvent] = useState<EventT>("none");
@@ -101,10 +102,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     if (type === "pareja" && massage === "descontracturante") setMassage("relajante");
     if (type === "pareja" && ritual === "premium") setMin(60);
     if (type === "domicilio") setPeople((p) => Math.min(Math.max(p, 1), 6));
-    if (type === "grupo") {
-      setPeople((p) => Math.max(p, 3));
-      setPlace("domicilio");
-    }
+    if (type === "grupo") setPeople((p) => Math.max(p, 3));
     if (type !== "grupo" && zone === "samana") setZone("terrenas");
     setTherapists((n) => Math.min(Math.max(n, type === "grupo" ? 2 : 1), Math.min(8, Math.max(people, type === "grupo" ? 3 : 1))));
   }, [type, ritual, massage, zone, people]);
@@ -130,9 +128,38 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const canNext = !!lastDay && monthKey(cursor) < monthKey(new Date(lastDay + "T12:00:00Z"));
 
   const atHome = type === "domicilio" || (type === "grupo" && place === "domicilio");
-  const sel: Sel = { type, massage, level, min, ritual, people, place };
+  // Grupo en el spa: la cabina es para 2 personas → turnos seguidos de 1 o 2 personas (sin tiempo entre turnos)
+  const spaGroup = type === "grupo" && place === "spa";
+  useEffect(() => {
+    if (!spaGroup) return;
+    const n = Math.ceil(people / 2);
+    setTurns((prev) =>
+      Array.from({ length: n }, (_, i) => ({ massage: prev[i]?.massage ?? massage, min: prev[i]?.min ?? min, n: (i === n - 1 && people % 2 === 1 ? 1 : 2) as 1 | 2 })),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spaGroup, people]);
+  const changeMassage = (v: Pressure) => {
+    setMassage(v);
+    if (spaGroup) setTurns((ts) => ts.map((x) => ({ ...x, massage: v })));
+  };
+  const changeMin = (v: Minutes) => {
+    setMin(v);
+    if (spaGroup) setTurns((ts) => ts.map((x) => ({ ...x, min: v })));
+  };
+  const setTurn = (i: number, patch: Partial<Turn>) => setTurns((ts) => ts.map((x, k) => (k === i ? { ...x, ...patch } : x)));
+  const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
+  const addMin = (t: string, m: number) => {
+    const x = toMin(t) + m;
+    return `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`;
+  };
+  const offsets = turns.map((_, i) => turns.slice(0, i).reduce((s, x) => s + x.min, 0));
+
+  const sel: Sel = { type, massage, level: spaGroup ? "basico" : level, min, ritual, people, place, turns: spaGroup ? turns : undefined };
   const price = quote(sel);
-  const times = date ? timesFor(date) : [];
+  // En grupos en el spa, la hora elegida es la del primer turno: el último debe empezar a más tardar a la hora de cierre de inicios
+  const lastOffset = spaGroup && turns.length ? offsets[offsets.length - 1] : 0;
+  const times = date ? timesFor(date).filter((tm) => toMin(tm) + lastOffset <= toMin(agenda.lastStart)) : [];
+  const turnTimes = turns.map((_, i) => (time ? addMin(time, offsets[i]) : ""));
 
   const go = (n: number) => {
     setTried(false);
@@ -162,6 +189,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const priceText = (B = b) => {
     const base = `${fmtRd(price.total)} (${fmtUsd(price.total)})`;
     if (type === "pareja") return `${base} ${B.forTwo}`;
+    if (type === "grupo") return `${base} · ${people} ${B.people.toLowerCase()}${price.discount ? ` · ${B.discount}: −${fmtRd(price.discount)}` : ""}`;
     if (price.total !== price.unit) return `${base} · ${people} × ${fmtRd(price.unit)}${price.estimate ? ` · ${B.estimate}` : ""}`;
     return base;
   };
@@ -184,8 +212,11 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
       "",
       `${mb.whereLabel}: ${mb.whereMsg[atHome ? "villa" : "spa"]}`,
       `${mb.service}: ${serviceLabel(mt, svcSel)}`,
+      ...(spaGroup
+        ? [mb.turnsMsg, ...turns.map((tn, k) => `${k + 1}) ${fmtTime(turnTimes[k], msgLang)} · ${tn.n} ${tn.n === 1 ? mb.personOne : mb.people.toLowerCase()} · ${mt.massages.names[tn.massage]} ${tn.min} min`)]
+        : []),
       type === "grupo" || type === "domicilio" ? `${mb.people}: ${people}` : null,
-      type === "grupo" ? `${mb.therapists}: ${therapists}` : null,
+      type === "grupo" && !spaGroup ? `${mb.therapists}: ${therapists}` : null,
       type === "grupo" ? `${mb.event}: ${mb.events[event]}` : null,
       atHome ? `${mb.zone}: ${mb.zones[zone]}` : null,
       type === "pareja" && occasion !== "none" ? `${mb.occasion.split("(")[0].trim()} ${mb.occasions[occasion]}` : null,
@@ -214,11 +245,11 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     setWhere(w);
     setPlace(w === "villa" ? "domicilio" : "spa");
     if (w === "villa" && type !== "grupo") setType("domicilio");
-    if (w === "spa" && (type === "domicilio" || type === "grupo")) setType("individual");
+    if (w === "spa" && type === "domicilio") setType("individual");
     setTried(false);
   };
-  // El spa tiene una sola cabina, para 1 o 2 personas: en el spa solo individual o en pareja; los grupos, a domicilio.
-  const typesHere: BookType[] = where === "villa" ? ["domicilio", "grupo"] : ["individual", "pareja"];
+  // El spa tiene una sola cabina, para 2 personas: los grupos en el spa van por turnos seguidos.
+  const typesHere: BookType[] = where === "villa" ? ["domicilio", "grupo"] : ["individual", "pareja", "grupo"];
 
   return (
     <div className="bk" ref={top}>
@@ -269,25 +300,25 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
           )}
 
           {!(type === "pareja" && ritual === "premium") && (
-            <Field label={b.massage}>
+            <Field label={spaGroup ? b.allMassage : b.massage}>
               <Chips
                 label={b.massage}
                 value={massage}
-                onChange={setMassage}
+                onChange={changeMassage}
                 opts={PRESS.filter((p) => type !== "pareja" || p !== "descontracturante").map((v) => ({ v, l: m.names[v], d: m.press[v] }))}
               />
             </Field>
           )}
 
           <div className="bk-row">
-            {(type === "individual" || (type === "grupo" && place === "spa")) && (
+            {type === "individual" && (
               <Field label={b.level}>
                 <Chips label={b.level} value={level} onChange={setLevel} opts={(["basico", "premium"] as const).map((v) => ({ v, l: m.levels[v] }))} />
               </Field>
             )}
             {!(type === "pareja" && ritual === "premium") && (
               <Field label={b.minutes}>
-                <Chips label={b.minutes} value={min} onChange={setMin} opts={([60, 90] as const).map((v) => ({ v, l: `${v} min` }))} />
+                <Chips label={b.minutes} value={min} onChange={changeMin} opts={([60, 90] as const).map((v) => ({ v, l: `${v} min` }))} />
               </Field>
             )}
           </div>
@@ -299,15 +330,46 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                   −
                 </button>
                 <output aria-live="polite">{people}</output>
-                <button type="button" aria-label="+" onClick={() => setPeople((p) => Math.min(type === "grupo" ? 40 : 6, p + 1))}>
+                <button type="button" aria-label="+" onClick={() => setPeople((p) => Math.min(type === "grupo" ? (spaGroup ? 22 : 40) : 6, p + 1))}>
                   +
                 </button>
               </div>
             </Field>
           )}
 
+          {spaGroup && (
+            <Field label={b.turnsTitle}>
+              <p className="bk-note">{b.turnsNote}</p>
+              <ol className="bk-turns">
+                {turns.map((tn, i) => (
+                  <li key={i}>
+                    <span className="bk-turns__n">{i + 1}</span>
+                    <span className="bk-turns__who">
+                      {b.turn} {i + 1} · {tn.n} {tn.n === 1 ? b.personOne : b.people.toLowerCase()}
+                    </span>
+                    <select className="bk-input" aria-label={`${b.turn} ${i + 1} · ${b.massage}`} value={tn.massage} onChange={(e) => setTurn(i, { massage: e.target.value as Pressure })}>
+                      {PRESS.map((p) => (
+                        <option key={p} value={p}>
+                          {m.names[p]}
+                        </option>
+                      ))}
+                    </select>
+                    <select className="bk-input" aria-label={`${b.turn} ${i + 1} · ${b.minutes}`} value={tn.min} onChange={(e) => setTurn(i, { min: Number(e.target.value) as Minutes })}>
+                      {([60, 90] as const).map((v) => (
+                        <option key={v} value={v}>
+                          {v} min
+                        </option>
+                      ))}
+                    </select>
+                  </li>
+                ))}
+              </ol>
+            </Field>
+          )}
+
           {type === "grupo" && (
             <>
+              {!spaGroup && (
               <Field label={b.therapists}>
                 <div className="bk-count">
                   <button type="button" aria-label="−" onClick={() => setTherapists((n) => Math.max(1, n - 1))}>
@@ -320,6 +382,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 </div>
                 <p className="bk-note bk-note--mt">{b.therapistsNote}</p>
               </Field>
+              )}
               <Field label={b.event}>
                 <select className="bk-input" value={event} onChange={(e) => setEvent(e.target.value as EventT)}>
                   {(Object.keys(b.events) as EventT[]).map((k) => (
@@ -351,9 +414,9 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
           )}
 
           {type === "pareja" && ritual === "premium" && <p className="bk-note">{b.premium60}</p>}
-          {(type === "individual" || (type === "grupo" && place === "spa")) && level === "premium" && <p className="bk-note">{b.premiumNote}</p>}
+          {type === "individual" && level === "premium" && <p className="bk-note">{b.premiumNote}</p>}
           {type === "domicilio" && <p className="bk-note">{b.homeNote}</p>}
-          {type === "grupo" && <p className="bk-note">{b.groupNote}</p>}
+          {type === "grupo" && <p className="bk-note">{spaGroup ? b.groupSpaNote : b.groupNote}</p>}
           </>
           )}
 
@@ -364,7 +427,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
               <b>{fmtRd(price.total)}</b>
               <span>
                 {fmtUsd(price.total)}
-                {type === "pareja" ? ` · ${b.forTwo}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ` · ${b.perPerson}`}
+                {type === "pareja" ? ` · ${b.forTwo}` : type === "grupo" ? ` · ${people} ${b.people.toLowerCase()}${price.discount ? " · −10 %" : ""}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ` · ${b.perPerson}`}
               </span>
             </div>
             ) : (
@@ -462,11 +525,26 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                     ))}
                   </div>
                 ) : (
-                  <p className="bk-note">{b.noTimes}</p>
+                  <p className="bk-note">{spaGroup ? b.noTimesGroup : b.noTimes}</p>
                 )}
               </div>
             )}
           </div>
+          {spaGroup && time && valid2 && (
+            <div className="bk-sched">
+              <p className="ms__label">{b.schedTitle}</p>
+              <ol>
+                {turns.map((tn, i) => (
+                  <li key={i}>
+                    <b>{fmtTime(turnTimes[i], lang)}</b>
+                    <span>
+                      {tn.n} {tn.n === 1 ? b.personOne : b.people.toLowerCase()} · {m.names[tn.massage]} · {tn.min} min
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
           {tried && !valid2 && <p className="bk-err">{b.required}</p>}
 
           <div className="bk-nav">
@@ -569,7 +647,18 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
               <dd>
                 {serviceText}
                 {(type === "grupo" || type === "domicilio") && people > 1 && ` · ${people} ${b.people.toLowerCase()}`}
-                {type === "grupo" && ` · ${therapists} ${b.therapists.toLowerCase()} · ${b.events[event]}`}
+                {type === "grupo" && !spaGroup && ` · ${therapists} ${b.therapists.toLowerCase()}`}
+                {type === "grupo" && ` · ${b.events[event]}`}
+                {spaGroup && (
+                  <ol className="bk-sum__turns">
+                    {turns.map((tn, i) => (
+                      <li key={i}>
+                        {time ? `${fmtTime(turnTimes[i], lang)} · ` : ""}
+                        {tn.n} {tn.n === 1 ? b.personOne : b.people.toLowerCase()} · {m.names[tn.massage]} · {tn.min} min
+                      </li>
+                    ))}
+                  </ol>
+                )}
                 {atHome && ` · ${b.zones[zone]}`}
                 {type === "pareja" && occasion !== "none" && ` · ${b.occasions[occasion]}`}
               </dd>
@@ -604,7 +693,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
               <b>{fmtRd(price.total)}</b>
               <span>
                 ≈ {fmtUsd(price.total)}
-                {type === "pareja" ? ` · ${b.forTwo}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ` · ${b.perPerson}`}
+                {type === "pareja" ? ` · ${b.forTwo}` : type === "grupo" ? ` · ${people} ${b.people.toLowerCase()}${price.discount ? " · −10 %" : ""}` : price.total !== price.unit ? ` · ${people} × ${fmtRd(price.unit)}` : ` · ${b.perPerson}`}
               </span>
             </div>
             <div className="tk__cut" aria-hidden="true" />
@@ -613,7 +702,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 <span className="tk__lbl tk__lbl--warn">{b.payFull}</span>
               ) : due > 0 ? (
                 <>
-                  <span className="tk__lbl">{atHome ? b.payNow : b.deposit50}</span>
+                  <span className="tk__lbl">{type === "domicilio" ? b.payNow : b.deposit50}</span>
                   <b className="tk__due">
                     {fmtRd(due)} <small>≈ {fmtUsd(due)}</small>
                   </b>

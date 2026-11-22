@@ -4244,3 +4244,83 @@ textarea.bk-input {
   border-color: #d64545;
   background: #fff6f6;
 }
+
+/* Agenda · grupos en el spa por turnos de cabina */
+.bk-turns {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bk-turns li {
+  display: grid;
+  grid-template-columns: 30px 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.bk-turns__n {
+  display: grid;
+  place-items: center;
+  grid-row: span 2;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--night);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.bk-turns__who {
+  grid-column: 2 / -1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--night);
+}
+
+.bk-turns .bk-input {
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 10px;
+  font-size: 0.85rem;
+}
+
+.bk-sched {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--ice);
+}
+
+.bk-sched ol,
+.bk-sum__turns {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bk-sched li {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.bk-sched li b {
+  color: var(--night);
+}
+
+.bk-sum__turns li {
+  font-size: 0.84rem;
+  color: var(--muted);
+}

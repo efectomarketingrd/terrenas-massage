@@ -20,9 +20,13 @@ export function serviceLabel(t: Dict, s: ServiceSel, extras = false) {
   if (s.type === "pareja") {
     parts.push(`Ritual Connection ${b.ritualOpts[s.ritual].t}`);
     if (s.ritual === "basic") parts.push(m.names[s.massage]);
+  } else if (s.type === "grupo" && s.place === "spa") {
+    // Grupo en el spa: turnos de 2 personas (el detalle de cada turno va en el mensaje)
+    parts.push(`${Math.ceil(s.people / 2)} ${b.turnsWord}`);
+    return extras ? `${parts.join(" · ")} · ${s.people} ${b.people.toLowerCase()}` : parts.join(" · ");
   } else {
     parts.push(m.names[s.massage]);
-    if (s.type === "individual" || (s.type === "grupo" && s.place === "spa")) parts.push(m.levels[s.level]);
+    if (s.type === "individual") parts.push(m.levels[s.level]);
   }
   parts.push(`${s.type === "pareja" && s.ritual === "premium" ? 60 : s.min} min`);
   if (extras) {
