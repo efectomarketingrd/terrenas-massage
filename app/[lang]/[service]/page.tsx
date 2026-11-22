@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { photos } from "@/lib/images";
+import { alternates } from "@/lib/i18n";
 import { dictionaries, type Dict } from "@/lib/content";
 import { bookPath, locales, site, waLink, type Locale } from "@/lib/site";
 import { servicePath } from "@/lib/services";
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return {
     title: s.metaTitle,
     description: s.metaDesc,
-    alternates: { canonical: servicePath(lang as Locale, s.id), languages: { es: servicePath("es", s.id), en: servicePath("en", s.id) } },
+    alternates: { canonical: servicePath(lang as Locale, s.id), languages: alternates((l) => servicePath(l, s.id)) },
     openGraph: { title: s.metaTitle, description: s.metaDesc, url: servicePath(lang as Locale, s.id), images: [{ url: "/og.png", width: 1200, height: 630 }] },
   };
 }
@@ -79,8 +80,7 @@ export default async function ServicePage({ params }: { params: Promise<{ lang: 
   const s = find(lang, service);
   if (!s) notFound();
   const c = t.services;
-  const other = lang === "es" ? "en" : "es";
-  const alt = servicePath(other, s.id);
+  const alt = alternates((l) => servicePath(l, s.id));
   const book = bookPath(lang, s.query);
   const { unit, rows } = priceRows(t, s);
   const photoKey = s.id === "domicilio" ? "villa" : s.id === "pareja" ? "pareja" : "grupo";
@@ -121,7 +121,7 @@ export default async function ServicePage({ params }: { params: Promise<{ lang: 
     <main className="sv">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <div className="bkp__top sv__top">
-        <Header t={t} lang={lang} tone="dark" altHref={alt} />
+        <Header t={t} lang={lang} tone="dark" alts={alt} />
         <Ripples />
         <div className="wrap bkp__head rise">
           <span className="sv__icon">
@@ -244,7 +244,7 @@ export default async function ServicePage({ params }: { params: Promise<{ lang: 
         </div>
       </section>
 
-      <Footer t={t} lang={lang} altHref={alt} />
+      <Footer t={t} lang={lang} alts={alt} />
     </main>
   );
 }

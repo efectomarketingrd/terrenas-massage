@@ -8,6 +8,7 @@ import BookingWizard from "@/components/BookingWizard";
 import { Ripples } from "@/components/Water";
 import Footer from "@/components/Footer";
 import Policies from "@/components/Policies";
+import { alternates } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return {
     title: t.booking.metaTitle,
     description: t.booking.lead,
-    alternates: { canonical: lang === "es" ? "/es/reservar" : "/en/book", languages: { es: "/es/reservar", en: "/en/book" } },
+    alternates: { canonical: bookPath(lang as Locale), languages: alternates((l) => bookPath(l)) },
   };
 }
 
@@ -27,7 +28,7 @@ export default async function BookPage({ params }: { params: Promise<{ lang: str
   return (
     <main className="bkp">
       <div className="bkp__top">
-        <Header t={t} lang={lang as Locale} tone="dark" altHref={bookPath(lang === "es" ? "en" : "es")} />
+        <Header t={t} lang={lang as Locale} tone="dark" alts={alternates((l) => bookPath(l))} />
         <Ripples />
         <div className="wrap bkp__head rise">
           <p className="eyebrow">{t.booking.eyebrow}</p>
@@ -41,7 +42,7 @@ export default async function BookPage({ params }: { params: Promise<{ lang: str
         </Suspense>
         <Policies t={t} />
       </div>
-      <Footer t={t} lang={lang as Locale} altHref={bookPath(lang === "es" ? "en" : "es")} />
+      <Footer t={t} lang={lang as Locale} alts={alternates((l) => bookPath(l))} />
     </main>
   );
 }

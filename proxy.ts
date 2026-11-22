@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 export function proxy(req: NextRequest) {
   const accept = req.headers.get("accept-language") || "";
   const first = accept.split(",")[0]?.trim().toLowerCase() || "";
-  const lang = first.startsWith("es") ? "es" : first ? "en" : "es";
+  const lang = first.startsWith("es") ? "es" : first.startsWith("fr") ? "fr" : first ? "en" : "es";
   return NextResponse.redirect(new URL(`/${lang}`, req.url));
 }
 

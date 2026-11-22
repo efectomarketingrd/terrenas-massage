@@ -2,12 +2,13 @@ import Image from "next/image";
 import type { Dict } from "@/lib/content";
 import { bookPath, mapsUrl, privacyPath, site, waLink, type Locale } from "@/lib/site";
 import { servicePath } from "@/lib/services";
+import { langNames, locales, slugs } from "@/lib/i18n";
 import { Clock, FbIcon, IgIcon, Mail, Pin, WaIcon } from "./Icons";
 import { Waves } from "./Water";
 
-export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; altHref?: string }) {
+export default function Footer({ t, lang, alts }: { t: Dict; lang: Locale; alts?: Partial<Record<Locale, string>> }) {
   const f = t.footer;
-  const other = lang === "es" ? "en" : "es";
+  const others = locales.filter((l) => l !== lang);
   return (
     <>
       <footer className="ft">
@@ -40,7 +41,7 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
               {t.services.items.map((x) => (
                 <li key={x.id}><a href={servicePath(lang, x.id)}>{x.eyebrow}</a></li>
               ))}
-              <li><a href={`/${lang}/${lang === "es" ? "pagar" : "pay"}`}>{t.nav.pay}</a></li>
+              <li><a href={`/${lang}/${slugs.pay[lang]}`}>{t.nav.pay}</a></li>
               <li><a href={`${bookPath(lang)}#politicas`}>{f.policies}</a></li>
               <li><a href={privacyPath(lang)}>{f.privacy}</a></li>
               <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
@@ -74,7 +75,11 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
         </div>
         <div className="wrap ft__bottom">
           <span>© {new Date().getFullYear()} {site.name}. {f.rights}</span>
-          <a href={altHref ?? `/${other}`} hrefLang={other}>{f.lang}</a>
+          <span className="ft__langs">
+            {others.map((l) => (
+              <a key={l} href={alts?.[l] ?? `/${l}`} hrefLang={l} lang={l}>{langNames[l]}</a>
+            ))}
+          </span>
         </div>
       </footer>
 

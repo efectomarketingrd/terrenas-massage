@@ -8,6 +8,7 @@ import "../globals.css";
 import { dictionaries } from "@/lib/content";
 import { locales, privacyPath, site, type Locale } from "@/lib/site";
 import Analytics from "@/components/Analytics";
+import { alternates, ogLocale } from "@/lib/i18n";
 
 // Solo existen /es y /en: cualquier otra ruta de primer nivel da 404.
 export const dynamicParams = false;
@@ -26,13 +27,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     metadataBase: new URL(site.url),
     title: t.meta.title,
     description: t.meta.description,
-    alternates: { canonical: `/${lang}`, languages: { es: "/es", en: "/en", "x-default": "/en" } },
+    alternates: { canonical: `/${lang}`, languages: { ...alternates((l) => `/${l}`), "x-default": "/en" } },
     openGraph: {
       type: "website",
       siteName: site.name,
       title: t.meta.title,
       description: t.meta.description,
-      locale: lang === "es" ? "es_DO" : "en_US",
+      locale: ogLocale[lang as Locale],
       url: `/${lang}`,
       images: [{ url: "/og.png", width: 1200, height: 630, alt: "Terrenas Massage · Relax your body" }],
     },

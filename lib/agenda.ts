@@ -74,8 +74,9 @@ export function bookableDays() {
 }
 
 /** "14:30" → "2:30 p. m." / "2:30 pm" */
-export function fmtTime(t: string, lang: "es" | "en") {
+export function fmtTime(t: string, lang: "es" | "en" | "fr") {
   const [h, m] = t.split(":").map(Number);
+  if (lang === "fr") return `${h}\u00a0h\u00a0${pad(m)}`;
   const h12 = ((h + 11) % 12) + 1;
   const suf = h < 12 ? (lang === "es" ? "a.\u00a0m." : "am") : lang === "es" ? "p.\u00a0m." : "pm";
   return `${h12}:${pad(m)}\u00a0${suf}`;

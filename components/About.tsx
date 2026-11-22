@@ -14,7 +14,7 @@ import { Ripples, Waves } from "./Water";
 // Diseño B (selector + tarjeta animada) por defecto; ?masajes=a muestra el acordeón para comparar.
 export default function About({ t, lang, variant = "b" }: { t: Dict; lang: Locale; variant?: "a" | "b" }) {
   const c = t.about;
-  const bookWord = lang === "es" ? "Reservar" : "Book";
+  const bookWord = t.nav.book;
   const items = [
     ...c.massages.map((m) => ({ k: m.k, t: m.t, tag: m.tag, d: m.d, ideal: m.ideal, p: m.p, href: bookPath(lang, `tipo=individual&masaje=${m.k}`), cta: c.book })),
     ...c.extras.map((e) => ({

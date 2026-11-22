@@ -6,6 +6,7 @@ import type { Dict } from "@/lib/content";
 import { site, waLink, type Locale } from "@/lib/site";
 import { reservaUrl } from "@/lib/reserva";
 import { getOrigin } from "@/lib/track";
+import { intlLocale } from "@/lib/i18n";
 import { serviceLabel, type ServiceSel } from "@/lib/service";
 import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
 import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel } from "@/lib/prices";
@@ -94,7 +95,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
 
   // Calendario mensual (semana empieza en lunes); fechas como "AAAA-MM-DD" en hora de R.D.
   const openSet = useMemo(() => new Set(days), [days]);
-  const loc = lang === "es" ? "es-DO" : "en-US";
+  const loc = intlLocale[lang];
   const monthLabel = cursor.toLocaleDateString(loc, { month: "long", year: "numeric", timeZone: "UTC" });
   const cells = useMemo(() => {
     const y = cursor.getUTCFullYear();
@@ -132,7 +133,7 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
     const dt = new Date(Date.UTC(y, mo - 1, da, 12));
     const today = ymd(nowDR());
     const tomorrow = ymd(new Date(nowDR().getTime() + 86400000));
-    const loc = lang === "es" ? "es-DO" : "en-US";
+    const loc = intlLocale[lang];
     const wd = dt.toLocaleDateString(loc, { weekday: long ? "long" : "short", timeZone: "UTC" });
     const md = dt.toLocaleDateString(loc, { day: "numeric", month: long ? "long" : "short", timeZone: "UTC" });
     const rel = d === today ? b.today : d === tomorrow ? b.tomorrow : "";
@@ -458,10 +459,11 @@ export default function BookingWizard({ t, lang }: { t: Dict; lang: Locale }) {
             <span className="ms__label">{b.country}</span>
             <input className="bk-input" type="text" autoComplete="country-name" list="bk-countries" placeholder={b.countryPh} value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
             <datalist id="bk-countries">
-              {(lang === "es"
-                ? ["República Dominicana", "Francia", "Italia", "España", "Estados Unidos", "Canadá", "Alemania", "Suiza", "Bélgica", "Reino Unido", "Países Bajos", "Argentina", "Colombia", "Venezuela", "Puerto Rico"]
-                : ["Dominican Republic", "France", "Italy", "Spain", "United States", "Canada", "Germany", "Switzerland", "Belgium", "United Kingdom", "Netherlands", "Argentina", "Colombia", "Venezuela", "Puerto Rico"]
-              ).map((c) => (
+              {({
+                es: ["República Dominicana", "Francia", "Italia", "España", "Estados Unidos", "Canadá", "Alemania", "Suiza", "Bélgica", "Reino Unido", "Países Bajos", "Argentina", "Colombia", "Venezuela", "Puerto Rico"],
+                en: ["Dominican Republic", "France", "Italy", "Spain", "United States", "Canada", "Germany", "Switzerland", "Belgium", "United Kingdom", "Netherlands", "Argentina", "Colombia", "Venezuela", "Puerto Rico"],
+                fr: ["France", "Belgique", "Suisse", "Canada", "République dominicaine", "Italie", "Espagne", "États-Unis", "Allemagne", "Royaume-Uni", "Pays-Bas", "Luxembourg"],
+              }[lang]).map((c) => (
                 <option key={c} value={c} />
               ))}
             </datalist>

@@ -1,3 +1,4 @@
+import { alternates, intlLocale } from "@/lib/i18n";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { dictionaries } from "@/lib/content";
@@ -22,7 +23,7 @@ export async function generateMetadata({ params, searchParams }: { params: Promi
   return {
     title: t.pay.metaTitle,
     description: t.pay.lead,
-    alternates: { canonical: payPath(lang as Locale), languages: { es: payPath("es"), en: payPath("en") } },
+    alternates: { canonical: payPath(lang as Locale), languages: alternates((l) => payPath(l)) },
     // la página personal no se indexa
     robots: c ? { index: false, follow: false } : undefined,
   };
@@ -37,7 +38,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
   const code = (await searchParams).c ?? "";
   const r = code ? readReserva(code) : null;
 
-  const loc = lang === "es" ? "es-DO" : "en-US";
+  const loc = intlLocale[lang];
   const day = r
     ? (() => {
         const [y, m, d] = r.d.split("-").map(Number);
@@ -51,7 +52,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
   const proofText = r
     ? `${p.proofMsg}\n\n${p.name}: ${r.n}\n${p.service}: ${svc}\n${p.when}: ${day}, ${fmtTime(r.h, lang)}\n${r.due > 0 ? p.dueNow : p.total}: ${fmtRd(amount)} (${fmtUsd(amount)})`
     : p.proofMsg;
-  const other = lang === "es" ? "en" : "es";
+  const alts = alternates((l) => payPath(l, code));
 
   const methods = [
     { k: "cash", show: true },
@@ -63,7 +64,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
   return (
     <main className="bkp pay">
       <div className="bkp__top">
-        <Header t={t} lang={lang} tone="dark" altHref={payPath(other, code)} />
+        <Header t={t} lang={lang} tone="dark" alts={alts} />
         <Ripples />
         <div className="wrap bkp__head rise">
           <p className="eyebrow">{p.eyebrow}</p>
@@ -194,7 +195,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                       </dl>
                     ) : (
                       <p>
-                        <a href={waLink(lang === "es" ? "Hola, ¿me envían los datos para la transferencia del pago de mi masaje?" : "Hi, could you send me the bank details to pay for my massage?")} target="_blank" rel="noopener noreferrer" data-track="bank_details_whatsapp">
+                        <a href={waLink(p.bankWa)} target="_blank" rel="noopener noreferrer" data-track="bank_details_whatsapp">
                           {p.bank.pending}
                         </a>
                       </p>
@@ -223,7 +224,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
           </p>
         )}
       </div>
-      <Footer t={t} lang={lang} altHref={payPath(other, code)} />
+      <Footer t={t} lang={lang} alts={alts} />
     </main>
   );
 }

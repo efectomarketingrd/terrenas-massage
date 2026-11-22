@@ -1,5 +1,6 @@
 // Todos los textos ES/EN. Para cambiar un texto, se cambia aquí.
 import type { Locale } from "./site";
+import { fr } from "./content-fr";
 
 const es = {
   meta: {
@@ -541,6 +542,7 @@ const es = {
     proofTitle: "¿Ya pagaste?",
     proofText: "Envíanos el comprobante por WhatsApp y te confirmamos el pago.",
     proofBtn: "Enviar comprobante por WhatsApp",
+    bankWa: "Hola, ¿me envían los datos para la transferencia del pago de mi masaje?",
     proofMsg: "Hola, envío el comprobante del pago de mi masaje.",
     noRes: "¿Aún no tienes tu reserva?",
     book: "Reservar masaje",
@@ -1091,6 +1093,7 @@ const en: Dict = {
     proofTitle: "Already paid?",
     proofText: "Send us the receipt on WhatsApp and we'll confirm your payment.",
     proofBtn: "Send receipt on WhatsApp",
+    bankWa: "Hi, could you send me the bank details to pay for my massage?",
     proofMsg: "Hi, here is the receipt for my massage payment.",
     noRes: "Don't have a booking yet?",
     book: "Book a massage",
@@ -1099,4 +1102,4 @@ const en: Dict = {
   waMsg: "Hi, I'd like to book a massage at Terrenas Massage.",
 };
 
-export const dictionaries: Record<Locale, Dict> = { es, en };
+export const dictionaries: Record<Locale, Dict> = { es, en, fr };

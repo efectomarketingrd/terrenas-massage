@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Ripples } from "@/components/Water";
 import { Mail, WaIcon } from "@/components/Icons";
+import { alternates } from "@/lib/i18n";
 
 // Política de privacidad (/es/privacidad · /en/privacy)
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return {
     title: t.privacy.metaTitle,
     description: t.privacy.metaDesc,
-    alternates: { canonical: privacyPath(lang as Locale), languages: { es: privacyPath("es"), en: privacyPath("en") } },
+    alternates: { canonical: privacyPath(lang as Locale), languages: alternates((l) => privacyPath(l)) },
   };
 }
 
@@ -27,11 +28,11 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
   const lang = l as Locale;
   const t = dictionaries[lang];
   const c = t.privacy;
-  const alt = privacyPath(lang === "es" ? "en" : "es");
+  const alt = alternates((l) => privacyPath(l));
   return (
     <main className="bkp">
       <div className="bkp__top">
-        <Header t={t} lang={lang} tone="dark" altHref={alt} />
+        <Header t={t} lang={lang} tone="dark" alts={alt} />
         <Ripples />
         <div className="wrap bkp__head rise">
           <p className="eyebrow">{c.eyebrow}</p>
@@ -70,7 +71,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
           </a>
         </div>
       </div>
-      <Footer t={t} lang={lang} altHref={alt} />
+      <Footer t={t} lang={lang} alts={alt} />
     </main>
   );
 }

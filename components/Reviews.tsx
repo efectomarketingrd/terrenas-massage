@@ -25,7 +25,7 @@ export default function Reviews({ t, lang }: { t: Dict; lang: Locale }) {
   const c = t.reviewsSec;
   const [paused, setPaused] = useState(false);
   const [touching, setTouching] = useState(false);
-  const rating = lang === "es" ? String(googleProfile.rating).replace(".", ",") : String(googleProfile.rating);
+  const rating = lang === "en" ? String(googleProfile.rating) : String(googleProfile.rating).replace(".", ",");
 
   return (
     <section id="opiniones" className="sec rv">

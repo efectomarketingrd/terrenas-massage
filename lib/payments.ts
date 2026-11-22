@@ -1,3 +1,4 @@
+import { slugs, type Locale } from "./i18n";
 // ─────────────────────────────────────────────────────────────
 // FORMAS DE PAGO — "Paga tu masaje" (/es/pagar · /en/pay)
 // Un medio sin enlace ("") no se muestra en la web. Para activarlo, pega su enlace aquí.
@@ -12,4 +13,4 @@ export const payments = {
   bank: null as null | { holder: string; bank: string; id?: string; accounts: { cur: "RD$" | "US$"; type: string; number: string }[] },
 };
 
-export const payPath = (lang: "es" | "en", code = "") => `/${lang}/${lang === "es" ? "pagar" : "pay"}${code ? `?c=${code}` : ""}`;
+export const payPath = (lang: Locale, code = "") => `/${lang}/${slugs.pay[lang]}${code ? `?c=${code}` : ""}`;

@@ -20,17 +20,17 @@ export const site = {
   hours: { open: "09:00", lastStart: "19:00" },
 };
 
-export const locales = ["es", "en"] as const;
-export type Locale = (typeof locales)[number];
+import { locales, slugs, type Locale } from "./i18n";
+export { locales, type Locale };
 
 export const waLink = (text: string) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
 
 /** Página de reservas en cada idioma (/es/reservar · /en/book). */
-export const bookPath = (lang: Locale, q = "") => `/${lang}/${lang === "es" ? "reservar" : "book"}${q ? `?${q}` : ""}`;
+export const bookPath = (lang: Locale, q = "") => `/${lang}/${slugs.book[lang]}${q ? `?${q}` : ""}`;
 
 // Perfil de Google del spa (abre el lugar exacto en Google Maps, con la ruta).
 /** Política de privacidad en cada idioma (/es/privacidad · /en/privacy). */
-export const privacyPath = (lang: Locale) => `/${lang}/${lang === "es" ? "privacidad" : "privacy"}`;
+export const privacyPath = (lang: Locale) => `/${lang}/${slugs.privacy[lang]}`;
 
 export const mapsUrl = "https://share.google/vdUnDXdpuNsyRW4Yq";
 

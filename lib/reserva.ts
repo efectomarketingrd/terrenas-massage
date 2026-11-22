@@ -41,7 +41,7 @@ export function reservaCode(r: Reserva) {
     ZONES.indexOf(s.zone);
   const first = r.n.trim().split(/\s+/)[0]?.replace(/~/g, "").slice(0, 20) ?? "";
   const flags = (r.est ? 1 : 0) | (r.ok ? 2 : 0);
-  const parts = [(r.l === "en" ? "e" : "s") + flags, first, svc + s.people.toString(36), r.d.slice(2).replace(/-/g, "") + r.h.replace(":", ""), r.t.toString(36), r.due.toString(36)];
+  const parts = [({ es: "s", en: "e", fr: "f" } as const)[r.l] + flags, first, svc + s.people.toString(36), r.d.slice(2).replace(/-/g, "") + r.h.replace(":", ""), r.t.toString(36), r.due.toString(36)];
   return toB64Url(parts.join("~"));
 }
 
@@ -56,7 +56,7 @@ export function readReserva(code: string): Reserva | null {
     const flags = Number(lf.slice(1)) || 0;
     const num = (i: number) => Number(sv[i]);
     return {
-      l: lf[0] === "e" ? "en" : "es",
+      l: lf[0] === "e" ? "en" : lf[0] === "f" ? "fr" : "es",
       n,
       sel: {
         type: TYPES[num(0)] ?? "individual",

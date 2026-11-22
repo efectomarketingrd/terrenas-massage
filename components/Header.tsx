@@ -5,10 +5,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Dict } from "@/lib/content";
 import { bookPath, type Locale } from "@/lib/site";
+import { langNames, locales, slugs } from "@/lib/i18n";
 
-export default function Header({ t, lang, tone = "dark", logo = true, altHref }: { t: Dict; lang: Locale; tone?: "dark" | "light"; logo?: boolean; altHref?: string }) {
+export default function Header({ t, lang, tone = "dark", logo = true, alts }: { t: Dict; lang: Locale; tone?: "dark" | "light"; logo?: boolean; alts?: Partial<Record<Locale, string>> }) {
   const [open, setOpen] = useState(false);
-  const other = lang === "es" ? "en" : "es";
+  const others = locales.filter((l) => l !== lang);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -23,7 +24,7 @@ export default function Header({ t, lang, tone = "dark", logo = true, altHref }:
     { href: `/${lang}#opiniones`, label: t.nav.reviews },
     { href: `/${lang}#ubicacion`, label: t.nav.location },
     { href: `/${lang}#preguntas`, label: t.nav.faq },
-    { href: `/${lang}/${lang === "es" ? "pagar" : "pay"}`, label: t.nav.pay },
+    { href: `/${lang}/${slugs.pay[lang]}`, label: t.nav.pay },
   ];
   return (
     <header className={`hd hd--${tone} ${logo ? "" : "hd--nologo"}`}>
@@ -39,9 +40,11 @@ export default function Header({ t, lang, tone = "dark", logo = true, altHref }:
       </Link>
       <div className="hd__right">
         {/* Enlace normal (recarga completa) para que el otro idioma abra arriba */}
-        <a className="hd__lang" href={altHref ?? `/${other}`} hrefLang={other} aria-label={`${t.nav.langShort} · ${t.nav.lang}`}>
-          {t.nav.langShort}
-        </a>
+        {others.map((l) => (
+          <a key={l} className="hd__lang" href={alts?.[l] ?? `/${l}`} hrefLang={l} lang={l} aria-label={`${l.toUpperCase()} · ${langNames[l]}`}>
+            {l.toUpperCase()}
+          </a>
+        ))}
         <button type="button" className="hd__burger" aria-expanded={open} aria-controls="menu" onClick={() => setOpen(true)}>
           <span className="sr">{t.nav.menu}</span>
           <i />
