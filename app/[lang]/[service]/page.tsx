@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import { photos } from "@/lib/images";
 import { dictionaries, type Dict } from "@/lib/content";
 import { bookPath, locales, site, waLink, type Locale } from "@/lib/site";
 import { servicePath } from "@/lib/services";
@@ -81,6 +83,7 @@ export default async function ServicePage({ params }: { params: Promise<{ lang: 
   const alt = servicePath(other, s.id);
   const book = bookPath(lang, s.query);
   const { unit, rows } = priceRows(t, s);
+  const photoKey = s.id === "domicilio" ? "villa" : s.id === "pareja" ? "pareja" : "grupo";
   const icon = s.id === "domicilio" ? "domicilio" : s.id === "pareja" ? "pareja" : "grupo";
 
   // Datos para Google: el servicio, sus precios y la ruta de navegación
@@ -144,6 +147,10 @@ export default async function ServicePage({ params }: { params: Promise<{ lang: 
       </div>
 
       <div className="wrap">
+        <figure className="ph ph--sv">
+          <Image src={photos[photoKey].src} alt={t.photosAlt[photoKey]} width={photos[photoKey].w} height={photos[photoKey].h} sizes="(max-width: 680px) 92vw, 600px" priority />
+        </figure>
+
         {/* Qué incluye */}
         <InView className="sv__card sv__inc">
           <h2 className="sv__h">{c.includesTitle}</h2>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import { photos } from "@/lib/images";
 import type { Dict } from "@/lib/content";
 import { bookPath, mapsUrl, type Locale } from "@/lib/site";
 import { servicePath } from "@/lib/services";
@@ -19,6 +21,15 @@ export default function Places({ t, lang }: { t: Dict; lang: Locale }) {
     const p = c[k];
     return (
       <>
+        <figure className="ph ph--pl">
+          <Image
+            src={k === "spa" ? photos.bodegon.src : photos.villa.src}
+            alt={k === "spa" ? t.photosAlt.bodegon : t.photosAlt.villa}
+            width={2048}
+            height={1152}
+            sizes="(max-width: 680px) 86vw, 560px"
+          />
+        </figure>
         <div className="pl__head">
           <span className="pl__icon">
             <ExpIcon k={k === "spa" ? "individual" : "domicilio"} size={26} />

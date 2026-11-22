@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import { photos } from "@/lib/images";
+
 import { useEffect, useRef, useState } from "react";
 import type { Dict } from "@/lib/content";
 import { bookPath, type Locale } from "@/lib/site";
@@ -79,6 +82,10 @@ export default function About({ t, lang, variant = "b" }: { t: Dict; lang: Local
           <h2 className="sec__title">{c.title}</h2>
           <p className="sec__lead">{c.lead}</p>
         </InView>
+
+        <figure className="ph ph--ab">
+          <Image src={photos.manos.src} alt={t.photosAlt.manos} width={photos.manos.w} height={photos.manos.h} sizes="(max-width: 680px) 92vw, 600px" />
+        </figure>
 
         {/* A · Acordeón animado */}
         {variant === "a" && (

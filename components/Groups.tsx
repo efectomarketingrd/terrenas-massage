@@ -1,6 +1,8 @@
 import type { Dict } from "@/lib/content";
 import { bookPath, waLink, type Locale } from "@/lib/site";
 import { servicePath } from "@/lib/services";
+import Image from "next/image";
+import { photos } from "@/lib/images";
 import InView from "./InView";
 import { Arrow, ExpIcon, WaIcon } from "./Icons";
 import { Ripples, Waves } from "./Water";
@@ -35,6 +37,10 @@ export default function Groups({ t, lang }: { t: Dict; lang: Locale }) {
             ))}
           </ul>
         </InView>
+
+        <figure className="ph ph--gr">
+          <Image src={photos.grupo.src} alt={t.photosAlt.grupo} width={photos.grupo.w} height={photos.grupo.h} sizes="(max-width: 680px) 92vw, 600px" />
+        </figure>
 
         <InView className="gr__steps">
             <p className="gr__stitle">{c.stepsTitle}</p>

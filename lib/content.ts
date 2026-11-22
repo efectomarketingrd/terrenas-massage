@@ -22,6 +22,13 @@ const es = {
     lang: "English",
     langShort: "EN",
   },
+  photosAlt: {
+    villa: "Camilla de masaje preparada en la terraza de una villa con vista al mar",
+    pareja: "Piedras calientes, dos copas de vino, velas y una flor para el masaje en pareja",
+    grupo: "Camillas de masaje bajo toldos blancos junto a una piscina para un grupo",
+    manos: "Manos de una masajista con aceite de masaje",
+    bodegon: "Aceite de masaje, piedras, toalla blanca y una flor sobre madera",
+  },
   consent: { text: "Usamos cookies para saber cómo nos encuentran y mejorar nuestros anuncios.", accept: "Aceptar", reject: "Solo las necesarias" },
   greet: { morning: "Buenos días", afternoon: "Buenas tardes", evening: "Buenas noches" },
   hero: {
@@ -564,6 +571,13 @@ const en: Dict = {
     close: "Close",
     lang: "Español",
     langShort: "ES",
+  },
+  photosAlt: {
+    villa: "Massage table set up on a villa terrace with a sea view",
+    pareja: "Hot stones, two glasses of wine, candles and a flower for a couples massage",
+    grupo: "Massage tables under white canopies by a pool for a group",
+    manos: "A massage therapist's hands with massage oil",
+    bodegon: "Massage oil, stones, a white towel and a flower on wood",
   },
   consent: { text: "We use cookies to learn how people find us and to improve our ads.", accept: "Accept", reject: "Only necessary" },
   greet: { morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening" },
