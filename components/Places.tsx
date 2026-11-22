@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Dict } from "@/lib/content";
 import { bookPath, mapsUrl, type Locale } from "@/lib/site";
+import { servicePath } from "@/lib/services";
 import InView from "./InView";
 import { Arrow, Check, ExpIcon, Pin } from "./Icons";
 
@@ -42,6 +43,11 @@ export default function Places({ t, lang }: { t: Dict; lang: Locale }) {
         <a className="btn btn--night pl__cta" href={href(k)}>
           {p.cta} <Arrow size={14} />
         </a>
+        {k === "villa" && (
+          <a className="sv-more" href={servicePath(lang, "domicilio")}>
+            {c.villa.more} <Arrow size={13} />
+          </a>
+        )}
       </>
     );
   };

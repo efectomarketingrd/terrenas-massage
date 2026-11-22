@@ -8,8 +8,10 @@ import { Arrow, WaIcon } from "./Icons";
 import { Ripples } from "./Water";
 
 // Sección 6 · Preguntas frecuentes + cierre "¿Listo para relajarte?"
-export default function Faq({ t, lang }: { t: Dict; lang: Locale }) {
+// En las páginas de servicio recibe sus propias preguntas (items) y el enlace de reserva (book).
+export default function Faq({ t, lang, items, title, book }: { t: Dict; lang: Locale; items?: { q: string; a: string }[]; title?: string; book?: string }) {
   const f = t.faq;
+  const list = items ?? f.items;
   const c = t.closing;
   const [open, setOpen] = useState(0);
 
@@ -17,7 +19,7 @@ export default function Faq({ t, lang }: { t: Dict; lang: Locale }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: f.items.map((it) => ({ "@type": "Question", name: it.q, acceptedAnswer: { "@type": "Answer", text: it.a } })),
+    mainEntity: list.map((it) => ({ "@type": "Question", name: it.q, acceptedAnswer: { "@type": "Answer", text: it.a } })),
   };
 
   const closing = (
@@ -26,7 +28,7 @@ export default function Faq({ t, lang }: { t: Dict; lang: Locale }) {
       <h2 className="cl__t">{c.title}</h2>
       <p className="cl__d">{c.text}</p>
       <div className="cl__btns">
-        <a className="btn btn--teal" href={bookPath(lang)}>
+        <a className="btn btn--teal" href={book ?? bookPath(lang)}>
           {c.book} <Arrow size={14} />
         </a>
         <a className="btn btn--ghost" href={waLink(t.waMsg)} target="_blank" rel="noopener noreferrer">
@@ -42,10 +44,10 @@ export default function Faq({ t, lang }: { t: Dict; lang: Locale }) {
         <div className="wrap">
           <InView className="sec__head">
             <p className="eyebrow">{f.eyebrow}</p>
-            <h2 className="sec__title">{f.title}</h2>
+            <h2 className="sec__title">{title ?? f.title}</h2>
           </InView>
           <div className="fq__list">
-            {f.items.map((it, i) => {
+            {list.map((it, i) => {
               const on = open === i;
               return (
                 <div key={it.q} className={`fq__item ${on ? "is-open" : ""}`}>

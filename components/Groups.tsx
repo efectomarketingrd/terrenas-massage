@@ -1,5 +1,6 @@
 import type { Dict } from "@/lib/content";
 import { bookPath, waLink, type Locale } from "@/lib/site";
+import { servicePath } from "@/lib/services";
 import InView from "./InView";
 import { Arrow, ExpIcon, WaIcon } from "./Icons";
 import { Ripples, Waves } from "./Water";
@@ -52,6 +53,9 @@ export default function Groups({ t, lang }: { t: Dict; lang: Locale }) {
 
         <p className="gr__note">{c.note}</p>
         {buttons}
+        <a className="sv-more sv-more--light" href={servicePath(lang, "grupo")}>
+          {c.more} <Arrow size={13} />
+        </a>
       </div>
       <Waves edge />
     </section>

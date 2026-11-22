@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Dict } from "@/lib/content";
 import { bookPath, mapsUrl, privacyPath, site, waLink, type Locale } from "@/lib/site";
+import { servicePath } from "@/lib/services";
 import { Clock, FbIcon, IgIcon, Mail, Pin, WaIcon } from "./Icons";
 import { Waves } from "./Water";
 
@@ -36,6 +37,9 @@ export default function Footer({ t, lang, altHref }: { t: Dict; lang: Locale; al
             <ul className="ft__links">
               <li><a href={`/${lang}`}>{t.nav.home}</a></li>
               <li><a href={bookPath(lang)}>{t.nav.book}</a></li>
+              {t.services.items.map((x) => (
+                <li key={x.id}><a href={servicePath(lang, x.id)}>{x.eyebrow}</a></li>
+              ))}
               <li><a href={`/${lang}/${lang === "es" ? "pagar" : "pay"}`}>{t.nav.pay}</a></li>
               <li><a href={`${bookPath(lang)}#politicas`}>{f.policies}</a></li>
               <li><a href={privacyPath(lang)}>{f.privacy}</a></li>
