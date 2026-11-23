@@ -4343,3 +4343,113 @@ textarea.bk-input {
   margin-top: 2px;
   color: var(--teal-d);
 }
+
+/* Agenda · tabla «Masajes del grupo» (cada persona elige masaje y duración) */
+.bk-mix {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.bk-mix.is-err {
+  border-color: #d64545;
+}
+
+.bk-mix__head,
+.bk-mix__row,
+.bk-mix__total {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 92px 92px;
+  gap: 6px;
+  align-items: center;
+}
+
+.bk-mix__head span {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teal-d);
+}
+
+.bk-mix__row {
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+}
+
+.bk-mix__name {
+  display: grid;
+  min-width: 0;
+}
+
+.bk-mix__name b {
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.bk-mix__name small {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.bk-mix__c {
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  align-items: center;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--ice);
+  transition: background 0.2s;
+}
+
+.bk-mix__c.is-on {
+  background: #d9f0f6;
+}
+
+.bk-mix__c button {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--night);
+  cursor: pointer;
+}
+
+.bk-mix__c button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.bk-mix__c output {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.bk-mix__total {
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-size: 0.86rem;
+}
+
+.bk-mix__total b {
+  grid-column: 2 / -1;
+  text-align: right;
+  color: var(--night);
+}
+
+.bk-turns__what {
+  grid-column: 2 / -1;
+  font-size: 0.82rem;
+  color: var(--muted);
+}

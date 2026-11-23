@@ -8,7 +8,7 @@ import { getOrigin } from "@/lib/track";
 import { intlLocale } from "@/lib/i18n";
 import { serviceLabel, type ServiceSel } from "@/lib/service";
 import { agenda, bookableDays, fmtTime, minutesUntil, timesFor, ymd, nowDR } from "@/lib/agenda";
-import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel, type Turn } from "@/lib/prices";
+import { fmtRd, fmtUsd, quote, type BookType, type Level, type Minutes, type Pressure, type Sel, type Turn, type GroupPerson, buildTurns } from "@/lib/prices";
 import { Clock, ExpIcon, PayIcon, WaIcon } from "./Icons";
 import { Ripples } from "./Water";
 
@@ -75,7 +75,12 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const [occasion, setOccasion] = useState<Occasion>("none");
   const [people, setPeople] = useState(1);
   const [place, setPlace] = useState<"spa" | "domicilio">(q.get("lugar") === "villa" ? "domicilio" : "spa");
-  const [turns, setTurns] = useState<Turn[]>([]);
+  // Grupos: cuántas personas quieren cada masaje y duración (mínimo 3 en total)
+  const [mix, setMix] = useState<Record<Pressure, Record<Minutes, number>>>({
+    relajante: { 60: 3, 90: 0 },
+    profundo: { 60: 0, 90: 0 },
+    descontracturante: { 60: 0, 90: 0 },
+  });
   const [zone, setZone] = useState<Zone>("terrenas");
   const [therapists, setTherapists] = useState(2);
   const [event, setEvent] = useState<EventT>("none");
@@ -102,7 +107,6 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     if (type === "pareja" && massage === "descontracturante") setMassage("relajante");
     if (type === "pareja" && ritual === "premium") setMin(60);
     if (type === "domicilio") setPeople((p) => Math.min(Math.max(p, 1), 6));
-    if (type === "grupo") setPeople((p) => Math.max(p, 3));
     if (type !== "grupo" && zone === "samana") setZone("terrenas");
     setTherapists((n) => Math.min(Math.max(n, type === "grupo" ? 2 : 1), Math.min(8, Math.max(people, type === "grupo" ? 3 : 1))));
   }, [type, ritual, massage, zone, people]);
@@ -130,23 +134,24 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const atHome = type === "domicilio" || (type === "grupo" && place === "domicilio");
   // Grupo en el spa: la cabina es para 2 personas → turnos seguidos de 1 o 2 personas (sin tiempo entre turnos)
   const spaGroup = type === "grupo" && place === "spa";
+  const groupTotal = PRESS.reduce((sum, k) => sum + mix[k][60] + mix[k][90], 0);
+  const groupMax = spaGroup ? 22 : 40;
   useEffect(() => {
-    if (!spaGroup) return;
-    const n = Math.ceil(people / 2);
-    setTurns((prev) =>
-      Array.from({ length: n }, (_, i) => ({ massage: prev[i]?.massage ?? massage, min: prev[i]?.min ?? min, n: (i === n - 1 && people % 2 === 1 ? 1 : 2) as 1 | 2 })),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spaGroup, people]);
-  const changeMassage = (v: Pressure) => {
-    setMassage(v);
-    if (spaGroup) setTurns((ts) => ts.map((x) => ({ ...x, massage: v })));
-  };
-  const changeMin = (v: Minutes) => {
-    setMin(v);
-    if (spaGroup) setTurns((ts) => ts.map((x) => ({ ...x, min: v })));
-  };
-  const setTurn = (i: number, patch: Partial<Turn>) => setTurns((ts) => ts.map((x, k) => (k === i ? { ...x, ...patch } : x)));
+    if (type === "grupo") setPeople(groupTotal);
+  }, [type, groupTotal]);
+  const bump = (k: Pressure, mn: Minutes, d: 1 | -1) =>
+    setMix((prev) => {
+      if (d > 0 && groupTotal >= groupMax) return prev;
+      return { ...prev, [k]: { ...prev[k], [mn]: Math.max(0, prev[k][mn] + d) } };
+    });
+  const persons: GroupPerson[] = PRESS.flatMap((k) => ([60, 90] as const).flatMap((mn) => Array.from({ length: mix[k][mn] }, () => ({ massage: k, min: mn }))));
+  const turns: Turn[] = spaGroup ? buildTurns(persons) : [];
+  // Texto de un turno: «Pareja · Relajante 60 min + Profundo 60 min»
+  const turnDesc = (tn: Turn, B: typeof b, names: typeof m.names) =>
+    `${tn.p.length === 2 ? B.pairLabel : B.types.individual.t} · ${tn.p.map((x) => `${names[x.massage]} ${x.min}\u00a0min`).join(" + ")}`;
+  // Resumen de los masajes del grupo: «Relajante 60 min × 2»
+  const mixLines = (names: typeof m.names) =>
+    PRESS.flatMap((k) => ([60, 90] as const).filter((mn) => mix[k][mn] > 0).map((mn) => `${names[k]} ${mn} min × ${mix[k][mn]}`));
   const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
   const addMin = (t: string, m: number) => {
     const x = toMin(t) + m;
@@ -156,7 +161,17 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   // Duración total del grupo, p. ej. «3 h 30 min»
   const fmtDur = (m: number) => `${Math.floor(m / 60)}\u00a0h${m % 60 ? `\u00a0${m % 60}\u00a0min` : ""}`;
 
-  const sel: Sel = { type, massage, level: spaGroup ? "basico" : level, min, ritual, people, place, turns: spaGroup ? turns : undefined };
+  const isGroup = type === "grupo";
+  const sel: Sel = {
+    type,
+    massage: isGroup && persons[0] ? persons[0].massage : massage,
+    level: isGroup ? "basico" : level,
+    min: isGroup && persons[0] ? persons[0].min : min,
+    ritual,
+    people,
+    place,
+    persons: isGroup ? persons : undefined,
+  };
   const price = quote(sel);
   // En grupos en el spa, la hora elegida es la del primer turno: el último debe empezar a más tardar a la hora de cierre de inicios
   const lastOffset = spaGroup && turns.length ? offsets[offsets.length - 1] : 0;
@@ -214,9 +229,8 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
       "",
       `${mb.whereLabel}: ${mb.whereMsg[atHome ? "villa" : "spa"]}`,
       `${mb.service}: ${serviceLabel(mt, svcSel)}`,
-      ...(spaGroup
-        ? [mb.turnsMsg, ...turns.map((tn, k) => `${k + 1}) ${fmtTime(turnTimes[k], msgLang)} · ${tn.n} ${tn.n === 1 ? mb.personOne : mb.people.toLowerCase()} · ${mt.massages.names[tn.massage]} ${tn.min} min`)]
-        : []),
+      ...(isGroup ? [mb.mixMsg, ...mixLines(mt.massages.names).map((l) => `• ${l}`)] : []),
+      ...(spaGroup ? [mb.turnsMsg, ...turns.map((tn, k) => `${k + 1}) ${fmtTime(turnTimes[k], msgLang)} · ${turnDesc(tn, mb, mt.massages.names)}`)] : []),
       type === "grupo" || type === "domicilio" ? `${mb.people}: ${people}` : null,
       type === "grupo" && !spaGroup ? `${mb.therapists}: ${therapists}` : null,
       type === "grupo" ? `${mb.event}: ${mb.events[event]}` : null,
@@ -301,12 +315,12 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
             </Field>
           )}
 
-          {!(type === "pareja" && ritual === "premium") && (
-            <Field label={spaGroup ? b.allMassage : b.massage}>
+          {!(type === "pareja" && ritual === "premium") && !isGroup && (
+            <Field label={b.massage}>
               <Chips
                 label={b.massage}
                 value={massage}
-                onChange={changeMassage}
+                onChange={setMassage}
                 opts={PRESS.filter((p) => type !== "pareja" || p !== "descontracturante").map((v) => ({ v, l: m.names[v], d: m.press[v] }))}
               />
             </Field>
@@ -318,21 +332,60 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 <Chips label={b.level} value={level} onChange={setLevel} opts={(["basico", "premium"] as const).map((v) => ({ v, l: m.levels[v] }))} />
               </Field>
             )}
-            {!(type === "pareja" && ritual === "premium") && (
+            {!(type === "pareja" && ritual === "premium") && !isGroup && (
               <Field label={b.minutes}>
-                <Chips label={b.minutes} value={min} onChange={changeMin} opts={([60, 90] as const).map((v) => ({ v, l: `${v} min` }))} />
+                <Chips label={b.minutes} value={min} onChange={setMin} opts={([60, 90] as const).map((v) => ({ v, l: `${v} min` }))} />
               </Field>
             )}
           </div>
 
-          {(type === "domicilio" || type === "grupo") && (
+          {isGroup && (
+            <Field label={b.mixTitle}>
+              <p className="bk-note">{b.mixNote}</p>
+              <div className={`bk-mix ${tried && groupTotal < 3 ? "is-err" : ""}`} role="group" aria-label={b.mixTitle}>
+                <div className="bk-mix__head" aria-hidden="true">
+                  <span />
+                  <span>60 min</span>
+                  <span>90 min</span>
+                </div>
+                {PRESS.map((k) => (
+                  <div className="bk-mix__row" key={k}>
+                    <span className="bk-mix__name">
+                      <b>{m.names[k]}</b>
+                      <small>{m.press[k]}</small>
+                    </span>
+                    {([60, 90] as const).map((mn) => (
+                      <span className={`bk-mix__c ${mix[k][mn] ? "is-on" : ""}`} key={mn}>
+                        <button type="button" aria-label={`− ${m.names[k]} ${mn} min`} onClick={() => bump(k, mn, -1)} disabled={!mix[k][mn]}>
+                          −
+                        </button>
+                        <output aria-live="polite">{mix[k][mn]}</output>
+                        <button type="button" aria-label={`+ ${m.names[k]} ${mn} min`} onClick={() => bump(k, mn, 1)} disabled={groupTotal >= groupMax}>
+                          +
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                ))}
+                <div className="bk-mix__total">
+                  <span>{b.mixTotal}</span>
+                  <b>
+                    {groupTotal} {groupTotal === 1 ? b.personOne : b.people.toLowerCase()}
+                  </b>
+                </div>
+              </div>
+              {tried && groupTotal < 3 && <p className="bk-err">{b.mixErr}</p>}
+            </Field>
+          )}
+
+          {type === "domicilio" && (
             <Field label={b.people}>
               <div className="bk-count">
-                <button type="button" aria-label="−" onClick={() => setPeople((p) => Math.max(type === "grupo" ? 3 : 1, p - 1))}>
+                <button type="button" aria-label="−" onClick={() => setPeople((p) => Math.max(1, p - 1))}>
                   −
                 </button>
                 <output aria-live="polite">{people}</output>
-                <button type="button" aria-label="+" onClick={() => setPeople((p) => Math.min(type === "grupo" ? (spaGroup ? 22 : 40) : 6, p + 1))}>
+                <button type="button" aria-label="+" onClick={() => setPeople((p) => Math.min(6, p + 1))}>
                   +
                 </button>
               </div>
@@ -347,22 +400,9 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                   <li key={i}>
                     <span className="bk-turns__n">{i + 1}</span>
                     <span className="bk-turns__who">
-                      {b.turn} {i + 1} · {tn.n} {tn.n === 1 ? b.personOne : b.people.toLowerCase()}
+                      {b.turn} {i + 1} · {tn.p.length === 2 ? b.pairLabel : b.types.individual.t}
                     </span>
-                    <select className="bk-input" aria-label={`${b.turn} ${i + 1} · ${b.massage}`} value={tn.massage} onChange={(e) => setTurn(i, { massage: e.target.value as Pressure })}>
-                      {PRESS.map((p) => (
-                        <option key={p} value={p}>
-                          {m.names[p]}
-                        </option>
-                      ))}
-                    </select>
-                    <select className="bk-input" aria-label={`${b.turn} ${i + 1} · ${b.minutes}`} value={tn.min} onChange={(e) => setTurn(i, { min: Number(e.target.value) as Minutes })}>
-                      {([60, 90] as const).map((v) => (
-                        <option key={v} value={v}>
-                          {v} min
-                        </option>
-                      ))}
-                    </select>
+                    <span className="bk-turns__what">{tn.p.map((x) => `${m.names[x.massage]} ${x.min}\u00a0min`).join(" + ")}</span>
                   </li>
                 ))}
               </ol>
@@ -435,7 +475,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
             ) : (
               <span />
             )}
-            <button type="button" className="btn btn--teal" onClick={() => next(!!where, 2)}>
+            <button type="button" className="btn btn--teal" onClick={() => next(!!where && (!isGroup || groupTotal >= 3), 2)}>
               {b.next}
             </button>
           </div>
@@ -545,9 +585,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 {turns.map((tn, i) => (
                   <li key={i}>
                     <b>{fmtTime(turnTimes[i], lang)}</b>
-                    <span>
-                      {tn.n} {tn.n === 1 ? b.personOne : b.people.toLowerCase()} · {m.names[tn.massage]} · {tn.min} min
-                    </span>
+                    <span>{turnDesc(tn, b, m.names)}</span>
                   </li>
                 ))}
               </ol>
@@ -657,12 +695,19 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 {(type === "grupo" || type === "domicilio") && people > 1 && ` · ${people} ${b.people.toLowerCase()}`}
                 {type === "grupo" && !spaGroup && ` · ${therapists} ${b.therapists.toLowerCase()}`}
                 {type === "grupo" && ` · ${b.events[event]}`}
+                {isGroup && !spaGroup && (
+                  <ol className="bk-sum__turns">
+                    {mixLines(m.names).map((l) => (
+                      <li key={l}>{l}</li>
+                    ))}
+                  </ol>
+                )}
                 {spaGroup && (
                   <ol className="bk-sum__turns">
                     {turns.map((tn, i) => (
                       <li key={i}>
                         {time ? `${fmtTime(turnTimes[i], lang)} · ` : ""}
-                        {tn.n} {tn.n === 1 ? b.personOne : b.people.toLowerCase()} · {m.names[tn.massage]} · {tn.min} min
+                        {turnDesc(tn, b, m.names)}
                       </li>
                     ))}
                   </ol>

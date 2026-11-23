@@ -20,18 +20,19 @@ export function serviceLabel(t: Dict, s: ServiceSel, extras = false) {
   if (s.type === "pareja") {
     parts.push(`Ritual Connection ${b.ritualOpts[s.ritual].t}`);
     if (s.ritual === "basic") parts.push(m.names[s.massage]);
-  } else if (s.type === "grupo" && s.place === "spa") {
-    // Grupo en el spa: turnos de 2 personas (el detalle de cada turno va en el mensaje)
-    parts.push(`${Math.ceil(s.people / 2)} ${b.turnsWord}`);
-    return extras ? `${parts.join(" · ")} · ${s.people} ${b.people.toLowerCase()}` : parts.join(" · ");
+  } else if (s.type === "grupo") {
+    // Grupos: cada persona elige su masaje (el detalle va en el mensaje). En el spa, turnos de 2 personas.
+    parts.push(s.place === "spa" ? `${Math.ceil(s.people / 2)} ${b.turnsWord}` : b.places.domicilio);
+    if (extras) parts.push(`${s.people} ${b.people.toLowerCase()}`, ...(s.place === "domicilio" ? [b.zones[s.zone]] : []));
+    return parts.join(" · ");
   } else {
     parts.push(m.names[s.massage]);
     if (s.type === "individual") parts.push(m.levels[s.level]);
   }
   parts.push(`${s.type === "pareja" && s.ritual === "premium" ? 60 : s.min} min`);
   if (extras) {
-    if ((s.type === "grupo" || s.type === "domicilio") && s.people > 1) parts.push(`${s.people} ${b.people.toLowerCase()}`);
-    if (s.type === "domicilio" || (s.type === "grupo" && s.place === "domicilio")) parts.push(b.zones[s.zone]);
+    if (s.type === "domicilio" && s.people > 1) parts.push(`${s.people} ${b.people.toLowerCase()}`);
+    if (s.type === "domicilio") parts.push(b.zones[s.zone]);
   }
   return parts.join(" · ");
 }
