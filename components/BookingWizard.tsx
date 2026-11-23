@@ -158,8 +158,6 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     return `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`;
   };
   const offsets = turns.map((_, i) => turns.slice(0, i).reduce((s, x) => s + x.min, 0));
-  // Duración total del grupo, p. ej. «3 h 30 min»
-  const fmtDur = (m: number) => `${Math.floor(m / 60)}\u00a0h${m % 60 ? `\u00a0${m % 60}\u00a0min` : ""}`;
 
   const isGroup = type === "grupo";
   const sel: Sel = {
@@ -173,10 +171,41 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     persons: isGroup ? persons : undefined,
   };
   const price = quote(sel);
-  // En grupos en el spa, la hora elegida es la del primer turno: el último debe empezar a más tardar a la hora de cierre de inicios
-  const lastOffset = spaGroup && turns.length ? offsets[offsets.length - 1] : 0;
-  const times = date ? timesFor(date).filter((tm) => toMin(tm) + lastOffset <= toMin(agenda.lastStart)) : [];
-  const turnTimes = turns.map((_, i) => (time ? addMin(time, offsets[i]) : ""));
+  const times = date ? timesFor(date) : [];
+
+  // Grupos en el spa: cada turno tiene su hora (mismo día). Se proponen seguidos desde la primera hora en que caben todos;
+  // el cliente puede cambiar cualquiera. La cabina no puede tener dos turnos a la vez y ninguno empieza después de la última hora.
+  const lastStartMin = toMin(agenda.lastStart);
+  const [tSel, setTSel] = useState<string[]>([]);
+  const turnSig = turns.map((x) => `${x.min}-${x.p.length}`).join(",");
+  useEffect(() => {
+    if (!spaGroup || !date) {
+      setTSel([]);
+      return;
+    }
+    const before = turns.slice(0, -1).reduce((s, x) => s + x.min, 0);
+    const start = timesFor(date).find((tm) => toMin(tm) + before <= lastStartMin);
+    setTSel(start ? turns.map((_, i) => addMin(start, offsets[i])) : turns.map(() => ""));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spaGroup, date, turnSig]);
+  const overlaps = (s: number, i: number) => tSel.some((o, j) => j !== i && !!o && !!turns[j] && s < toMin(o) + turns[j].min && toMin(o) < s + turns[i].min);
+  const optsFor = (i: number) => {
+    if (!date || !turns[i]) return [];
+    const grid = timesFor(date);
+    const first = grid[0] ? toMin(grid[0]) : 0;
+    const ends = tSel.map((o, j) => (j !== i && o && turns[j] ? addMin(o, turns[j].min) : "")).filter((e) => e && toMin(e) >= first);
+    return Array.from(new Set([...grid, ...ends]))
+      .filter((tm) => toMin(tm) <= lastStartMin && !overlaps(toMin(tm), i))
+      .sort((a, b) => toMin(a) - toMin(b));
+  };
+  const turnTimes = spaGroup ? turns.map((_, i) => tSel[i] ?? "") : [];
+  // Orden por hora para el mensaje y el resumen
+  const turnOrder = turns.map((_, i) => i).sort((a, b) => toMin(turnTimes[a] || "99:99") - toMin(turnTimes[b] || "99:99"));
+  useEffect(() => {
+    if (!spaGroup) return;
+    const firstT = [...tSel].filter(Boolean).sort((a, b) => toMin(a) - toMin(b))[0] ?? "";
+    setTime(firstT);
+  }, [spaGroup, tSel]);
 
   const go = (n: number) => {
     setTried(false);
@@ -184,7 +213,9 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     requestAnimationFrame(() => top.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
   };
 
-  const valid2 = !!date && !!time && times.includes(time);
+  const valid2 = spaGroup
+    ? !!date && turns.length > 0 && turns.every((x, i) => !!tSel[i] && toMin(tSel[i]) <= lastStartMin && !overlaps(toMin(tSel[i]), i))
+    : !!date && !!time && times.includes(time);
   const valid3 = form.name.trim().length > 1 && form.phone.replace(/\D/g, "").length >= 7 && (!atHome || form.address.trim().length > 3) && accept;
 
   // Etiquetas
@@ -230,7 +261,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
       `${mb.whereLabel}: ${mb.whereMsg[atHome ? "villa" : "spa"]}`,
       `${mb.service}: ${serviceLabel(mt, svcSel)}`,
       ...(isGroup ? [mb.mixMsg, ...mixLines(mt.massages.names).map((l) => `• ${l}`)] : []),
-      ...(spaGroup ? [mb.turnsMsg, ...turns.map((tn, k) => `${k + 1}) ${fmtTime(turnTimes[k], msgLang)} · ${turnDesc(tn, mb, mt.massages.names)}`)] : []),
+      ...(spaGroup ? [mb.turnsMsg, ...turnOrder.map((i, k) => `${k + 1}) ${fmtTime(turnTimes[i], msgLang)} · ${turnDesc(turns[i], mb, mt.massages.names)}`)] : []),
       type === "grupo" || type === "domicilio" ? `${mb.people}: ${people}` : null,
       type === "grupo" && !spaGroup ? `${mb.therapists}: ${therapists}` : null,
       type === "grupo" ? `${mb.event}: ${mb.events[event]}` : null,
@@ -464,7 +495,6 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
           {type === "pareja" && ritual === "premium" && <p className="bk-note">{b.premium60}</p>}
           {type === "individual" && level === "premium" && <p className="bk-note">{b.premiumNote}</p>}
           {type === "domicilio" && <p className="bk-note">{b.homeNote}</p>}
-          {type === "grupo" && <p className="bk-note">{spaGroup ? b.groupSpaNote : b.groupNote}</p>}
           </>
           )}
 
@@ -561,15 +591,48 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
               <p className="bk-note">{b.pickDay}</p>
             ) : (
               <div key={date} className="bk-in">
+                {spaGroup ? (
+                  <>
+                    <p className="times__title">
+                      {b.turnTimesTitle} · {dayLabel(date, true).full}
+                    </p>
+                    {tSel.some(Boolean) ? (
+                      <>
+                        <p className="bk-note">{b.turnTimesHint}</p>
+                        <ol className="bk-tt">
+                          {turns.map((tn, i) => (
+                            <li key={i}>
+                              <span className="bk-turns__n">{i + 1}</span>
+                              <span className="bk-tt__what">
+                                <b>{tn.p.length === 2 ? b.pairLabel : b.types.individual.t}</b>
+                                <small>{tn.p.map((x) => `${m.names[x.massage]} ${x.min}\u00a0min`).join(" + ")}</small>
+                              </span>
+                              <select
+                                className="bk-input"
+                                aria-label={`${b.turn} ${i + 1}`}
+                                value={tSel[i] || ""}
+                                onChange={(e) => setTSel((prev) => prev.map((v, k) => (k === i ? e.target.value : v)))}
+                              >
+                                {!tSel[i] && <option value="">—</option>}
+                                {optsFor(i).map((tm) => (
+                                  <option key={tm} value={tm}>
+                                    {fmtTime(tm, lang)}
+                                  </option>
+                                ))}
+                              </select>
+                            </li>
+                          ))}
+                        </ol>
+                      </>
+                    ) : (
+                      <p className="bk-note">{b.noTimesGroup}</p>
+                    )}
+                  </>
+                ) : (
+                  <>
                 <p className="times__title">
                   {b.available} {dayLabel(date, true).full}
                 </p>
-                {spaGroup && turns.length > 0 && (
-                  <p className="bk-gnote" role="note">
-                    <Clock />
-                    <span>{b.groupTimesNote.replace("{n}", String(turns.length)).replace("{d}", fmtDur(turns.reduce((sum, x) => sum + x.min, 0)))}</span>
-                  </p>
-                )}
                 {times.length ? (
                   <div className="bk-times">
                     {times.map((tm, i) => (
@@ -579,24 +642,13 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                     ))}
                   </div>
                 ) : (
-                  <p className="bk-note">{spaGroup ? b.noTimesGroup : b.noTimes}</p>
+                  <p className="bk-note">{b.noTimes}</p>
+                )}
+                  </>
                 )}
               </div>
             )}
           </div>
-          {spaGroup && time && valid2 && (
-            <div className="bk-sched">
-              <p className="ms__label">{b.schedTitle}</p>
-              <ol>
-                {turns.map((tn, i) => (
-                  <li key={i}>
-                    <b>{fmtTime(turnTimes[i], lang)}</b>
-                    <span>{turnDesc(tn, b, m.names)}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          )}
           {tried && !valid2 && <p className="bk-err">{b.required}</p>}
 
           <div className="bk-nav">
@@ -710,10 +762,10 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 )}
                 {spaGroup && (
                   <ol className="bk-sum__turns">
-                    {turns.map((tn, i) => (
+                    {turnOrder.map((i) => (
                       <li key={i}>
-                        {time ? `${fmtTime(turnTimes[i], lang)} · ` : ""}
-                        {turnDesc(tn, b, m.names)}
+                        {turnTimes[i] ? `${fmtTime(turnTimes[i], lang)} · ` : ""}
+                        {turnDesc(turns[i], b, m.names)}
                       </li>
                     ))}
                   </ol>
@@ -765,6 +817,7 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                   <b className="tk__due">
                     {fmtRd(due)} <small>≈ {fmtUsd(due)}</small>
                   </b>
+                  {spaGroup && <small className="tk__alt">{b.groupPayAlt}</small>}
                 </>
               ) : (
                 <span className="tk__lbl tk__lbl--ok">✓ {b.payLater}</span>

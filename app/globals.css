@@ -4497,3 +4497,55 @@ textarea.bk-input {
   opacity: 0.45;
   cursor: default;
 }
+
+/* Agenda · hora de cada turno (grupos en el spa) */
+.bk-tt {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bk-tt li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 128px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.bk-tt li .bk-turns__n {
+  grid-row: auto;
+}
+
+.bk-tt__what {
+  display: grid;
+  min-width: 0;
+}
+
+.bk-tt__what b {
+  font-size: 0.86rem;
+}
+
+.bk-tt__what small {
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.bk-tt .bk-input {
+  min-height: 42px;
+  padding: 0 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.tk__alt {
+  flex-basis: 100%;
+  font-size: 0.72rem;
+  opacity: 0.8;
+}
