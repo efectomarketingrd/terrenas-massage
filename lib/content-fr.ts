@@ -253,7 +253,6 @@ export const fr: Dict = {
     turn: "Créneau",
     personOne: "personne",
     turnsWord: "créneaux",
-    allMassage: "Massage pour tous",
     discount: "Réduction de groupe (10 %)",
     groupSpaNote: "Confirmation avec un acompte de 50 %, ou en payant sur place au spa au moins 1 heure avant le premier créneau. Groupes de 10 personnes ou plus : 10 % de réduction.",
     schedTitle: "Horaire de votre groupe",
