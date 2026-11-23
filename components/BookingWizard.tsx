@@ -368,12 +368,18 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                   </div>
                 ))}
                 <div className="bk-mix__total">
-                  <span>{b.mixTotal}</span>
+                  <span>
+                    {b.mixTotal}
+                    <small>{b.mixRange.replace("{max}", String(groupMax))}</small>
+                  </span>
                   <b>
                     {groupTotal} {groupTotal === 1 ? b.personOne : b.people.toLowerCase()}
                   </b>
                 </div>
               </div>
+              <button type="button" className="bk-mix__add" onClick={() => bump("relajante", 60, 1)} disabled={groupTotal >= groupMax}>
+                <span aria-hidden="true">+</span> {b.mixAdd}
+              </button>
               {tried && groupTotal < 3 && <p className="bk-err">{b.mixErr}</p>}
             </Field>
           )}

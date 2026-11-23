@@ -4453,3 +4453,47 @@ textarea.bk-input {
   font-size: 0.82rem;
   color: var(--muted);
 }
+
+.bk-mix__total span {
+  display: grid;
+}
+
+.bk-mix__total small {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* Botón visible para añadir otra persona al grupo (entra como Relajante 60 min; se cambia con + y −) */
+.bk-mix__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 10px;
+  border: 1.5px dashed var(--teal-d);
+  border-radius: 14px;
+  background: #f2fafc;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--teal-d);
+  cursor: pointer;
+}
+
+.bk-mix__add span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--teal-btn);
+  font-size: 1rem;
+  color: #fff;
+}
+
+.bk-mix__add:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
