@@ -286,7 +286,7 @@ export const fr: Dict = {
     openNotes: ["Réservez au moins 1 heure à l'avance", "Selon disponibilité : nous confirmons par WhatsApp", "Le dernier massage commence à 19 h et se termine selon la durée choisie"],
     name: "Nom complet",
     phone: "WhatsApp ou téléphone",
-    email: "E-mail (facultatif)",
+    email: "E-mail",
     country: "Pays",
     countryPh: "Ex. : France",
     address: "Villa, hôtel ou adresse",

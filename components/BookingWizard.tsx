@@ -216,7 +216,10 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
   const valid2 = spaGroup
     ? !!date && turns.length > 0 && turns.every((x, i) => !!tSel[i] && toMin(tSel[i]) <= lastStartMin && !overlaps(toMin(tSel[i]), i))
     : !!date && !!time && times.includes(time);
-  const valid3 = form.name.trim().length > 1 && form.phone.replace(/\D/g, "").length >= 7 && (!atHome || form.address.trim().length > 3) && accept;
+  // Paso 3: todos los datos obligatorios salvo las preferencias.
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim());
+  const countryOk = form.country.trim().length > 1;
+  const valid3 = form.name.trim().length > 1 && form.phone.replace(/\D/g, "").length >= 7 && emailOk && countryOk && (!atHome || form.address.trim().length > 3) && accept;
 
   // Etiquetas
   const dayLabel = (d: string, long = false, L: Locale = lang, B = b) => {
@@ -675,10 +678,10 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
             [
               ["name", b.name, "text", "name", true],
               ["phone", b.phone, "tel", "tel", true],
-              ["email", b.email, "email", "email", false],
+              ["email", b.email, "email", "email", true],
             ] as const
           ).map(([k, label, type_, ac, req]) => (
-            <label key={k} className={`bk-field ${tried && req && !form[k].trim() ? "is-err" : ""}`}>
+            <label key={k} className={`bk-field ${tried && req && (!form[k].trim() || (k === "email" && !emailOk)) ? "is-err" : ""}`}>
               <span className="ms__label">
                 {label}
                 {req && " *"}
@@ -686,8 +689,8 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
               <input className="bk-input" type={type_} autoComplete={ac} value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} />
             </label>
           ))}
-          <label className="bk-field">
-            <span className="ms__label">{b.country}</span>
+          <label className={`bk-field ${tried && !countryOk ? "is-err" : ""}`}>
+            <span className="ms__label">{b.country} *</span>
             <input className="bk-input" type="text" autoComplete="country-name" list="bk-countries" placeholder={b.countryPh} value={form.country} onChange={(e) => setForm({ ...form, country: e.target.value })} />
             <datalist id="bk-countries">
               {({
