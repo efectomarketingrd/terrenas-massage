@@ -4792,7 +4792,8 @@ textarea.bk-input {
 .czc__body p { margin: 6px 0 0; font-size: 0.88rem; line-height: 1.55; color: #c9d3ea; }
 .czc__route { position: relative; display: flex; justify-content: space-between; margin: 16px 0 0; padding: 0; list-style: none; }
 .czc__route::before { content: ""; position: absolute; left: 11px; right: 11px; top: 11px; height: 2px; background: rgba(143, 211, 228, 0.3); }
-.czc__route li { position: relative; }
+.czc__route::after { content: ""; position: absolute; left: 11px; top: 11px; height: 2px; width: calc((100% - 22px) * var(--p, 0)); background: var(--teal); transition: width 0.6s var(--ease); }
+.czc__route li { position: relative; z-index: 1; }
 .czc__route span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(143, 211, 228, 0.5); background: var(--night); color: var(--teal-l); font-size: 0.7rem; font-weight: 800; transition: background 0.3s, color 0.3s, transform 0.3s var(--ease); }
 .czc__route li.is-past span { background: rgba(33, 158, 188, 0.35); color: #fff; border-color: transparent; }
 .czc__route li.is-on span { background: var(--teal); color: #fff; border-color: #fff; transform: scale(1.18); }
