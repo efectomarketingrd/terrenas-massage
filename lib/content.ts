@@ -486,7 +486,7 @@ const es = {
         t: "Qué datos recibimos",
         p: ["Solo los que tú nos envías al reservar o escribirnos:"],
         li: [
-          "Nombre, teléfono y, si lo indicas, correo y país.",
+          "Nombre, teléfono, correo y país.",
           "Dirección, solo si el masaje es a domicilio.",
           "El servicio, día y hora que eliges, y las notas que quieras añadir.",
         ],
@@ -1071,7 +1071,7 @@ const en: Dict = {
         t: "What data we receive",
         p: ["Only what you send us when you book or contact us:"],
         li: [
-          "Your name, phone number and, if you choose, your email and country.",
+          "Your name, phone number, email and country.",
           "Your address, only for massages at your villa or hotel.",
           "The service, day and time you choose, and any notes you add.",
         ],

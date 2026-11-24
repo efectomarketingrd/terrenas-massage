@@ -490,7 +490,7 @@ export const fr: Dict = {
         t: "Quelles données nous recevons",
         p: ["Uniquement celles que vous nous envoyez en réservant ou en nous écrivant :"],
         li: [
-          "Votre nom, votre téléphone et, si vous les indiquez, votre e-mail et votre pays.",
+          "Votre nom, votre téléphone, votre e-mail et votre pays.",
           "Votre adresse, uniquement pour un massage à domicile.",
           "Le service, le jour et l'heure choisis, et les remarques que vous ajoutez.",
         ],
