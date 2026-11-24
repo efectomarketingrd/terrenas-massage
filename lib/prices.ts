@@ -1,5 +1,5 @@
 // Precios en RD$. El equivalente en US$ se calcula con la tasa de abajo (redondeado a múltiplos de 5).
-export const usdRate = 61.5;
+export const usdRate = 57.8; // compra Banco Popular, 23 nov 2026
 
 export const usd = (rd: number) => Math.max(5, Math.round(rd / usdRate / 5) * 5);
 export const fmtRd = (n: number) => `RD$${n.toLocaleString("en-US")}`;
