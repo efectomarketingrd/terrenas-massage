@@ -9,6 +9,7 @@ import Faq from "@/components/Faq";
 import Location from "@/components/Location";
 import BusinessSchema from "@/components/BusinessSchema";
 import Footer from "@/components/Footer";
+import CruiseBanner from "@/components/CruiseBanner";
 
 // "Nuestros masajes": diseño B por defecto; ?masajes=a muestra el acordeón para comparar
 export default async function Home({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<{ masajes?: string }> }) {
@@ -22,6 +23,7 @@ export default async function Home({ params, searchParams }: { params: Promise<{
       <About t={t} lang={lang as Locale} variant={masajes === "a" ? "a" : "b"} />
       <Places t={t} lang={lang as Locale} />
       <Groups t={t} lang={lang as Locale} />
+      <CruiseBanner lang={lang as Locale} />
       <Reviews t={t} lang={lang as Locale} />
       <Location t={t} lang={lang as Locale} />
       <Faq t={t} lang={lang as Locale} />

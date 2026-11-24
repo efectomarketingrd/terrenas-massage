@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import type { Dict } from "@/lib/content";
 import { bookPath, type Locale } from "@/lib/site";
 import { langNames, locales, slugs } from "@/lib/i18n";
+import { cruise } from "@/lib/cruise";
 
 export default function Header({ t, lang, tone = "dark", logo = true, alts }: { t: Dict; lang: Locale; tone?: "dark" | "light"; logo?: boolean; alts?: Partial<Record<Locale, string>> }) {
   const [open, setOpen] = useState(false);
@@ -26,6 +27,7 @@ export default function Header({ t, lang, tone = "dark", logo = true, alts }: { 
     { href: `/${lang}#masajes`, label: t.nav.massages },
     { href: `/${lang}#lugar`, label: t.nav.places },
     { href: `/${lang}#grupos`, label: t.nav.groups },
+    { href: `/${lang}/${slugs.cruise[lang]}`, label: cruise[lang].footer },
     { href: `/${lang}#opiniones`, label: t.nav.reviews },
     { href: `/${lang}#ubicacion`, label: t.nav.location },
     { href: `/${lang}#preguntas`, label: t.nav.faq },

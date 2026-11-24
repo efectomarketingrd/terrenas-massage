@@ -4774,3 +4774,33 @@ textarea.bk-input {
   .cz-map__path { stroke-dashoffset: 0 !important; animation: none !important; transition: none !important; }
   .cz-stop { animation: none; }
 }
+
+/* Tarjeta de cruceristas en el inicio (components/CruiseBanner.tsx) */
+.czc-sec { padding-top: 8px; padding-bottom: 8px; }
+.czc { display: block; overflow: hidden; border-radius: var(--r); background: var(--night); color: var(--ice); text-decoration: none; box-shadow: 0 22px 48px rgba(5, 10, 48, 0.22); transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease); }
+.czc:hover { transform: translateY(-3px); box-shadow: 0 28px 56px rgba(5, 10, 48, 0.28); }
+.czc:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+.czc__img { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #0d1a4a; }
+.czc__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 0.9s ease, transform 2.6s ease; }
+.czc__img img.is-on { opacity: 1; transform: scale(1); }
+.czc__img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5, 10, 48, 0.35), transparent 40%, rgba(5, 10, 48, 0.75)); }
+.czc__tag { position: absolute; z-index: 1; left: 12px; top: 12px; padding: 4px 10px; border-radius: 999px; background: var(--teal-btn); color: #fff; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; }
+.czc__stop { position: absolute; z-index: 1; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px 5px 5px; border-radius: 999px; background: rgba(5, 10, 48, 0.72); color: #fff; font-size: 0.8rem; font-weight: 700; }
+.czc__stop b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #fff; color: var(--night); font-size: 0.72rem; }
+.czc__body { padding: 16px 16px 18px; }
+.czc__body h2 { margin: 0; font-size: 1.35rem; font-weight: 700; color: #fff; }
+.czc__body p { margin: 6px 0 0; font-size: 0.88rem; line-height: 1.55; color: #c9d3ea; }
+.czc__route { position: relative; display: flex; justify-content: space-between; margin: 16px 0 0; padding: 0; list-style: none; }
+.czc__route::before { content: ""; position: absolute; left: 11px; right: 11px; top: 11px; height: 2px; background: rgba(143, 211, 228, 0.3); }
+.czc__route li { position: relative; }
+.czc__route span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(143, 211, 228, 0.5); background: var(--night); color: var(--teal-l); font-size: 0.7rem; font-weight: 800; transition: background 0.3s, color 0.3s, transform 0.3s var(--ease); }
+.czc__route li.is-past span { background: rgba(33, 158, 188, 0.35); color: #fff; border-color: transparent; }
+.czc__route li.is-on span { background: var(--teal); color: #fff; border-color: #fff; transform: scale(1.18); }
+.czc__facts { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; }
+.czc__facts li { padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(244, 246, 252, 0.22); font-size: 0.74rem; font-weight: 600; }
+.czc__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(244, 246, 252, 0.14); font-size: 0.82rem; color: var(--teal-l); }
+.czc__foot b { font-size: 1.2rem; color: #fff; }
+.czc__foot em { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; background: var(--teal-btn); color: #fff; font-style: normal; font-weight: 700; font-size: 0.84rem; }
+@media (prefers-reduced-motion: reduce) {
+  .czc, .czc__img img, .czc__route span { transition: none; }
+}

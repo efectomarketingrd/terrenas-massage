@@ -106,6 +106,8 @@ type Txt = {
   faq: { q: string; a: string }[];
   langNote: string;
   footer: string;
+  banner: { tag: string; t: string; cta: string };
+  card: { eyebrow: string; title: string; text: string; facts: string[] };
 };
 
 export const cruise: Record<Locale, Txt> = {
@@ -212,6 +214,8 @@ export const cruise: Record<Locale, Txt> = {
     ],
     langNote: "",
     footer: "Para cruceristas",
+    card: { eyebrow: "Nuevo · Port Samaná", title: "¿Llegas en crucero?", text: "Masaje + recorrido por las playas de Las Terrenas, con transporte desde el puerto y regreso garantizado al barco.", facts: ["≈ 4 h", "2–6 personas", "Agua y snacks gratis"] },
+    banner: { tag: "Nuevo", t: "¿Llegas en crucero a Samaná? Masaje + recorrido por Las Terrenas, con regreso garantizado al barco.", cta: "Ver la experiencia" },
   },
   en: {
     metaTitle: "Samaná cruise excursion: massage + Las Terrenas beach tour · Terrenas Massage",
@@ -316,6 +320,8 @@ export const cruise: Record<Locale, Txt> = {
     ],
     langNote: "(I speak English)",
     footer: "Cruise guests",
+    card: { eyebrow: "New · Port Samaná", title: "Arriving by cruise ship?", text: "Massage + a tour of Las Terrenas' beaches, with transport from the port and guaranteed return to your ship.", facts: ["≈ 4 h", "2–6 guests", "Free water & snacks"] },
+    banner: { tag: "New", t: "Arriving by cruise ship in Samaná? Massage + Las Terrenas beach tour, with guaranteed return to your ship.", cta: "See the experience" },
   },
   fr: {
     metaTitle: "Excursion croisière à Samaná : massage + tour de Las Terrenas · Terrenas Massage",
@@ -420,6 +426,8 @@ export const cruise: Record<Locale, Txt> = {
     ],
     langNote: "(Hablo francés)",
     footer: "Croisiéristes",
+    card: { eyebrow: "Nouveau · Port Samaná", title: "Vous arrivez en croisière ?", text: "Massage + tour des plages de Las Terrenas, avec transport depuis le port et retour garanti au bateau.", facts: ["≈ 4 h", "2 à 6 personnes", "Eau et snacks offerts"] },
+    banner: { tag: "Nouveau", t: "Vous arrivez en croisière à Samaná ? Massage + tour de Las Terrenas, retour au bateau garanti.", cta: "Voir l'expérience" },
   },
 };
 
