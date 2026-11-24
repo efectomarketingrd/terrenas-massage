@@ -25,6 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t = dictionaries[lang as Locale];
   return {
     metadataBase: new URL(site.url),
+    // Verificación de Google Search Console (no quitar: la verificación depende de esta etiqueta).
+    verification: { google: "BjFfYqCJPX711-IybELWEgz9i0_9ETjo89ywma7Hvdc" },
     title: t.meta.title,
     description: t.meta.description,
     alternates: { canonical: `/${lang}`, languages: { ...alternates((l) => `/${l}`), "x-default": "/en" } },
