@@ -322,12 +322,13 @@ export const fr: Dict = {
   policies: {
     eyebrow: "Avant de réserver",
     title: "Conditions de réservation et d'annulation",
-    hint: "Confirmation, modifications, annulations et paiements",
+    hint: "Confirmation, hygiène, modifications, annulations et paiements",
     open: "Toucher pour voir",
     close: "Masquer",
     items: [
       { t: "Confirmation", d: "Votre réservation est confirmée quand nous vous répondons par WhatsApp ou par e-mail. Réservez au moins 1 heure à l'avance, selon disponibilité." },
       { t: "Arrivée", d: "Merci d'arriver 10 minutes avant. En cas de retard, le massage se termine à l'heure prévue pour ne pas retarder le client suivant, et le prix complet s'applique." },
+      { t: "Hygiène", d: "Il est interdit d'entrer dans l'espace du spa avec des chaussures sales ou du sable sur les pieds ou les jambes. Par respect pour la masseuse, les besoins physiologiques doivent être réglés avant d'arriver : le massage se reçoit parfaitement propre. À défaut, le spa peut annuler le massage sans remboursement." },
       { t: "Modifications et annulations au spa", d: "Sans frais jusqu'à 3 heures avant. En cas d'absence sans prévenir, vos prochaines réservations se paieront à l'avance." },
       { t: "À domicile", d: "Paiement à l'avance. Couvre Las Terrenas et El Limón. Si vous annulez 24 heures ou plus avant, nous vous remboursons ou changeons la date ; à moins de 24 heures, le montant devient un avoir pour une autre date (valable 3 mois). S'il n'y a pas d'accès à la villa à l'heure convenue, il n'y a pas de remboursement. Dans les hôtels, resorts et résidences, le client doit d'abord vérifier auprès de la direction que les massages par des prestataires extérieurs sont autorisés." },
       { t: "Rituel Premium et groupes", d: "Confirmés avec un acompte de 50 %. Si vous annulez 48 heures ou plus avant, nous remboursons l'acompte ; avec moins de délai, il devient un avoir pour une autre date (valable 3 mois)." },

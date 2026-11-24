@@ -318,12 +318,13 @@ const es = {
   policies: {
     eyebrow: "Antes de reservar",
     title: "Políticas de reserva y cancelación",
-    hint: "Confirmación, cambios, cancelaciones y pagos",
+    hint: "Confirmación, higiene, cambios, cancelaciones y pagos",
     open: "Toca para ver",
     close: "Ocultar",
     items: [
       { t: "Confirmación", d: "Tu reserva queda confirmada cuando te respondemos por WhatsApp o por correo. Reservas con al menos 1 hora de anticipación, sujetas a disponibilidad." },
       { t: "Puntualidad", d: "Te recomendamos llegar 10 minutos antes. Si llegas tarde, el masaje termina a la hora prevista para no retrasar al siguiente cliente y se cobra completo." },
+      { t: "Higiene", d: "No se permite entrar al área del spa con calzado sucio ni con arena en los pies o las piernas. Por respeto a la masajista, las necesidades fisiológicas deben atenderse antes de llegar: el masaje se recibe totalmente aseado. Si no se cumple, el spa puede cancelar el masaje sin reembolso." },
       { t: "Cambios y cancelaciones en el spa", d: "Sin costo hasta 3 horas antes. Si no te presentas sin avisar, tus próximas reservas se pagarán por adelantado." },
       { t: "A domicilio", d: "Se paga por adelantado. Cubre Las Terrenas y El Limón. Si cancelas con 24 horas o más, te devolvemos el pago o cambiamos la fecha; con menos de 24 horas, queda como crédito para otra fecha (válido 3 meses). Si no hay acceso a la villa a la hora acordada, no hay reembolso. En hoteles, resorts y residenciales, el cliente debe confirmar antes con la administración que permiten servicios de masaje externos." },
       { t: "Ritual Premium y grupos", d: "Se confirman con un anticipo del 50%. Si cancelas con 48 horas o más, te devolvemos el anticipo; con menos tiempo, queda como crédito para otra fecha (válido 3 meses)." },
@@ -898,12 +899,13 @@ const en: Dict = {
   policies: {
     eyebrow: "Before you book",
     title: "Booking & cancellation policies",
-    hint: "Confirmation, changes, cancellations and payments",
+    hint: "Confirmation, hygiene, changes, cancellations and payments",
     open: "Tap to view",
     close: "Hide",
     items: [
       { t: "Confirmation", d: "Your booking is confirmed once we reply on WhatsApp or by email. Book at least 1 hour ahead, subject to availability." },
       { t: "Arrival", d: "Please arrive 10 minutes early. If you arrive late, the massage ends at the scheduled time so the next guest isn't delayed, and the full price applies." },
+      { t: "Hygiene", d: "Dirty shoes and sandy feet or legs are not allowed in the spa area. Out of respect for your therapist, please take care of any bathroom needs before you arrive: the massage is received fully clean. If this is not followed, the spa may cancel the massage without a refund." },
       { t: "Changes & cancellations at the spa", d: "Free up to 3 hours before. If you don't show up without notice, future bookings must be paid in advance." },
       { t: "At your villa", d: "Paid in advance. Covers Las Terrenas and El Limón. Cancel 24 hours or more ahead and we refund you or move the date; with less than 24 hours, it becomes credit for another date (valid 3 months). If there is no access to the villa at the agreed time, there is no refund. At hotels, resorts and gated communities, guests must first confirm with the management that outside massage services are allowed." },
       { t: "Premium ritual & groups", d: "Confirmed with a 50% deposit. Cancel 48 hours or more ahead and we refund the deposit; with less notice, it becomes credit for another date (valid 3 months)." },
