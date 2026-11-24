@@ -2332,6 +2332,23 @@ a {
   grid-row: 1 / 3;
 }
 
+.pay__bank dd.pay__mail {
+  font-size: 0.92rem;
+  overflow-wrap: normal;
+}
+
+.pay__idnote {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.pay__idnote a {
+  color: var(--teal-d);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .pay__num {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;

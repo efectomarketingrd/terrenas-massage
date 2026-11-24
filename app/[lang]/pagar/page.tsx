@@ -184,33 +184,44 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                   <>
                     <h3>{p.bank.t}</h3>
                     {payments.bank ? (
+                      <>
                       <dl className="pay__bank">
-                        <div>
-                          <dt>{p.bank.holder}</dt>
-                          <dd>{payments.bank.holder}</dd>
-                          <CopyBtn text={payments.bank.holder} label={p.bank.copy} done={p.bank.copied} />
-                        </div>
                         <div>
                           <dt>{p.bank.bank}</dt>
                           <dd>{payments.bank.bank}</dd>
                         </div>
-                        {payments.bank.id && (
-                          <div>
-                            <dt>{p.bank.id}</dt>
-                            <dd>{payments.bank.id}</dd>
-                            <CopyBtn text={payments.bank.id} label={p.bank.copy} done={p.bank.copied} />
-                          </div>
-                        )}
                         {payments.bank.accounts.map((a) => (
                           <div key={a.number}>
                             <dt>
-                              {p.bank.account} {a.cur} · {a.type}
+                              {p.bank.account} {a.cur} · {p.bank.types[a.type as keyof typeof p.bank.types] ?? a.type}
                             </dt>
                             <dd className="pay__num">{a.number}</dd>
                             <CopyBtn text={a.number} label={p.bank.copy} done={p.bank.copied} />
                           </div>
                         ))}
+                        <div>
+                          <dt>{p.bank.holder}</dt>
+                          <dd>{payments.bank.holder}</dd>
+                          <CopyBtn text={payments.bank.holder} label={p.bank.copy} done={p.bank.copied} />
+                        </div>
+                        {payments.bank.email && (
+                          <div>
+                            <dt>{p.bank.email}</dt>
+                            <dd className="pay__mail">
+                              {payments.bank.email.split("@")[0]}
+                              <wbr />@{payments.bank.email.split("@")[1]}
+                            </dd>
+                            <CopyBtn text={payments.bank.email} label={p.bank.copy} done={p.bank.copied} />
+                          </div>
+                        )}
                       </dl>
+                      <p className="pay__idnote">
+                        {p.bank.idNote}{" "}
+                        <a href={waLink(mp.bankIdWa)} target="_blank" rel="noopener noreferrer" data-track="bank_id_whatsapp">
+                          {p.bank.idAsk}
+                        </a>
+                      </p>
+                      </>
                     ) : (
                       <p>
                         <a href={waLink(mp.bankWa)} target="_blank" rel="noopener noreferrer" data-track="bank_details_whatsapp">
