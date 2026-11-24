@@ -3577,6 +3577,34 @@ textarea.bk-input {
 }
 
 
+/* Enlace al PDF de políticas (agenda, tarjeta de políticas y página de pago) */
+.pdf-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(33, 158, 188, 0.35);
+  background: #fff;
+  color: var(--teal-d);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.pdf-link svg { flex: none; }
+.bk-policies .pdf-link { margin: 0 14px 14px; }
+.pdf-link--card {
+  display: flex;
+  width: 100%;
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: var(--ice);
+}
+.pdf-link--card span { display: grid; gap: 1px; min-width: 0; }
+.pdf-link--card b { color: var(--night); font-size: 0.88rem; }
+.pdf-link--card small { font-size: 0.78rem; text-decoration: underline; }
+
 /* Portada: para quién */
 .hA__for {
   max-width: 36ch;

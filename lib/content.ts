@@ -319,6 +319,7 @@ const es = {
     eyebrow: "Antes de reservar",
     title: "Políticas de reserva y cancelación",
     hint: "Confirmación, higiene, respeto, cambios, cancelaciones y pagos",
+    pdf: "Descargar en PDF",
     open: "Toca para ver",
     close: "Ocultar",
     items: [
@@ -577,6 +578,7 @@ const es = {
     proofMsg: "Hola, envío el comprobante del pago de mi masaje.",
     noRes: "¿Aún no tienes tu reserva?",
     book: "Reservar masaje",
+    policiesPdfMsg: "📄 Políticas del spa en PDF (para enviar al cliente):",
     confirmLink: "👉 Para Terrenas Massage: si hay disponibilidad, respondan con este enlace. Ahí el cliente verá su reserva confirmada y podrá pagar su masaje:",
   },
   waMsg: "Hola, quiero reservar un masaje en Terrenas Massage.",
@@ -901,6 +903,7 @@ const en: Dict = {
     eyebrow: "Before you book",
     title: "Booking & cancellation policies",
     hint: "Confirmation, hygiene, conduct, changes, cancellations and payments",
+    pdf: "Download PDF",
     open: "Tap to view",
     close: "Hide",
     items: [
@@ -1159,6 +1162,7 @@ const en: Dict = {
     proofMsg: "Hi, here is the receipt for my massage payment.",
     noRes: "Don't have a booking yet?",
     book: "Book a massage",
+    policiesPdfMsg: "📄 Spa policies PDF (to send to the guest):",
     confirmLink: "👉 For Terrenas Massage: if available, reply with this link. The guest will see the confirmed booking and can pay for the massage there:",
   },
   waMsg: "Hi, I'd like to book a massage at Terrenas Massage.",

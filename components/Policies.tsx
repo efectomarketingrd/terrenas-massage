@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import type { Dict } from "@/lib/content";
+import { policiesPdf, type Locale } from "@/lib/site";
 
 // Políticas en una tarjeta que se abre al tocarla (se abre sola si se llega con #politicas).
-export default function Policies({ t }: { t: Dict }) {
+export default function Policies({ t, lang }: { t: Dict; lang: Locale }) {
   const c = t.policies;
   const [open, setOpen] = useState(false);
 
@@ -48,6 +49,10 @@ export default function Policies({ t }: { t: Dict }) {
               </li>
             ))}
           </ol>
+          <a className="pdf-link" href={policiesPdf[lang]} target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" className="ic-line" aria-hidden="true"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5M12 11v6M9.5 14.5 12 17l2.5-2.5" /></svg>
+            {c.pdf}
+          </a>
         </div>
       </div>
     </section>

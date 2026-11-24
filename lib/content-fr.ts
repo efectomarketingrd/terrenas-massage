@@ -323,6 +323,7 @@ export const fr: Dict = {
     eyebrow: "Avant de réserver",
     title: "Conditions de réservation et d'annulation",
     hint: "Confirmation, hygiène, respect, modifications, annulations et paiements",
+    pdf: "Télécharger en PDF",
     open: "Toucher pour voir",
     close: "Masquer",
     items: [
@@ -581,6 +582,7 @@ export const fr: Dict = {
     proofMsg: "Bonjour, voici le justificatif de paiement de mon massage.",
     noRes: "Vous n'avez pas encore de réservation ?",
     book: "Réserver un massage",
+    policiesPdfMsg: "📄 Conditions du spa en PDF (à envoyer au client) :",
     confirmLink: "👉 Pour Terrenas Massage : si c'est disponible, répondez avec ce lien. Le client y verra sa réservation confirmée et pourra payer son massage :",
   },
   waMsg: "Bonjour ! Hola, quisiera reservar un masaje en Terrenas Massage. (Hablo francés)",

@@ -39,7 +39,7 @@ export default async function BookPage({ params, searchParams }: { params: Promi
       </div>
       <div className="wrap">
         <BookingWizard t={t} lang={lang as Locale} msgT={lang === "fr" ? dictionaries.es : undefined} query={query} />
-        <Policies t={t} />
+        <Policies t={t} lang={lang as Locale} />
       </div>
       <Footer t={t} lang={lang as Locale} alts={alternates((l) => bookPath(l))} />
     </main>

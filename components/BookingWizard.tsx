@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Dict } from "@/lib/content";
-import { site, waLink, type Locale } from "@/lib/site";
+import { site, waLink, policiesPdf, type Locale } from "@/lib/site";
 import { reservaUrl } from "@/lib/reserva";
 import { getOrigin } from "@/lib/track";
 import { intlLocale } from "@/lib/i18n";
@@ -280,6 +280,9 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
       "",
       `${mt.pay.confirmLink}`,
       confirmUrl(),
+      "",
+      mt.pay.policiesPdfMsg,
+      `${site.url}${policiesPdf[lang]}`,
     ] as (string | null)[]).filter((l): l is string => l !== null);
     return L.filter((l, i) => l !== "" || L[i - 1] !== "").join("\n").replace(/\n{3,}/g, "\n\n").trim();
   };
@@ -716,6 +719,10 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 </li>
               ))}
             </ul>
+            <a className="pdf-link" href={policiesPdf[lang]} target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="18" height="18" className="ic-line" aria-hidden="true"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5M12 11v6M9.5 14.5 12 17l2.5-2.5" /></svg>
+              {t.policies.pdf}
+            </a>
           </details>
           <label className={`bk-check ${tried && !accept ? "is-err" : ""}`}>
             <input type="checkbox" checked={accept} onChange={(e) => setAccept(e.target.checked)} />

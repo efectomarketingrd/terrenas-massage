@@ -32,6 +32,13 @@ export const bookPath = (lang: Locale, q = "") => `/${lang}/${slugs.book[lang]}$
 /** Política de privacidad en cada idioma (/es/privacidad · /en/privacy). */
 export const privacyPath = (lang: Locale) => `/${lang}/${slugs.privacy[lang]}`;
 
+/** PDF de las políticas en cada idioma (public/docs; se genera con scripts/policies-pdf.js). */
+export const policiesPdf: Record<Locale, string> = {
+  es: "/docs/politicas-terrenas-massage.pdf",
+  en: "/docs/policies-terrenas-massage.pdf",
+  fr: "/docs/conditions-terrenas-massage.pdf",
+};
+
 export const mapsUrl = "https://share.google/vdUnDXdpuNsyRW4Yq";
 
 /**
