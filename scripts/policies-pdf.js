@@ -78,7 +78,7 @@ async function html(lang) {
       <div class="tx"><div class="row"><span class="n">${i + 1}</span><h2>${esc(it.t)}</h2>${imp ? `<span class="badge">${t.important}</span>` : ""}</div>
       <p>${esc(it.d)}</p></div></section>`;
   }).join("");
-  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><style>
+  return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><title>${t.title} · Terrenas Massage</title><style>
   @font-face{font-family:OS;font-weight:400;src:url(${font(400)})}
   @font-face{font-family:OS;font-weight:600;src:url(${font(600)})}
   @font-face{font-family:OS;font-weight:700;src:url(${font(700)})}
