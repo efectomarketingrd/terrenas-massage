@@ -242,8 +242,8 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
     return base;
   };
 
-  // Monto a pagar por adelantado: domicilio 100 %; Ritual Premium y grupos 50 %; en el spa, al llegar.
-  const due = type === "domicilio" ? price.total : type === "grupo" || (type === "pareja" && ritual === "premium") ? Math.round(price.total / 2) : 0;
+  // Anticipo: domicilio, Ritual Premium y grupos 50 % (a domicilio el otro 50 % se paga en la villa antes del masaje); en el spa, al llegar.
+  const due = type === "domicilio" || type === "grupo" || (type === "pareja" && ritual === "premium") ? Math.round(price.total / 2) : 0;
   const confirmUrl = () =>
     date && time
       ? reservaUrl({ l: lang, n: form.name, sel: svcSel, d: date, h: time, t: price.total, due, est: price.estimate ? 1 : 0, ok: 1 })
@@ -823,11 +823,12 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
                 <span className="tk__lbl tk__lbl--warn">{b.payFull}</span>
               ) : due > 0 ? (
                 <>
-                  <span className="tk__lbl">{type === "domicilio" ? b.payNow : b.deposit50}</span>
+                  <span className="tk__lbl">{b.deposit50}</span>
                   <b className="tk__due">
                     {fmtRd(due)} <small>≈ {fmtUsd(due)}</small>
                   </b>
                   {spaGroup && <small className="tk__alt">{b.groupPayAlt}</small>}
+                  {atHome && <small className="tk__alt">{b.restHome}</small>}
                 </>
               ) : (
                 <span className="tk__lbl tk__lbl--ok">✓ {b.payLater}</span>
