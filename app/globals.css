@@ -4549,3 +4549,49 @@ textarea.bk-input {
   font-size: 0.72rem;
   opacity: 0.8;
 }
+
+/* Agenda · barra del paso 1 antes de elegir el lugar */
+.bk-bar__hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 58%;
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ice);
+}
+
+.bk-bar__hint span {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(33, 158, 188, 0.25);
+  color: var(--teal-l);
+  animation: hint-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.bk-bar .btn.is-dim {
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-bar__hint span {
+    animation: none;
+  }
+}

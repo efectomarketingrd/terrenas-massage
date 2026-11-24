@@ -212,6 +212,7 @@ export const fr: Dict = {
       villa: { t: "Dans votre villa ou hôtel", d: "Nous venons à vous à Las Terrenas et El Limón" },
     },
     whereErr: "Choisissez si le massage a lieu dans notre spa ou dans votre villa ou hôtel.",
+    whereHint: "Choisissez où vous souhaitez votre massage",
     whereLabel: "Lieu",
     whereMsg: { spa: "Au spa", villa: "À domicile (villa ou hôtel)" },
     type: "Pour qui ?",

@@ -509,9 +509,12 @@ export default function BookingWizard({ t, lang, msgT, query = {} }: { t: Dict; 
               </span>
             </div>
             ) : (
-              <span />
+              // Sin lugar elegido: la barra indica qué falta (el total aparece al elegir)
+              <p className="bk-bar__hint">
+                <span aria-hidden="true">↑</span> {b.whereHint}
+              </p>
             )}
-            <button type="button" className="btn btn--teal" onClick={() => next(!!where && (!isGroup || groupTotal >= 3), 2)}>
+            <button type="button" className={`btn btn--teal ${where ? "" : "is-dim"}`} onClick={() => next(!!where && (!isGroup || groupTotal >= 3), 2)}>
               {b.next}
             </button>
           </div>
