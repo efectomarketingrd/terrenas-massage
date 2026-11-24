@@ -48,5 +48,21 @@ export default function BusinessSchema({ lang, description }: { lang: Locale; de
     },
     sameAs: [site.instagram, site.facebook, googleProfile.url],
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  // Nombre del sitio que Google muestra arriba del resultado (en lugar del dominio).
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}/#website`,
+    name: site.name,
+    alternateName: ["Terrenas Massage Spa", "terrenasmassage.com"],
+    url: `${site.url}/`,
+    inLanguage: ["es", "en", "fr"],
+    publisher: { "@id": `${site.url}/#spa` },
+  };
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+    </>
+  );
 }
