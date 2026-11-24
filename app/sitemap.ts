@@ -9,6 +9,7 @@ const pages: { path: (l: Locale) => string; priority: number }[] = [
   { path: (l) => `/${l}/${slugs.domicilio[l]}`, priority: 0.9 },
   { path: (l) => `/${l}/${slugs.pareja[l]}`, priority: 0.9 },
   { path: (l) => `/${l}/${slugs.grupo[l]}`, priority: 0.8 },
+  { path: (l) => `/${l}/${slugs.cruise[l]}`, priority: 0.8 },
   { path: (l) => `/${l}/${slugs.pay[l]}`, priority: 0.5 },
   { path: (l) => `/${l}/${slugs.privacy[l]}`, priority: 0.2 },
 ];

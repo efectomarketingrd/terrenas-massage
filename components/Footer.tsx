@@ -1,3 +1,4 @@
+import { cruise } from "@/lib/cruise";
 import Image from "next/image";
 import type { Dict } from "@/lib/content";
 import { bookPath, mapsUrl, privacyPath, site, waLink, type Locale } from "@/lib/site";
@@ -41,6 +42,7 @@ export default function Footer({ t, lang, alts }: { t: Dict; lang: Locale; alts?
               {t.services.items.map((x) => (
                 <li key={x.id}><a href={servicePath(lang, x.id)}>{x.eyebrow}</a></li>
               ))}
+              <li><a href={`/${lang}/${slugs.cruise[lang]}`}>{cruise[lang].footer}</a></li>
               <li><a href={`/${lang}/${slugs.pay[lang]}`}>{t.nav.pay}</a></li>
               <li><a href={`${bookPath(lang)}#politicas`}>{f.policies}</a></li>
               <li><a href={privacyPath(lang)}>{f.privacy}</a></li>

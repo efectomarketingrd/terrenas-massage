@@ -14,6 +14,7 @@ export const slugs = {
   domicilio: { es: "masaje-a-domicilio", en: "in-villa-massage", fr: "massage-a-domicile" },
   pareja: { es: "masaje-en-pareja", en: "couples-massage", fr: "massage-en-duo" },
   grupo: { es: "masajes-para-grupos", en: "group-massage", fr: "massages-pour-groupes" },
+  cruise: { es: "cruceros", en: "cruise-excursion", fr: "excursion-croisiere" },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 /** Redirecciones 308: el nombre de una página en otro idioma lleva al nombre correcto (p. ej. /fr/book → /fr/reserver). */
