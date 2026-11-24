@@ -185,6 +185,7 @@ export default async function PayPage({ params, searchParams }: { params: Promis
                     <h3>{p.bank.t}</h3>
                     {payments.bank ? (
                       <>
+                      <p className="pay__local">🇩🇴 {p.bank.local}</p>
                       <dl className="pay__bank">
                         <div>
                           <dt>{p.bank.bank}</dt>

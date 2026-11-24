@@ -574,7 +574,7 @@ export const fr: Dict = {
       noticeT: "Compte que vous verrez sur Remitly",
     },
     card: { t: "Carte dominicaine", d: "Payez en ligne avec une carte d'une banque dominicaine.", btn: "Payer par carte" },
-    bank: { t: "Virement bancaire", holder: "Titulaire", bank: "Banque", account: "Compte", id: "Pièce d'identité / RNC", email: "E-mail", types: { Ahorro: "Épargne" }, idNote: "Votre banque demande la pièce d'identité (cédula) du titulaire pour enregistrer le compte ?", idAsk: "Demandez-la sur WhatsApp", copy: "Copier", copied: "Copié", pending: "Écrivez-nous sur WhatsApp et nous vous envoyons les coordonnées du compte." },
+    bank: { t: "Virement bancaire", local: "Compte bancaire dominicain, en pesos dominicains (RD$).", holder: "Titulaire", bank: "Banque", account: "Compte", id: "Pièce d'identité / RNC", email: "E-mail", types: { Ahorro: "Épargne" }, idNote: "Votre banque demande la pièce d'identité (cédula) du titulaire pour enregistrer le compte ?", idAsk: "Demandez-la sur WhatsApp", copy: "Copier", copied: "Copié", pending: "Écrivez-nous sur WhatsApp et nous vous envoyons les coordonnées du compte." },
     amountUsd: "Équivaut à",
     proofTitle: "Déjà payé ?",
     proofText: "Envoyez-nous le justificatif par WhatsApp et nous confirmons votre paiement.",
