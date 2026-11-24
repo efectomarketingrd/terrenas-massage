@@ -258,7 +258,10 @@ a {
 .menu {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 80;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   padding: 18px 22px 30px;
@@ -310,6 +313,14 @@ a {
 .menu__book {
   width: 100%;
   margin-top: 24px;
+}
+
+/* Pantallas bajas (iPhone SE y navegadores con barras grandes, como el de WhatsApp): todo el menú cabe */
+@media (max-height: 760px) {
+  .menu { padding-top: 12px; padding-bottom: 22px; }
+  .menu nav { margin-top: 14px; gap: 0; }
+  .menu nav a { padding: 10px 0; font-size: 1.25rem; }
+  .menu__book { margin-top: 16px; }
 }
 
 /* ───────── Elementos de agua ───────── */

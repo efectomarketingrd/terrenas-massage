@@ -3,12 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Dict } from "@/lib/content";
 import { bookPath, type Locale } from "@/lib/site";
 import { langNames, locales, slugs } from "@/lib/i18n";
 
 export default function Header({ t, lang, tone = "dark", logo = true, alts }: { t: Dict; lang: Locale; tone?: "dark" | "light"; logo?: boolean; alts?: Partial<Record<Locale, string>> }) {
   const [open, setOpen] = useState(false);
+  // El menú se dibuja directamente en <body>: dentro de la cabecera, algunos navegadores
+  // del iPhone (p. ej. el de WhatsApp) lo recortaban al tamaño de la portada.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const others = locales.filter((l) => l !== lang);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -51,6 +56,7 @@ export default function Header({ t, lang, tone = "dark", logo = true, alts }: { 
           <i />
         </button>
       </div>
+      {mounted && createPortal(
       <div id="menu" className={`menu ${open ? "is-open" : ""}`} aria-hidden={!open}>
         <button type="button" className="menu__close" onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
           {t.nav.close} ✕
@@ -65,7 +71,9 @@ export default function Header({ t, lang, tone = "dark", logo = true, alts }: { 
         <a className="btn btn--teal menu__book" href={bookPath(lang)} tabIndex={open ? 0 : -1} onClick={() => setOpen(false)}>
           {t.nav.book}
         </a>
-      </div>
+      </div>,
+        document.body,
+      )}
     </header>
   );
 }
